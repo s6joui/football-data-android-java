@@ -6,9 +6,13 @@ import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.databinding.ActivityTeamDetailBinding;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
+import tech.joeyck.livefootball.utilities.NetworkUtils;
 
 public class TeamDetailActivity extends AppCompatActivity {
 
@@ -29,7 +33,7 @@ public class TeamDetailActivity extends AppCompatActivity {
         mViewModel.getTeam().observe(this,teamEntity -> {
             setTitle(teamEntity.getName());
             mBinding.teamNameTextview.setText(teamEntity.getName());
-            Glide.with(this).load(teamEntity.getCrestUrl()).into(mBinding.crestImageView);
+            Glide.with(this).load(NetworkUtils.getPngUrl(teamEntity.getCrestUrl())).into(mBinding.crestImageView);
         });
 
     }

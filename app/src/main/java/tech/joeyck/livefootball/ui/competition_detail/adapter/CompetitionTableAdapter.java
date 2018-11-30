@@ -16,6 +16,7 @@ import java.util.List;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.TeamTableEntity;
 import tech.joeyck.livefootball.ui.competitions.MainActivity;
+import tech.joeyck.livefootball.utilities.NetworkUtils;
 
 public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -91,7 +92,8 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
             holder.teamNameTextView.setText(currentTeamTableEntity.getTeam().getTeam().getName());
             holder.pointsTextView.setText(""+currentTeamTableEntity.getTeam().getPoints());
             holder.positionTextView.setText(""+currentTeamTableEntity.getTeam().getPosition());
-            Glide.with(mContext).load(currentTeamTableEntity.getTeam().getTeam().getCrestUrl()).into(holder.crestView);
+            String crestUrl = NetworkUtils.getPngUrl(currentTeamTableEntity.getTeam().getTeam().getCrestUrl());
+            Glide.with(mContext).load(crestUrl).into(holder.crestView);
         }
 
     }

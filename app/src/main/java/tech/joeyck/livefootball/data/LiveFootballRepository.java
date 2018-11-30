@@ -75,8 +75,10 @@ public class LiveFootballRepository {
         mApiService.getCompetitionStandings(competitionId).enqueue(new Callback<StandingsResponse>(){
             @Override
             public void onResponse(Call<StandingsResponse> call, Response<StandingsResponse> response) {
-                List<CompetitionTableItem> list = formatTableData(response.body().getStages());
-                competition.postValue(list);
+                if(response.body()!=null){
+                    List<CompetitionTableItem> list = formatTableData(response.body().getStages());
+                    competition.postValue(list);
+                }
             }
 
             @Override
