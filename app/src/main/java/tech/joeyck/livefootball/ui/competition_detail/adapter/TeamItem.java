@@ -1,16 +1,16 @@
 package tech.joeyck.livefootball.ui.competition_detail.adapter;
 
-import tech.joeyck.livefootball.data.database.TeamTableEntity;
+import tech.joeyck.livefootball.data.database.TableEntryEntity;
 
 public class TeamItem extends CompetitionTableItem {
 
-    private TeamTableEntity team;
+    private TableEntryEntity team;
 
-    public TeamItem(TeamTableEntity team) {
+    public TeamItem(TableEntryEntity team) {
         this.team = team;
     }
 
-    public TeamTableEntity getTeam() {
+    public TableEntryEntity getTeam() {
         return team;
     }
 

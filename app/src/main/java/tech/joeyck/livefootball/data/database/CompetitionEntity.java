@@ -7,6 +7,7 @@ public class CompetitionEntity {
     private int id;
     private String name;
     private String code;
+    private AreaEntity area;
     private Date lastUpdated;
 
     public CompetitionEntity(int id, String name, String code, Date lastUpdated) {
@@ -32,4 +33,7 @@ public class CompetitionEntity {
         return lastUpdated;
     }
 
+    public AreaEntity getArea() {
+        return area;
+    }
 }

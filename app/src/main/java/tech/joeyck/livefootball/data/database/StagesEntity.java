@@ -9,7 +9,7 @@ public class StagesEntity {
     private String stage;
     private String type;
     private String group;
-    private List<TeamTableEntity> table;
+    private List<TableEntryEntity> table;
 
     public String getStageName() {
         return stage;
@@ -23,7 +23,7 @@ public class StagesEntity {
         return group;
     }
 
-    public List<TeamTableEntity> getTable() {
+    public List<TableEntryEntity> getTable() {
         return table;
     }
 

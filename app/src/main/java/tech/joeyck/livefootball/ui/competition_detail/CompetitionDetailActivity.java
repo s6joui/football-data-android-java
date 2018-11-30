@@ -7,18 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
-import tech.joeyck.livefootball.data.database.StagesEntity;
-import tech.joeyck.livefootball.data.database.TeamTableEntity;
+import tech.joeyck.livefootball.data.database.TableEntryEntity;
 import tech.joeyck.livefootball.ui.competition_detail.adapter.CompetitionTableAdapter;
 import tech.joeyck.livefootball.ui.competition_detail.adapter.CompetitionTableItem;
-import tech.joeyck.livefootball.ui.competition_detail.adapter.HeaderItem;
-import tech.joeyck.livefootball.ui.competition_detail.adapter.TeamItem;
-import tech.joeyck.livefootball.ui.competitions.MainActivity;
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailActivity;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
@@ -66,10 +61,10 @@ public class CompetitionDetailActivity extends AppCompatActivity implements Comp
     }
 
     @Override
-    public void onItemClick(TeamTableEntity teamTableEntity) {
-        Log.i(LOG_TAG,teamTableEntity.getTeam().getName());
+    public void onItemClick(TableEntryEntity tableEntryEntity) {
+        Log.i(LOG_TAG, tableEntryEntity.getTeam().getName());
         Intent teamDetailIntent = new Intent(this, TeamDetailActivity.class);
-        teamDetailIntent.putExtra(TeamDetailActivity.TEAM_ID_EXTRA, teamTableEntity.getTeam().getId());
+        teamDetailIntent.putExtra(TeamDetailActivity.TEAM_ID_EXTRA, tableEntryEntity.getTeam().getId());
         startActivity(teamDetailIntent);
     }
 }

@@ -1,6 +1,6 @@
 package tech.joeyck.livefootball.data.database;
 
-public class TeamTableEntity {
+public class TableEntryEntity {
 
     private int position;
     private TeamEntity team;

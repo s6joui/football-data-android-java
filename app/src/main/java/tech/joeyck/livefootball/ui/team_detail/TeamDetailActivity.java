@@ -32,7 +32,8 @@ public class TeamDetailActivity extends AppCompatActivity {
 
         mViewModel.getTeam().observe(this,teamEntity -> {
             setTitle(teamEntity.getName());
-            mBinding.teamNameTextview.setText(teamEntity.getName());
+            mBinding.teamNameText.setText(teamEntity.getName());
+            mBinding.countryNameText.setText(teamEntity.getArea().getName()+" | "+teamEntity.getFounded());
             Glide.with(this).load(NetworkUtils.getPngUrl(teamEntity.getCrestUrl())).into(mBinding.crestImageView);
         });
 

@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import tech.joeyck.livefootball.R;
-import tech.joeyck.livefootball.data.database.TeamTableEntity;
+import tech.joeyck.livefootball.data.database.TableEntryEntity;
 import tech.joeyck.livefootball.ui.competitions.MainActivity;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 
@@ -131,7 +131,7 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
      * The interface that receives onItemClick messages.
      */
     public interface CompetitionAdapterOnItemClickHandler {
-        void onItemClick(TeamTableEntity competition);
+        void onItemClick(TableEntryEntity competition);
     }
 
     /**
@@ -167,8 +167,8 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            TeamTableEntity teamTableEntity = ((TeamItem)mTable.get(adapterPosition)).getTeam();
-            mClickHandler.onItemClick(teamTableEntity);
+            TableEntryEntity tableEntryEntity = ((TeamItem)mTable.get(adapterPosition)).getTeam();
+            mClickHandler.onItemClick(tableEntryEntity);
         }
     }
 

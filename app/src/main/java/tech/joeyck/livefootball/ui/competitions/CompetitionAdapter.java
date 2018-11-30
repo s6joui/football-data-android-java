@@ -78,6 +78,7 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.
     public void onBindViewHolder(CompetitionAdapterViewHolder CompetitionAdapterViewHolder, int position) {
         CompetitionEntity currentCompetition = mCompetitions.get(position);
         CompetitionAdapterViewHolder.textView.setText(currentCompetition.getName());
+        CompetitionAdapterViewHolder.countryTextView.setText(currentCompetition.getArea().getName());
     }
 
     /**
@@ -120,12 +121,14 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.
 
         final ImageView iconView;
         final TextView textView;
+        final TextView countryTextView;
 
         CompetitionAdapterViewHolder(View view) {
             super(view);
 
             iconView = view.findViewById(R.id.competition_icon);
             textView = view.findViewById(R.id.competition_name);
+            countryTextView = view.findViewById(R.id.competition_country);
 
             view.setOnClickListener(this);
         }

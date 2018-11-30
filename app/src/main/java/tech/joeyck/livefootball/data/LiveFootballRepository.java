@@ -17,7 +17,7 @@ import tech.joeyck.livefootball.data.database.LiveFootballAPI;
 import tech.joeyck.livefootball.data.database.StagesEntity;
 import tech.joeyck.livefootball.data.database.StandingsResponse;
 import tech.joeyck.livefootball.data.database.TeamEntity;
-import tech.joeyck.livefootball.data.database.TeamTableEntity;
+import tech.joeyck.livefootball.data.database.TableEntryEntity;
 import tech.joeyck.livefootball.ui.competition_detail.adapter.CompetitionTableItem;
 import tech.joeyck.livefootball.ui.competition_detail.adapter.HeaderItem;
 import tech.joeyck.livefootball.ui.competition_detail.adapter.TeamItem;
@@ -142,7 +142,7 @@ public class LiveFootballRepository {
                 String text = stage.getGroup() != null ? stage.getGroup() : stage.getStageName();
                 HeaderItem tableItem = new HeaderItem(text.replace("_"," "));
                 tableItems.add(tableItem);
-                for (TeamTableEntity team : stage.getTable()) {
+                for (TableEntryEntity team : stage.getTable()) {
                     TeamItem teamTableItem = new TeamItem(team);
                     tableItems.add(teamTableItem);
                 }
