@@ -12,12 +12,10 @@ import tech.joeyck.livefootball.ui.competition_detail.adapter.CompetitionTableIt
 
 public class CompetitionDetailViewModel extends ViewModel {
 
-    private LiveFootballRepository mRepository;
     private LiveData<CompetitionEntity> mCompetition;
     private LiveData<List<CompetitionTableItem>> mTableItems;
 
     CompetitionDetailViewModel(LiveFootballRepository repository, int id){
-        mRepository = repository;
         mCompetition = repository.getCompetitionById(id);
         mTableItems = repository.getCompetitionStandings(id);
     }

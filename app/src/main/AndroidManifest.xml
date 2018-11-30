@@ -26,6 +26,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="tech.joeyck.livefootball.ui.competitions.MainActivity" />
         </activity>
+        <activity android:name=".ui.team_detail.TeamDetailActivity"
+            android:label="@string/title_activity_team_detail"
+            android:parentActivityName=".ui.competitions.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tech.joeyck.livefootball.ui.competitions.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

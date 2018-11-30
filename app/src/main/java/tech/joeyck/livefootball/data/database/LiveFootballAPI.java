@@ -16,4 +16,6 @@ public interface LiveFootballAPI {
     @GET("competitions/{id}/standings")
     Call<StandingsResponse> getCompetitionStandings(@Path("id") int id);
 
+    @GET("teams/{id}")
+    Call<TeamEntity> getTeamById(@Path("id") int id);
 }

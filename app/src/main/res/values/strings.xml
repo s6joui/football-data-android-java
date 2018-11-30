@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">LiveFootball</string>
-    <string name="title_activity_competition_detail">CompetitionDetailActivity</string>
+    <string name="title_activity_competition_detail">Competition</string>
+    <string name="title_activity_team_detail">Team</string>
 </resources>

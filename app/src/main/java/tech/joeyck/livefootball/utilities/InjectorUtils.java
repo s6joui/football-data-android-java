@@ -32,6 +32,8 @@ import tech.joeyck.livefootball.data.LiveFootballRepository;
 import tech.joeyck.livefootball.data.database.LiveFootballAPI;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionDetailViewModelFactory;
 import tech.joeyck.livefootball.ui.competitions.MainViewModelFactory;
+import tech.joeyck.livefootball.ui.team_detail.TeamDetailActivity;
+import tech.joeyck.livefootball.ui.team_detail.TeamDetailViewModelFactory;
 
 /**
  * Provides static methods to inject the various classes needed for Sunshine
@@ -52,6 +54,11 @@ public class InjectorUtils {
     public static CompetitionDetailViewModelFactory provideCompetitionDetailViewModelFactory(Context context, int competitionId) {
         LiveFootballRepository repository = provideRepository(context.getApplicationContext());
         return new CompetitionDetailViewModelFactory(repository,competitionId);
+    }
+
+    public static TeamDetailViewModelFactory provideTeamDetailViewModelFactory(Context context, int teamId) {
+        LiveFootballRepository repository = provideRepository(context.getApplicationContext());
+        return new TeamDetailViewModelFactory(repository,teamId);
     }
 
     private static final Retrofit buildRetrofit(){

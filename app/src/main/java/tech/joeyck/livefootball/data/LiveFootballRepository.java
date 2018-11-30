@@ -16,6 +16,7 @@ import tech.joeyck.livefootball.data.database.CompetitionResponse;
 import tech.joeyck.livefootball.data.database.LiveFootballAPI;
 import tech.joeyck.livefootball.data.database.StagesEntity;
 import tech.joeyck.livefootball.data.database.StandingsResponse;
+import tech.joeyck.livefootball.data.database.TeamEntity;
 import tech.joeyck.livefootball.data.database.TeamTableEntity;
 import tech.joeyck.livefootball.ui.competition_detail.adapter.CompetitionTableItem;
 import tech.joeyck.livefootball.ui.competition_detail.adapter.HeaderItem;
@@ -65,6 +66,10 @@ public class LiveFootballRepository {
         return fetchCompetitionStandings(competitionId);
     }
 
+    public LiveData<TeamEntity> getTeamById(int teamId) {
+        return fetchTeamById(teamId);
+    }
+
     private LiveData<List<CompetitionTableItem>> fetchCompetitionStandings(int competitionId) {
         MutableLiveData<List<CompetitionTableItem>> competition = new MutableLiveData<>();
         mApiService.getCompetitionStandings(competitionId).enqueue(new Callback<StandingsResponse>(){
@@ -96,7 +101,23 @@ public class LiveFootballRepository {
         });
     }
 
-    private MutableLiveData<CompetitionEntity> fetchCompetitionById(int competitionId){
+    private LiveData<TeamEntity> fetchTeamById(int teamId){
+        MutableLiveData<TeamEntity> team = new MutableLiveData<>();
+        mApiService.getTeamById(teamId).enqueue(new Callback<TeamEntity>(){
+            @Override
+            public void onResponse(Call<TeamEntity> call, Response<TeamEntity> response) {
+                team.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<TeamEntity> call, Throwable t) {
+                Log.e(LOG_TAG,t.getMessage());
+            }
+        });
+        return team;
+    }
+
+    private LiveData<CompetitionEntity> fetchCompetitionById(int competitionId){
         MutableLiveData<CompetitionEntity> competition = new MutableLiveData<>();
         mApiService.getCompetitionById(competitionId).enqueue(new Callback<CompetitionEntity>(){
             @Override
@@ -127,6 +148,5 @@ public class LiveFootballRepository {
         }
         return tableItems;
     }
-
 
 }
