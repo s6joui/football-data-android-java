@@ -1,4 +1,4 @@
-package tech.joeyck.livefootball.ui.matches;
+package tech.joeyck.livefootball.ui.competition_detail.matches;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,9 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.List;
 

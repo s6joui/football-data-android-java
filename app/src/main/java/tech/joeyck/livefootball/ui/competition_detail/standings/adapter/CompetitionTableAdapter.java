@@ -1,4 +1,4 @@
-package tech.joeyck.livefootball.ui.competition_detail.adapter;
+package tech.joeyck.livefootball.ui.competition_detail.standings.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

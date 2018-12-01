@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.competitions.MainActivity"
+        <activity
+            android:name=".ui.competitions.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,25 +22,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.competition_detail.CompetitionDetailActivity"
-            android:label="@string/title_activity_competition_detail"
+            android:name=".ui.team_detail.TeamDetailActivity"
+            android:label="@string/title_activity_team_detail"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.competition_detail.CompetitionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity" />
+        </activity>
+        <activity
+            android:name=".ui.competition_detail.CompetitionActivity"
+            android:label="@string/title_activity_competition"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.competitions.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="tech.joeyck.livefootball.ui.competitions.MainActivity" />
-        </activity>
-        <activity android:name=".ui.team_detail.TeamDetailActivity"
-            android:label="@string/title_activity_team_detail"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.competition_detail.CompetitionDetailActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="tech.joeyck.livefootball.ui.competition_detail.CompetitionDetailActivity" />
-        </activity>
-        <activity android:name=".ui.matches.MatchesActivity"
-            android:label="@string/title_activity_team_detail"
-            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="tech.joeyck.livefootball.ui.competitions.MainActivity" />

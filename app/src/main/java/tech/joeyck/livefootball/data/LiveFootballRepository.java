@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.LocalTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.ArrayList;
@@ -24,9 +23,9 @@ import tech.joeyck.livefootball.data.database.StagesEntity;
 import tech.joeyck.livefootball.data.database.StandingsResponse;
 import tech.joeyck.livefootball.data.database.TeamEntity;
 import tech.joeyck.livefootball.data.database.TableEntryEntity;
-import tech.joeyck.livefootball.ui.competition_detail.adapter.CompetitionTableItem;
-import tech.joeyck.livefootball.ui.competition_detail.adapter.HeaderItem;
-import tech.joeyck.livefootball.ui.competition_detail.adapter.TeamItem;
+import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.CompetitionTableItem;
+import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.HeaderItem;
+import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.TeamItem;
 
 public class LiveFootballRepository {
 
@@ -90,7 +89,7 @@ public class LiveFootballRepository {
         mApiService.getMatches(competitionId,from,to).enqueue(new Callback<MatchesResponse>() {
             @Override
             public void onResponse(Call<MatchesResponse> call, Response<MatchesResponse> response) {
-                matches.postValue(response.body().getMatches());
+                if(response.body()!=null) matches.postValue(response.body().getMatches());
             }
 
             @Override
@@ -124,7 +123,7 @@ public class LiveFootballRepository {
         mApiService.getCompetitions().enqueue(new Callback<CompetitionResponse>(){
             @Override
             public void onResponse(Call<CompetitionResponse> call, Response<CompetitionResponse> response) {
-                mCompetitions.postValue(response.body().getCompetitions());
+                if(response.body()!=null) mCompetitions.postValue(response.body().getCompetitions());
             }
 
             @Override

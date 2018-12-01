@@ -19,7 +19,6 @@ package tech.joeyck.livefootball.utilities;
 import android.content.Context;
 
 import java.io.IOException;
-import java.util.Date;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -30,10 +29,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import tech.joeyck.livefootball.AppExecutors;
 import tech.joeyck.livefootball.data.LiveFootballRepository;
 import tech.joeyck.livefootball.data.database.LiveFootballAPI;
-import tech.joeyck.livefootball.ui.competition_detail.CompetitionDetailViewModelFactory;
+import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModelFactory;
+import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsViewModelFactory;
 import tech.joeyck.livefootball.ui.competitions.MainViewModelFactory;
-import tech.joeyck.livefootball.ui.matches.MatchesViewModelFactory;
-import tech.joeyck.livefootball.ui.team_detail.TeamDetailActivity;
+import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesViewModelFactory;
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailViewModelFactory;
 
 /**
@@ -52,9 +51,9 @@ public class InjectorUtils {
         return new MainViewModelFactory(repository);
     }
 
-    public static CompetitionDetailViewModelFactory provideCompetitionDetailViewModelFactory(Context context, int competitionId) {
+    public static StandingsViewModelFactory provideStandingsViewModelFactory(Context context, int competitionId) {
         LiveFootballRepository repository = provideRepository(context.getApplicationContext());
-        return new CompetitionDetailViewModelFactory(repository,competitionId);
+        return new StandingsViewModelFactory(repository,competitionId);
     }
 
     public static TeamDetailViewModelFactory provideTeamDetailViewModelFactory(Context context, int teamId) {
@@ -65,6 +64,10 @@ public class InjectorUtils {
     public static MatchesViewModelFactory provideMatchesViewModelFactory(Context context, int competitionId) {
         LiveFootballRepository repository = provideRepository(context.getApplicationContext());
         return new MatchesViewModelFactory(repository,competitionId);
+    }
+
+    public static CompetitionViewModelFactory provideCompetitionViewModelFactory(Context context, int competitionId, String competitionName, int matchday){
+        return new CompetitionViewModelFactory(competitionId,competitionName,matchday);
     }
 
     private static final Retrofit buildRetrofit(){

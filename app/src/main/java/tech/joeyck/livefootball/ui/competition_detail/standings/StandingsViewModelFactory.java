@@ -1,16 +1,16 @@
-package tech.joeyck.livefootball.ui.matches;
+package tech.joeyck.livefootball.ui.competition_detail.standings;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import tech.joeyck.livefootball.data.LiveFootballRepository;
 
-public class MatchesViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+public class StandingsViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final LiveFootballRepository mRepository;
     private final int mCompetitionId;
 
-    public MatchesViewModelFactory(LiveFootballRepository repository, int competitionId){
+    public StandingsViewModelFactory(LiveFootballRepository repository, int competitionId){
         this.mRepository = repository;
         this.mCompetitionId = competitionId;
     }
@@ -18,6 +18,6 @@ public class MatchesViewModelFactory extends ViewModelProvider.NewInstanceFactor
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         //noinspection unchecked
-        return (T) new MatchesViewModel(mRepository,mCompetitionId);
+        return (T) new StandingsViewModel(mRepository,mCompetitionId);
     }
 }

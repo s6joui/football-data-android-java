@@ -3,16 +3,13 @@ package tech.joeyck.livefootball.ui.competitions;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
-import tech.joeyck.livefootball.ui.competition_detail.CompetitionDetailActivity;
-import tech.joeyck.livefootball.ui.matches.MatchesActivity;
+import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
 public class MainActivity extends AppCompatActivity implements CompetitionAdapter.CompetitionAdapterOnItemClickHandler {
@@ -48,10 +45,10 @@ public class MainActivity extends AppCompatActivity implements CompetitionAdapte
     @Override
     public void onItemClick(CompetitionEntity competition) {
         Log.i(LOG_TAG,competition.getName());
-        Intent competitionDetailIntent = new Intent(MainActivity.this, MatchesActivity.class);
-        competitionDetailIntent.putExtra(MatchesActivity.COMPETITION_ID_EXTRA, competition.getId());
-        competitionDetailIntent.putExtra(MatchesActivity.COMPETITION_NAME_EXTRA,competition.getName());
-        competitionDetailIntent.putExtra(MatchesActivity.COMPETITION_MATCHDAY_EXTRA,competition.getCurrentSeason().getCurrentMatchday());
+        Intent competitionDetailIntent = new Intent(MainActivity.this, CompetitionActivity.class);
+        competitionDetailIntent.putExtra(CompetitionActivity.COMPETITION_ID_EXTRA, competition.getId());
+        competitionDetailIntent.putExtra(CompetitionActivity.COMPETITION_NAME_EXTRA,competition.getName());
+        competitionDetailIntent.putExtra(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA,competition.getCurrentSeason().getCurrentMatchday());
         startActivity(competitionDetailIntent);
     }
 }

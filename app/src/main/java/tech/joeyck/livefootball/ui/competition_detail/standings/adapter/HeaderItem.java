@@ -1,4 +1,4 @@
-package tech.joeyck.livefootball.ui.competition_detail.adapter;
+package tech.joeyck.livefootball.ui.competition_detail.standings.adapter;
 
 public class HeaderItem extends CompetitionTableItem {
 

@@ -1,6 +1,4 @@
-package tech.joeyck.livefootball.ui.competition_detail.adapter;
-
-import tech.joeyck.livefootball.data.database.TeamEntity;
+package tech.joeyck.livefootball.ui.competition_detail.standings.adapter;
 
 public abstract class CompetitionTableItem {
 

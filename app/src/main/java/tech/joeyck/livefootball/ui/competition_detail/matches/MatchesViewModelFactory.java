@@ -1,17 +1,16 @@
-package tech.joeyck.livefootball.ui.competition_detail;
+package tech.joeyck.livefootball.ui.competition_detail.matches;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import tech.joeyck.livefootball.data.LiveFootballRepository;
-import tech.joeyck.livefootball.ui.competitions.MainViewModel;
 
-public class CompetitionDetailViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+public class MatchesViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final LiveFootballRepository mRepository;
     private final int mCompetitionId;
 
-    public CompetitionDetailViewModelFactory(LiveFootballRepository repository,int competitionId){
+    public MatchesViewModelFactory(LiveFootballRepository repository, int competitionId){
         this.mRepository = repository;
         this.mCompetitionId = competitionId;
     }
@@ -19,6 +18,6 @@ public class CompetitionDetailViewModelFactory extends ViewModelProvider.NewInst
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         //noinspection unchecked
-        return (T) new CompetitionDetailViewModel(mRepository,mCompetitionId);
+        return (T) new MatchesViewModel(mRepository,mCompetitionId);
     }
 }
