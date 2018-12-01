@@ -1,17 +1,13 @@
 package tech.joeyck.livefootball.ui.competition_detail;
 
 import android.arch.lifecycle.ViewModel;
-import android.support.v4.app.Fragment;
-
-import tech.joeyck.livefootball.data.LiveFootballRepository;
-import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
-import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsFragment;
 
 class CompetitionViewModel extends ViewModel {
 
     private int mCompetitionId;
     private String mCompetitionName;
     private int mMatchDay;
+    private int mActiveTab = -1;
 
     CompetitionViewModel(int competitionId, String competitionName, int matchday){
         this.mCompetitionId = competitionId;
@@ -31,4 +27,11 @@ class CompetitionViewModel extends ViewModel {
         return mMatchDay;
     }
 
+    public int getActiveTab() {
+        return mActiveTab;
+    }
+
+    public void setActiveTab(int mActiveTab) {
+        this.mActiveTab = mActiveTab;
+    }
 }

@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
 import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsFragment;
-import tech.joeyck.livefootball.ui.competitions.MainViewModelFactory;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
 public class CompetitionActivity extends AppCompatActivity {
@@ -29,6 +28,7 @@ public class CompetitionActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            mViewModel.setActiveTab(item.getItemId());
             switch (item.getItemId()) {
                 case R.id.navigation_matches:
                     mFragmentManager.beginTransaction().replace(R.id.fragment_container,MatchesFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay()),MatchesFragment.FRAGMENT_TAG).commit();
@@ -58,7 +58,9 @@ public class CompetitionActivity extends AppCompatActivity {
         mViewModel = factory.create(CompetitionViewModel.class);
 
         mFragmentManager = getSupportFragmentManager();
-        mFragmentManager.beginTransaction().replace(R.id.fragment_container,MatchesFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay()),MatchesFragment.FRAGMENT_TAG).commit();
+        if (savedInstanceState == null) {
+            mFragmentManager.beginTransaction().replace(R.id.fragment_container,MatchesFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay()),MatchesFragment.FRAGMENT_TAG).commit();
+        }
     }
 
 }
