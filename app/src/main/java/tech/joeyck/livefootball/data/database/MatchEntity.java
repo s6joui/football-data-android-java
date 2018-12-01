@@ -10,6 +10,9 @@ import java.util.HashMap;
 public class MatchEntity {
 
     public static String STATUS_FINISHED = "FINISHED";
+    public static String STATUS_IN_PLAY = "IN_PLAY";
+    public static String STATUS_PAUSED = "PAUSED";
+    public static String STATUS_SCHEDULED = "SCHEDULED";
 
     private int id;
     private SeasonEntity season;
@@ -77,5 +80,17 @@ public class MatchEntity {
 
     public boolean isFinished(){
         return status.equals(STATUS_FINISHED);
+    }
+
+    public boolean isInSecondHalf(){
+        return status.equals(STATUS_IN_PLAY) && (score.getHalfTime().get("homeTeam") != null);
+    }
+
+    public boolean isInPlay(){
+        return status.equals(STATUS_IN_PLAY);
+    }
+
+    public boolean isPaused() {
+        return status.equals(STATUS_PAUSED);
     }
 }

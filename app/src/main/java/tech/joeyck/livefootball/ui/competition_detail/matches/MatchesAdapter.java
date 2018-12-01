@@ -109,9 +109,16 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
         LocalDateTime matchTime = currentMatch.getLocalDateTime();
         LocalDateTime now = LocalDateTime.now();
         viewHolder.dateText.setText(DateUtils.getFormattedMatchDate(mContext,matchTime));
-        if(now.isAfter(matchTime) && now.isBefore(matchTime.plusMinutes(90))){
+        if(currentMatch.isInSecondHalf()) {
             viewHolder.liveText.setVisibility(View.VISIBLE);
-            viewHolder.liveText.setText("LIVE "+MINUTES.between(matchTime,now)+"'");
+            long mins = MINUTES.between(matchTime, now) - 15;
+            viewHolder.liveText.setText("LIVE " + mins + "'");
+        }else if(currentMatch.isInPlay()){
+            viewHolder.liveText.setVisibility(View.VISIBLE);
+            viewHolder.liveText.setText("LIVE " + MINUTES.between(matchTime, now) + "'");
+        }else if(currentMatch.isPaused()){
+            viewHolder.liveText.setVisibility(View.VISIBLE);
+            viewHolder.liveText.setText(R.string.half_time);
         }else{
             viewHolder.liveText.setVisibility(View.INVISIBLE);
         }
