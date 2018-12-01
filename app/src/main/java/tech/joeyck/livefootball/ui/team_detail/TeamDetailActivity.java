@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.databinding.ActivityTeamDetailBinding;
@@ -27,11 +28,16 @@ public class TeamDetailActivity extends AppCompatActivity {
         TeamDetailViewModelFactory factory = InjectorUtils.provideTeamDetailViewModelFactory(this.getApplicationContext(),id);
         mViewModel = factory.create(TeamDetailViewModel.class);
 
+        RequestOptions glideRequestOptions = new RequestOptions();
+        glideRequestOptions.placeholder(R.drawable.default_crest);
+        glideRequestOptions.error(R.drawable.default_crest);
+        glideRequestOptions.fallback(R.drawable.default_crest);
+
         mViewModel.getTeam().observe(this,teamEntity -> {
             setTitle(teamEntity.getName());
             mBinding.teamNameText.setText(teamEntity.getName());
             mBinding.countryNameText.setText(teamEntity.getArea().getName()+" | "+teamEntity.getFounded());
-            Glide.with(this).load(NetworkUtils.getPngUrl(teamEntity.getCrestUrl())).into(mBinding.crestImageView);
+            Glide.with(this).load(NetworkUtils.getPngUrl(teamEntity.getCrestUrl())).apply(glideRequestOptions).into(mBinding.crestImageView);
         });
 
     }

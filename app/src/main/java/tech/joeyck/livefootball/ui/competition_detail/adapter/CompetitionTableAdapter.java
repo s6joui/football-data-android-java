@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
     private final CompetitionAdapterOnItemClickHandler mClickHandler;
 
     private List<CompetitionTableItem> mTable;
+    private RequestOptions mGlideRequestOptions;
 
     /**
      * Creates a CompetitionAdapter.
@@ -43,6 +45,10 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
     public CompetitionTableAdapter(@NonNull Context context, CompetitionAdapterOnItemClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
+        mGlideRequestOptions = new RequestOptions();
+        mGlideRequestOptions.placeholder(R.drawable.default_crest);
+        mGlideRequestOptions.error(R.drawable.default_crest);
+        mGlideRequestOptions.fallback(R.drawable.default_crest);
     }
 
     /**
@@ -93,7 +99,7 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
             holder.pointsTextView.setText(""+currentTeamTableEntity.getTeam().getPoints());
             holder.positionTextView.setText(""+currentTeamTableEntity.getTeam().getPosition());
             String crestUrl = NetworkUtils.getPngUrl(currentTeamTableEntity.getTeam().getTeam().getCrestUrl());
-            Glide.with(mContext).load(crestUrl).into(holder.crestView);
+            Glide.with(mContext).load(crestUrl).apply(mGlideRequestOptions).into(holder.crestView);
         }
 
     }
