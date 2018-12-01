@@ -53,8 +53,7 @@ public class TeamDetailActivity extends AppCompatActivity {
         setTitle(teamEntity.getName());
         mBinding.teamNameText.setText(teamEntity.getName());
         mBinding.countryNameText.setText(teamEntity.getArea().getName()+" | "+teamEntity.getFounded());
-        String coverUrl = "https://loremflickr.com/320/240/"+TextUtils.join(",",teamEntity.getName().toLowerCase().split(" "));
-        Glide.with(this).load(coverUrl).into(mBinding.coverImage);
+        Glide.with(this).load(NetworkUtils.getCoverImageUrl(teamEntity.getName())).into(mBinding.coverImage);
         Glide.with(this).load(NetworkUtils.getPngUrl(teamEntity.getCrestUrl())).apply(glideRequestOptions).into(mBinding.crestImageView);
     }
 }
