@@ -15,18 +15,18 @@ import android.view.ViewGroup;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.TableEntryEntity;
+import tech.joeyck.livefootball.ui.competition_detail.BaseListFragment;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
 import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.CompetitionTableAdapter;
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailActivity;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
-public class StandingsFragment extends Fragment implements CompetitionTableAdapter.CompetitionAdapterOnItemClickHandler{
+public class StandingsFragment extends BaseListFragment implements CompetitionTableAdapter.CompetitionAdapterOnItemClickHandler{
 
     public static final String FRAGMENT_TAG = "StandingsFragment";
     private static final String LOG_TAG = StandingsFragment.class.getSimpleName();
 
     private StandingsViewModel mViewModel;
-    private RecyclerView mRecyclerView;
 
     public static StandingsFragment newInstance(int competitionId, String competitionName, int matchDay){
         StandingsFragment fragment = new StandingsFragment();
@@ -40,8 +40,9 @@ public class StandingsFragment extends Fragment implements CompetitionTableAdapt
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_recyclerview, container, false);
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.table_recyclerview);
+        View view = super.onCreateView(inflater,container,savedInstanceState);
+
+        showLoading();
 
         int competitionId = getArguments().getInt(CompetitionActivity.COMPETITION_ID_EXTRA, 0);
         int matchday = getArguments().getInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, 0);
@@ -50,20 +51,15 @@ public class StandingsFragment extends Fragment implements CompetitionTableAdapt
         StandingsViewModelFactory factory = InjectorUtils.provideStandingsViewModelFactory(getActivity().getApplicationContext(),competitionId);
         mViewModel = factory.create(StandingsViewModel.class);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                layoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
-
         CompetitionTableAdapter tableAdapter = new CompetitionTableAdapter(getActivity(), this);
-        /* Setting the adapter attaches it to the RecyclerView in our layout. */
-        mRecyclerView.setAdapter(tableAdapter);
+        setAdapter(tableAdapter);
 
         mViewModel.getTableItems().observe(this,tableItems -> {
             if(tableItems != null && tableItems.size() != 0){
                 tableAdapter.swapTable(tableItems);
+                hideLoading();
+            }else{
+                showError(R.string.not_found);
             }
         });
 

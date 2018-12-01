@@ -98,6 +98,10 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
             holder.teamNameTextView.setText(currentTeamTableEntity.getTeam().getTeam().getName());
             holder.pointsTextView.setText(""+currentTeamTableEntity.getTeam().getPoints());
             holder.positionTextView.setText(""+currentTeamTableEntity.getTeam().getPosition());
+            holder.playedTextView.setText(""+currentTeamTableEntity.getTeam().getPlayedGames());
+            holder.lostTextView.setText(""+currentTeamTableEntity.getTeam().getLost());
+            holder.drawnTextView.setText(""+currentTeamTableEntity.getTeam().getDraw());
+            holder.wonTextView.setText(""+currentTeamTableEntity.getTeam().getWon());
             String crestUrl = NetworkUtils.getPngUrl(currentTeamTableEntity.getTeam().getTeam().getCrestUrl());
             Glide.with(mContext).load(crestUrl).apply(mGlideRequestOptions).into(holder.crestView);
         }
@@ -151,6 +155,10 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
         final TextView teamNameTextView;
         final TextView positionTextView;
         final TextView pointsTextView;
+        final TextView playedTextView;
+        final TextView wonTextView;
+        final TextView drawnTextView;
+        final TextView lostTextView;
 
         CompetitionAdapterViewHolder(View view) {
             super(view);
@@ -159,7 +167,10 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
             teamNameTextView = view.findViewById(R.id.team_name);
             pointsTextView = view.findViewById(R.id.team_points);
             positionTextView = view.findViewById(R.id.team_position);
-
+            playedTextView = view.findViewById(R.id.matches_played);
+            wonTextView = view.findViewById(R.id.matches_won);
+            drawnTextView = view.findViewById(R.id.matches_drawn);
+            lostTextView = view.findViewById(R.id.matches_lost);
             view.setOnClickListener(this);
         }
 

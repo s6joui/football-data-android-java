@@ -13,11 +13,12 @@ import android.widget.ImageView;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.MatchEntity;
+import tech.joeyck.livefootball.ui.competition_detail.BaseListFragment;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
 import tech.joeyck.livefootball.utilities.AnimationUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
-public class MatchesFragment extends Fragment implements MatchesAdapter.MatchesAdapterOnItemClickHandler {
+public class MatchesFragment extends BaseListFragment implements MatchesAdapter.MatchesAdapterOnItemClickHandler {
 
     public static final String FRAGMENT_TAG = "MatchesFragment";
     private static final String LOG_TAG = MatchesFragment.class.getSimpleName();
@@ -38,12 +39,9 @@ public class MatchesFragment extends Fragment implements MatchesAdapter.MatchesA
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_recyclerview, container, false);
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.table_recyclerview);
+        View view = super.onCreateView(inflater,container,savedInstanceState);
 
-        ImageView loader = view.findViewById(R.id.loading_animation);
-        loader.setVisibility(View.VISIBLE);
-        AnimationUtils.loopAnimation(loader);
+        showLoading();
 
         int competitionId = getArguments().getInt(CompetitionActivity.COMPETITION_ID_EXTRA, 0);
         int matchday = getArguments().getInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, 0);
@@ -52,19 +50,18 @@ public class MatchesFragment extends Fragment implements MatchesAdapter.MatchesA
         MatchesViewModelFactory factory = InjectorUtils.provideMatchesViewModelFactory(getActivity().getApplicationContext(),competitionId);
         mViewModel = factory.create(MatchesViewModel.class);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
-
         MatchesAdapter matchesAdapter = new MatchesAdapter(getActivity(), this);
-        /* Setting the adapter attaches it to the RecyclerView in our layout. */
-        mRecyclerView.setAdapter(matchesAdapter);
+        setAdapter(matchesAdapter);
 
         mViewModel.getMatches().observe(this, matchEntities -> {
             if(matchEntities!=null){
                 matchesAdapter.swapMatches(matchEntities);
-                AnimationUtils.stopAnimation(loader);
-                loader.setVisibility(View.GONE);
+                hideLoading();
+                if(matchEntities.size() == 0){
+                    showError(R.string.no_recent_matches);
+                }
+            }else{
+                showError(R.string.no_recent_matches);
             }
         });
 

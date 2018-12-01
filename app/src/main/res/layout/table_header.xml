@@ -1,20 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark"
     android:paddingStart="8dp"
     android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:background="@color/colorPrimaryDark">
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@+id/headerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="TextView"
         android:textColor="#fff"
         android:textStyle="bold"
-        android:text="TextView" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/team_points"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Pts"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/matches_lost"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="L"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/team_points"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/matches_drawn"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="D"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/matches_lost"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/matches_won"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="W"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/matches_drawn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/matches_played"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="MP"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/matches_won"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

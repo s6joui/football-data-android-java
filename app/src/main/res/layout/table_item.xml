@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:paddingEnd="8dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
     android:paddingStart="8dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:paddingTop="8dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@+id/team_position"
-        android:layout_width="24dp"
+        android:layout_width="22dp"
         android:layout_height="wrap_content"
         android:text="1"
         android:textAlignment="center"
@@ -25,29 +24,71 @@
         android:id="@+id/team_crest"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        app:srcCompat="@drawable/default_crest"
         app:layout_constraintStart_toEndOf="@+id/team_position"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/default_crest" />
 
     <TextView
         android:id="@+id/team_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
         android:text="Team Name"
+        app:layout_constraintEnd_toStartOf="@+id/matches_played"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/team_crest"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/team_points"
-        android:layout_width="match_parent"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="Points"
-        android:textAlignment="viewEnd"
+        android:text="0"
+        android:textAlignment="center"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/team_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/matches_lost"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="0"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/team_points"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/matches_drawn"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="0"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/matches_lost"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/matches_won"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="0"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/matches_drawn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/matches_played"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="0"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/matches_won"
         app:layout_constraintTop_toTopOf="parent" />
 
 
