@@ -9,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.MatchEntity;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
+import tech.joeyck.livefootball.utilities.AnimationUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
 public class MatchesFragment extends Fragment implements MatchesAdapter.MatchesAdapterOnItemClickHandler {
@@ -36,8 +38,12 @@ public class MatchesFragment extends Fragment implements MatchesAdapter.MatchesA
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_competition_detail, container, false);
+        View view = inflater.inflate(R.layout.layout_recyclerview, container, false);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.table_recyclerview);
+
+        ImageView loader = view.findViewById(R.id.loading_animation);
+        loader.setVisibility(View.VISIBLE);
+        AnimationUtils.loopAnimation(loader);
 
         int competitionId = getArguments().getInt(CompetitionActivity.COMPETITION_ID_EXTRA, 0);
         int matchday = getArguments().getInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, 0);
@@ -55,7 +61,11 @@ public class MatchesFragment extends Fragment implements MatchesAdapter.MatchesA
         mRecyclerView.setAdapter(matchesAdapter);
 
         mViewModel.getMatches().observe(this, matchEntities -> {
-            if(matchEntities!=null) matchesAdapter.swapMatches(matchEntities);
+            if(matchEntities!=null){
+                matchesAdapter.swapMatches(matchEntities);
+                AnimationUtils.stopAnimation(loader);
+                loader.setVisibility(View.GONE);
+            }
         });
 
         return view;

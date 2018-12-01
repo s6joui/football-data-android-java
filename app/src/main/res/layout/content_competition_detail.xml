@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.competition_detail.standings.StandingsFragment"
-    tools:showIn="@layout/activity_competition_detail">
+    tools:showIn="@layout/layout_recyclerview">
 
 </android.support.constraint.ConstraintLayout>

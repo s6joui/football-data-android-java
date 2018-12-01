@@ -40,7 +40,7 @@ public class StandingsFragment extends Fragment implements CompetitionTableAdapt
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_competition_detail, container, false);
+        View view = inflater.inflate(R.layout.layout_recyclerview, container, false);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.table_recyclerview);
 
         int competitionId = getArguments().getInt(CompetitionActivity.COMPETITION_ID_EXTRA, 0);

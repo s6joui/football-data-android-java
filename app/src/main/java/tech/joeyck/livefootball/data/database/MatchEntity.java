@@ -25,6 +25,19 @@ public class MatchEntity {
     private HashMap<String,String> awayTeam;
     private ScoreEntity score;
 
+    public MatchEntity(int id, SeasonEntity season, Date utcDate, String status, int matchday, String stage, String group, HashMap<String, String> homeTeam, HashMap<String, String> awayTeam, ScoreEntity score) {
+        this.id = id;
+        this.season = season;
+        this.utcDate = utcDate;
+        this.status = status;
+        this.matchday = matchday;
+        this.stage = stage;
+        this.group = group;
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.score = score;
+    }
+
     public int getId() {
         return id;
     }
