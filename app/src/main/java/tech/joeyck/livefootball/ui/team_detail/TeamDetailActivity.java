@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -52,6 +53,8 @@ public class TeamDetailActivity extends AppCompatActivity {
         setTitle(teamEntity.getName());
         mBinding.teamNameText.setText(teamEntity.getName());
         mBinding.countryNameText.setText(teamEntity.getArea().getName()+" | "+teamEntity.getFounded());
+        String coverUrl = "https://loremflickr.com/320/240/"+TextUtils.join(",",teamEntity.getName().toLowerCase().split(" "));
+        Glide.with(this).load(coverUrl).into(mBinding.coverImage);
         Glide.with(this).load(NetworkUtils.getPngUrl(teamEntity.getCrestUrl())).apply(glideRequestOptions).into(mBinding.crestImageView);
     }
 }
