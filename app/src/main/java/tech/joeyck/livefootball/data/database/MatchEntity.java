@@ -1,5 +1,9 @@
 package tech.joeyck.livefootball.data.database;
 
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneId;
+
 import java.util.Date;
 import java.util.HashMap;
 
@@ -26,6 +30,12 @@ public class MatchEntity {
 
     public Date getUtcDate() {
         return utcDate;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return Instant.ofEpochMilli(utcDate.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
     }
 
     public String getStatus() {

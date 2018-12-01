@@ -2,4 +2,7 @@
     <string name="app_name">LiveFootball</string>
     <string name="title_activity_competition_detail">Competition</string>
     <string name="title_activity_team_detail">Team</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="yesterday">Yesterday</string>
 </resources>

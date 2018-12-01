@@ -29,4 +29,19 @@ public class ScoreEntity {
     public HashMap<String, Integer> getPenalties() {
         return penalties;
     }
+
+    public String getHomeTeamScore(){
+        if(fullTime.get("homeTeam") != null){
+            return ""+fullTime.get("homeTeam");
+        }
+        return "-";
+    }
+
+    public String getAwayTeamScore(){
+        if(fullTime.get("awayTeam") != null){
+            return ""+fullTime.get("homeTeam");
+        }
+        return "-";
+    }
+
 }

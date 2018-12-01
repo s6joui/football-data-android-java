@@ -8,12 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.util.List;
 
 import tech.joeyck.livefootball.R;
-import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.data.database.MatchEntity;
 import tech.joeyck.livefootball.ui.competitions.MainActivity;
+import tech.joeyck.livefootball.utilities.DateUtils;
 
 class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterViewHolder> {
 
@@ -77,9 +80,9 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
         MatchEntity currentMatch = mMatches.get(position);
         viewHolder.homeTeamNameText.setText(currentMatch.getHomeTeam().get("name"));
         viewHolder.awayTeamNameText.setText(currentMatch.getAwayTeam().get("name"));
-        viewHolder.homeTeamScoreText.setText(String.format("%d",currentMatch.getScore().getFullTime().get("homeTeam")));
-        viewHolder.awayTeamScoreText.setText(String.format("%d",currentMatch.getScore().getFullTime().get("awayTeam")));
-        viewHolder.dateText.setText(currentMatch.getUtcDate().toString());
+        viewHolder.homeTeamScoreText.setText(currentMatch.getScore().getHomeTeamScore());
+        viewHolder.awayTeamScoreText.setText(currentMatch.getScore().getAwayTeamScore());
+        viewHolder.dateText.setText(DateUtils.getFormattedMatchDate(mContext,currentMatch.getLocalDateTime()));
     }
 
     /**
