@@ -119,14 +119,12 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.
      */
     class CompetitionAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        final ImageView iconView;
         final TextView textView;
         final TextView countryTextView;
 
         CompetitionAdapterViewHolder(View view) {
             super(view);
 
-            iconView = view.findViewById(R.id.competition_icon);
             textView = view.findViewById(R.id.competition_name);
             countryTextView = view.findViewById(R.id.competition_country);
 

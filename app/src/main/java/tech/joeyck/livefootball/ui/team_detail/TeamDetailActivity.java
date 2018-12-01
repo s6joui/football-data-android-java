@@ -6,9 +6,6 @@ import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.databinding.ActivityTeamDetailBinding;
 import tech.joeyck.livefootball.utilities.InjectorUtils;

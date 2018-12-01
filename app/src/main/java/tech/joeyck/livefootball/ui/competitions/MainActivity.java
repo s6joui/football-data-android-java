@@ -3,6 +3,8 @@ package tech.joeyck.livefootball.ui.competitions;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,8 +28,7 @@ public class MainActivity extends AppCompatActivity implements CompetitionAdapte
         setContentView(R.layout.activity_main);
         mRecyclerView = findViewById(R.id.competition_recyclerview);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mCompetitionAdapter = new CompetitionAdapter(this, this);
