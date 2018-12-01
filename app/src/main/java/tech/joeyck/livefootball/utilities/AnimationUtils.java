@@ -37,12 +37,14 @@ public class AnimationUtils {
 
     public static void stopAnimation(ImageView imageView){
         Drawable drawable = imageView.getDrawable();
-        if (Build.VERSION.SDK_INT >= 21 && drawable instanceof AnimatedVectorDrawable) {
+        if (Build.VERSION.SDK_INT >= 23 && drawable instanceof AnimatedVectorDrawable) {
             AnimatedVectorDrawable animation = (AnimatedVectorDrawable)drawable;
             animation.stop();
+            animation.clearAnimationCallbacks();
         } else if (drawable instanceof AnimatedVectorDrawableCompat) {
             AnimatedVectorDrawableCompat animation = (AnimatedVectorDrawableCompat)drawable;
             animation.stop();
+            animation.clearAnimationCallbacks();
         }
     }
 

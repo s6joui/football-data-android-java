@@ -20,6 +20,7 @@ import android.content.Context;
 
 import java.io.IOException;
 
+import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -42,7 +43,7 @@ public class InjectorUtils {
 
     public static LiveFootballRepository provideRepository(Context context) {
         AppExecutors executors = AppExecutors.getInstance();
-        LiveFootballAPI service = buildRetrofit().create(LiveFootballAPI.class);
+        LiveFootballAPI service = buildRetrofit(context).create(LiveFootballAPI.class);
         return LiveFootballRepository.getInstance(service,executors);
     }
 
@@ -70,8 +71,24 @@ public class InjectorUtils {
         return new CompetitionViewModelFactory(competitionId,competitionName,matchday);
     }
 
-    private static final Retrofit buildRetrofit(){
+    private static final Retrofit buildRetrofit(Context context){
+        long cacheSize = (5 * 1024 * 1024);
+        Cache myCache = new Cache(context.getCacheDir(), cacheSize);
+
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.cache(myCache);
+        httpClient.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                if(NetworkUtils.hasNetwork(context)){
+                    request = request.newBuilder().header("Cache-Control","public, max-age="+50).build();
+                }else{
+                    request = request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build();
+                }
+                return chain.proceed(request);
+            }
+        });
         httpClient.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {

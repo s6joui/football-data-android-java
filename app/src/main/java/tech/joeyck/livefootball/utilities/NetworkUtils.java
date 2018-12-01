@@ -1,5 +1,8 @@
 package tech.joeyck.livefootball.utilities;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 
 public class NetworkUtils {
@@ -16,6 +19,16 @@ public class NetworkUtils {
 
     public static String getCoverImageUrl(String query){
         return COVER_IMAGE_URL+TextUtils.join(",",query.toLowerCase().split(" "));
+    }
+
+    public static boolean hasNetwork(Context context) {
+        boolean isConnected = false; // Initial Value
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()){
+            isConnected = true;
+        }
+        return isConnected;
     }
 
 }
