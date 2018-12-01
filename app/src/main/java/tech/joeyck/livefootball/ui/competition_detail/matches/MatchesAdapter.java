@@ -1,6 +1,7 @@
 package tech.joeyck.livefootball.ui.competition_detail.matches;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,12 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.threeten.bp.LocalDateTime;
+
 import java.util.List;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.MatchEntity;
+import tech.joeyck.livefootball.data.database.ScoreEntity;
 import tech.joeyck.livefootball.ui.competitions.MainActivity;
 import tech.joeyck.livefootball.utilities.DateUtils;
+
+import static org.threeten.bp.temporal.ChronoUnit.MINUTES;
 
 class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterViewHolder> {
 
@@ -79,7 +85,36 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
         viewHolder.awayTeamNameText.setText(currentMatch.getAwayTeam().get("name"));
         viewHolder.homeTeamScoreText.setText(currentMatch.getScore().getHomeTeamScore());
         viewHolder.awayTeamScoreText.setText(currentMatch.getScore().getAwayTeamScore());
-        viewHolder.dateText.setText(DateUtils.getFormattedMatchDate(mContext,currentMatch.getLocalDateTime()));
+
+        String winner = currentMatch.getScore().getWinner();
+        if(currentMatch.isFinished() && winner!=null){
+            if(winner.equals(ScoreEntity.HOME_TEAM_WINNER)){
+                viewHolder.homeTeamNameText.setTypeface(null, Typeface.BOLD);
+                viewHolder.awayTeamNameText.setTypeface(null, Typeface.NORMAL);
+                viewHolder.homeTeamScoreText.setTypeface(null, Typeface.BOLD);
+                viewHolder.awayTeamScoreText.setTypeface(null, Typeface.NORMAL);
+            }else{
+                viewHolder.homeTeamNameText.setTypeface(null, Typeface.NORMAL);
+                viewHolder.awayTeamNameText.setTypeface(null, Typeface.BOLD);
+                viewHolder.homeTeamScoreText.setTypeface(null, Typeface.NORMAL);
+                viewHolder.awayTeamScoreText.setTypeface(null, Typeface.BOLD);
+            }
+        }else{
+            viewHolder.homeTeamNameText.setTypeface(null, Typeface.NORMAL);
+            viewHolder.awayTeamNameText.setTypeface(null, Typeface.NORMAL);
+            viewHolder.homeTeamScoreText.setTypeface(null, Typeface.NORMAL);
+            viewHolder.awayTeamScoreText.setTypeface(null, Typeface.NORMAL);
+        }
+
+        LocalDateTime matchTime = currentMatch.getLocalDateTime();
+        LocalDateTime now = LocalDateTime.now();
+        viewHolder.dateText.setText(DateUtils.getFormattedMatchDate(mContext,matchTime));
+        if(now.isAfter(matchTime) && now.isBefore(matchTime.plusMinutes(90))){
+            viewHolder.liveText.setVisibility(View.VISIBLE);
+            viewHolder.liveText.setText("LIVE "+MINUTES.between(matchTime,now)+"'");
+        }else{
+            viewHolder.liveText.setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
@@ -124,6 +159,7 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
         final TextView awayTeamNameText;
         final TextView homeTeamScoreText;
         final TextView awayTeamScoreText;
+        final TextView liveText;
         final TextView dateText;
 
         MatchesAdapterViewHolder(View view) {
@@ -133,6 +169,7 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
             awayTeamNameText = view.findViewById(R.id.away_name_text);
             homeTeamScoreText = view.findViewById(R.id.home_score_text);
             awayTeamScoreText = view.findViewById(R.id.away_score_tex);
+            liveText = view.findViewById(R.id.live_text);
             dateText = view.findViewById(R.id.date_text);
 
             view.setOnClickListener(this);

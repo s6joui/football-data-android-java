@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 public class ScoreEntity {
 
+    public static String HOME_TEAM_WINNER = "HOME_TEAM";
+    public static String AWAY_TEAM_WINNER = "AWAY_TEAM";
+
     private String winner;
     private HashMap<String,Integer> fullTime;
     private HashMap<String,Integer> halfTime;
@@ -39,7 +42,7 @@ public class ScoreEntity {
 
     public String getAwayTeamScore(){
         if(fullTime.get("awayTeam") != null){
-            return ""+fullTime.get("homeTeam");
+            return ""+fullTime.get("awayTeam");
         }
         return "-";
     }

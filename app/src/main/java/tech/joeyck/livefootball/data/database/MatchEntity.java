@@ -9,6 +9,8 @@ import java.util.HashMap;
 
 public class MatchEntity {
 
+    public static String STATUS_FINISHED = "FINISHED";
+
     private int id;
     private SeasonEntity season;
     private Date utcDate;
@@ -71,5 +73,9 @@ public class MatchEntity {
         if(homeTeam != null && awayTeam != null)
             return homeTeam.get("name") + " - " + awayTeam.get("name");
         return "empty match";
+    }
+
+    public boolean isFinished(){
+        return status.equals(STATUS_FINISHED);
     }
 }
