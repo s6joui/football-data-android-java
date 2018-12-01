@@ -12,6 +12,7 @@ import android.util.Log;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionDetailActivity;
+import tech.joeyck.livefootball.ui.matches.MatchesActivity;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
 public class MainActivity extends AppCompatActivity implements CompetitionAdapter.CompetitionAdapterOnItemClickHandler {
@@ -47,8 +48,10 @@ public class MainActivity extends AppCompatActivity implements CompetitionAdapte
     @Override
     public void onItemClick(CompetitionEntity competition) {
         Log.i(LOG_TAG,competition.getName());
-        Intent competitionDetailIntent = new Intent(MainActivity.this, CompetitionDetailActivity.class);
-        competitionDetailIntent.putExtra(CompetitionDetailActivity.COMPETITION_ID_EXTRA, competition.getId());
+        Intent competitionDetailIntent = new Intent(MainActivity.this, MatchesActivity.class);
+        competitionDetailIntent.putExtra(MatchesActivity.COMPETITION_ID_EXTRA, competition.getId());
+        competitionDetailIntent.putExtra(MatchesActivity.COMPETITION_NAME_EXTRA,competition.getName());
+        competitionDetailIntent.putExtra(MatchesActivity.COMPETITION_MATCHDAY_EXTRA,competition.getCurrentSeason().getCurrentMatchday());
         startActivity(competitionDetailIntent);
     }
 }

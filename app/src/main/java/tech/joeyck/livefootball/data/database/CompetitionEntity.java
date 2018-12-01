@@ -7,6 +7,7 @@ public class CompetitionEntity {
     private int id;
     private String name;
     private String code;
+    private SeasonEntity currentSeason;
     private AreaEntity area;
     private Date lastUpdated;
 
@@ -35,5 +36,9 @@ public class CompetitionEntity {
 
     public AreaEntity getArea() {
         return area;
+    }
+
+    public SeasonEntity getCurrentSeason() {
+        return currentSeason;
     }
 }

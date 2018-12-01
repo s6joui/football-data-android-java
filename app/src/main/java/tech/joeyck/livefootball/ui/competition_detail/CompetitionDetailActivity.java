@@ -8,13 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.List;
-
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.data.database.TableEntryEntity;
 import tech.joeyck.livefootball.ui.competition_detail.adapter.CompetitionTableAdapter;
-import tech.joeyck.livefootball.ui.competition_detail.adapter.CompetitionTableItem;
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailActivity;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
@@ -39,7 +36,7 @@ public class CompetitionDetailActivity extends AppCompatActivity implements Comp
         mViewModel = factory.create(CompetitionDetailViewModel.class);
 
         mViewModel.getCompetition().observe(this,competitionEntity -> {
-            bindCompetitionToView(competitionEntity);
+            if(competitionEntity!=null) bindCompetitionToView(competitionEntity);
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -55,7 +52,6 @@ public class CompetitionDetailActivity extends AppCompatActivity implements Comp
         mRecyclerView.setAdapter(mCompetitionTableAdapter);
 
         mViewModel.getTableItems().observe(this,tableItems -> {
-            List<CompetitionTableItem> stages = tableItems;
             if(tableItems != null && tableItems.size() != 0){
                 mCompetitionTableAdapter.swapTable(tableItems);
             }
@@ -71,6 +67,7 @@ public class CompetitionDetailActivity extends AppCompatActivity implements Comp
         Log.i(LOG_TAG, tableEntryEntity.getTeam().getName());
         Intent teamDetailIntent = new Intent(this, TeamDetailActivity.class);
         teamDetailIntent.putExtra(TeamDetailActivity.TEAM_ID_EXTRA, tableEntryEntity.getTeam().getId());
+        teamDetailIntent.putExtra(TeamDetailActivity.TEAM_NAME_EXTRA,tableEntryEntity.getTeam().getName());
         startActivity(teamDetailIntent);
     }
 }

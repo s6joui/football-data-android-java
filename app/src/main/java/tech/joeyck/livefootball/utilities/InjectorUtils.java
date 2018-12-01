@@ -32,6 +32,7 @@ import tech.joeyck.livefootball.data.LiveFootballRepository;
 import tech.joeyck.livefootball.data.database.LiveFootballAPI;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionDetailViewModelFactory;
 import tech.joeyck.livefootball.ui.competitions.MainViewModelFactory;
+import tech.joeyck.livefootball.ui.matches.MatchesViewModelFactory;
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailActivity;
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailViewModelFactory;
 
@@ -59,6 +60,11 @@ public class InjectorUtils {
     public static TeamDetailViewModelFactory provideTeamDetailViewModelFactory(Context context, int teamId) {
         LiveFootballRepository repository = provideRepository(context.getApplicationContext());
         return new TeamDetailViewModelFactory(repository,teamId);
+    }
+
+    public static MatchesViewModelFactory provideMatchesViewModelFactory(Context context, int competitionId) {
+        LiveFootballRepository repository = provideRepository(context.getApplicationContext());
+        return new MatchesViewModelFactory(repository,competitionId);
     }
 
     private static final Retrofit buildRetrofit(){
