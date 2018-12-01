@@ -87,13 +87,13 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
         viewHolder.awayTeamScoreText.setText(currentMatch.getScore().getAwayTeamScore());
 
         String winner = currentMatch.getScore().getWinner();
-        if(currentMatch.isFinished() && winner!=null){
+        if(currentMatch.isFinished() && winner!=null && !winner.equals(ScoreEntity.DRAW)){
             if(winner.equals(ScoreEntity.HOME_TEAM_WINNER)){
                 viewHolder.homeTeamNameText.setTypeface(null, Typeface.BOLD);
                 viewHolder.awayTeamNameText.setTypeface(null, Typeface.NORMAL);
                 viewHolder.homeTeamScoreText.setTypeface(null, Typeface.BOLD);
                 viewHolder.awayTeamScoreText.setTypeface(null, Typeface.NORMAL);
-            }else{
+            }else if(winner.equals(ScoreEntity.AWAY_TEAM_WINNER)){
                 viewHolder.homeTeamNameText.setTypeface(null, Typeface.NORMAL);
                 viewHolder.awayTeamNameText.setTypeface(null, Typeface.BOLD);
                 viewHolder.homeTeamScoreText.setTypeface(null, Typeface.NORMAL);

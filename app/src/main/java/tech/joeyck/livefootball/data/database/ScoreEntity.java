@@ -6,6 +6,7 @@ public class ScoreEntity {
 
     public static String HOME_TEAM_WINNER = "HOME_TEAM";
     public static String AWAY_TEAM_WINNER = "AWAY_TEAM";
+    public static String DRAW = "DRAW";
 
     private String winner;
     private HashMap<String,Integer> fullTime;
