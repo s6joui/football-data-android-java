@@ -27,6 +27,10 @@ public class BaseListFragment extends Fragment{
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return onCreateView(inflater,container,savedInstanceState,false);
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState, boolean showItemDivider) {
         View view = inflater.inflate(R.layout.layout_recyclerview, container, false);
         mRecyclerView = view.findViewById(R.id.table_recyclerview);
         mLoaderImageView = view.findViewById(R.id.loading_animation);
@@ -36,9 +40,10 @@ public class BaseListFragment extends Fragment{
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                layoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        if(showItemDivider){
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),layoutManager.getOrientation());
+            mRecyclerView.addItemDecoration(dividerItemDecoration);
+        }
 
         mRecyclerView.setHasFixedSize(true);
 

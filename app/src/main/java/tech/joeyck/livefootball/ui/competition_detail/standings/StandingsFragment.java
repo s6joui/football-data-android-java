@@ -40,7 +40,7 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater,container,savedInstanceState);
+        View view = super.onCreateView(inflater,container,savedInstanceState,true);
 
         showLoading();
 
