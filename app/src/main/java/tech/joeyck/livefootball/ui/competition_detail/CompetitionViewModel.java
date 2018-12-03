@@ -7,7 +7,6 @@ class CompetitionViewModel extends ViewModel {
     private int mCompetitionId;
     private String mCompetitionName;
     private int mMatchDay;
-    private int mActiveTab = -1;
 
     CompetitionViewModel(int competitionId, String competitionName, int matchday){
         this.mCompetitionId = competitionId;
@@ -25,13 +24,5 @@ class CompetitionViewModel extends ViewModel {
 
     public int getMatchDay() {
         return mMatchDay;
-    }
-
-    public int getActiveTab() {
-        return mActiveTab;
-    }
-
-    public void setActiveTab(int mActiveTab) {
-        this.mActiveTab = mActiveTab;
     }
 }

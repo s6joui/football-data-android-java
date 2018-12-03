@@ -3,7 +3,9 @@ package tech.joeyck.livefootball.ui.competition_detail;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -23,18 +25,15 @@ public class CompetitionActivity extends AppCompatActivity {
     FragmentManager mFragmentManager;
     CompetitionViewModel mViewModel;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            mViewModel.setActiveTab(item.getItemId());
             switch (item.getItemId()) {
                 case R.id.navigation_matches:
-                    mFragmentManager.beginTransaction().replace(R.id.fragment_container,MatchesFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay()),MatchesFragment.FRAGMENT_TAG).commit();
+                    switchFragments(MatchesFragment.FRAGMENT_TAG);
                     return true;
                 case R.id.navigation_standings:
-                    mFragmentManager.beginTransaction().replace(R.id.fragment_container,StandingsFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay()),StandingsFragment.FRAGMENT_TAG).commit();
+                    switchFragments(StandingsFragment.FRAGMENT_TAG);
                     return true;
             }
             return false;
@@ -59,8 +58,30 @@ public class CompetitionActivity extends AppCompatActivity {
 
         mFragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            mFragmentManager.beginTransaction().replace(R.id.fragment_container,MatchesFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay()),MatchesFragment.FRAGMENT_TAG).commit();
+            switchFragments(MatchesFragment.FRAGMENT_TAG);
         }
+    }
+
+    private void switchFragments(String tag){
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        Fragment curFrag = mFragmentManager.getPrimaryNavigationFragment();
+        if (curFrag != null) {
+            fragmentTransaction.hide(curFrag);
+        }
+        Fragment fragment = mFragmentManager.findFragmentByTag(tag);
+        if (fragment == null) {
+            if(tag.equals(MatchesFragment.FRAGMENT_TAG)){
+                fragment = MatchesFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay());
+            }else if(tag.equals(StandingsFragment.FRAGMENT_TAG)){
+                fragment = StandingsFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay());
+            }
+            fragmentTransaction.add(R.id.fragment_container, fragment, tag);
+        } else {
+            fragmentTransaction.show(fragment);
+        }
+        fragmentTransaction.setPrimaryNavigationFragment(fragment);
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.commitNowAllowingStateLoss();
     }
 
 }
