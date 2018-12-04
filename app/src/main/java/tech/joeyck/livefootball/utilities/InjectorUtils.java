@@ -62,9 +62,9 @@ public class InjectorUtils {
         return new TeamDetailViewModelFactory(repository,teamId);
     }
 
-    public static MatchesViewModelFactory provideMatchesViewModelFactory(Context context, int competitionId) {
+    public static MatchesViewModelFactory provideMatchesViewModelFactory(Context context, int competitionId, int matchday) {
         LiveFootballRepository repository = provideRepository(context.getApplicationContext());
-        return new MatchesViewModelFactory(repository,competitionId);
+        return new MatchesViewModelFactory(repository,competitionId, matchday);
     }
 
     public static CompetitionViewModelFactory provideCompetitionViewModelFactory(Context context, int competitionId, String competitionName, int matchday){

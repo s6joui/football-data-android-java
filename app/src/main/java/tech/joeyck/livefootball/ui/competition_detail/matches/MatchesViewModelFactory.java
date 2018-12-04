@@ -9,15 +9,17 @@ public class MatchesViewModelFactory extends ViewModelProvider.NewInstanceFactor
 
     private final LiveFootballRepository mRepository;
     private final int mCompetitionId;
+    private final int mMatchday;
 
-    public MatchesViewModelFactory(LiveFootballRepository repository, int competitionId){
+    public MatchesViewModelFactory(LiveFootballRepository repository, int competitionId, int matchday){
         this.mRepository = repository;
+        this.mMatchday = matchday;
         this.mCompetitionId = competitionId;
     }
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         //noinspection unchecked
-        return (T) new MatchesViewModel(mRepository,mCompetitionId);
+        return (T) new MatchesViewModel(mRepository,mCompetitionId,mMatchday);
     }
 }

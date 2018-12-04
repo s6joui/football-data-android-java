@@ -1,8 +1,7 @@
 package tech.joeyck.livefootball.utilities;
 
+import android.graphics.Color;
 import android.util.SparseIntArray;
-
-import java.util.HashMap;
 
 import tech.joeyck.livefootball.R;
 
@@ -15,7 +14,7 @@ public class CompetitionUtils {
         competitionColors.put(2013, R.color.serie_a_brazil);
         competitionColors.put(2021, R.color.permier_league);
         competitionColors.put(2016, R.color.championship);
-        competitionColors.put(2018, R.color.europa_league);
+        competitionColors.put(2018, R.color.euro_cup);
         competitionColors.put(2001, R.color.champions_league);
         competitionColors.put(2015, R.color.ligue_1);
         competitionColors.put(2019, R.color.seria_A_italy);
@@ -28,6 +27,17 @@ public class CompetitionUtils {
 
     public static int getColorResourceId(int competitionId){
         return competitionColors.get(competitionId);
+    }
+
+    public static int getDarkerColor(int color, float factor){
+        int a = Color.alpha(color);
+        int r = Math.round(Color.red(color) * factor);
+        int g = Math.round(Color.green(color) * factor);
+        int b = Math.round(Color.blue(color) * factor);
+        return Color.argb(a,
+                Math.min(r,255),
+                Math.min(g,255),
+                Math.min(b,255));
     }
 
 }

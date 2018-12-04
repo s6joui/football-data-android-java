@@ -75,18 +75,13 @@ public class LiveFootballRepository {
         return fetchTeamById(teamId);
     }
 
-    public LiveData<List<MatchEntity>> getMatchesForCompetition(int competitionId) {
-        return fetchMatches(competitionId);
+    public LiveData<List<MatchEntity>> getMatchesForCompetition(int competitionId,int matchday) {
+        return fetchMatches(competitionId,matchday);
     }
 
-    private LiveData<List<MatchEntity>> fetchMatches(int competitionId) {
+    private LiveData<List<MatchEntity>> fetchMatches(int competitionId, int matchday) {
         MutableLiveData<List<MatchEntity>> matches = new MutableLiveData<>();
-        LocalDate today = LocalDate.now();
-        LocalDate fromDate = today.minusDays(4);
-        LocalDate toDate = today.plusDays(4);
-        String from = fromDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String to = toDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        mApiService.getMatches(competitionId,from,to).enqueue(new Callback<MatchesResponse>() {
+        mApiService.getMatches(competitionId,matchday).enqueue(new Callback<MatchesResponse>() {
             @Override
             public void onResponse(Call<MatchesResponse> call, Response<MatchesResponse> response) {
                 if(response.body()!=null) matches.postValue(response.body().getMatches());

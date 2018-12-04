@@ -47,7 +47,7 @@ public class MatchesFragment extends BaseListFragment implements MatchesAdapter.
         int matchday = getArguments().getInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, 0);
         String competitionName = getArguments().getString(CompetitionActivity.COMPETITION_NAME_EXTRA);
 
-        MatchesViewModelFactory factory = InjectorUtils.provideMatchesViewModelFactory(getActivity().getApplicationContext(),competitionId);
+        MatchesViewModelFactory factory = InjectorUtils.provideMatchesViewModelFactory(getActivity().getApplicationContext(),competitionId,matchday);
         mViewModel = factory.create(MatchesViewModel.class);
 
         MatchesAdapter matchesAdapter = new MatchesAdapter(getActivity(), this);

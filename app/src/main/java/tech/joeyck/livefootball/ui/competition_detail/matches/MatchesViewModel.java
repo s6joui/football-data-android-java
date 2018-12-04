@@ -12,8 +12,8 @@ public class MatchesViewModel extends ViewModel {
 
     private LiveData<List<MatchEntity>> mMatches;
 
-    MatchesViewModel(LiveFootballRepository repository, int competitionId){
-        mMatches = repository.getMatchesForCompetition(competitionId);
+    MatchesViewModel(LiveFootballRepository repository, int competitionId, int matchday){
+        mMatches = repository.getMatchesForCompetition(competitionId,matchday);
     }
 
     LiveData<List<MatchEntity>> getMatches(){

@@ -20,5 +20,5 @@ public interface LiveFootballAPI {
     Call<TeamEntity> getTeamById(@Path("id") int id);
 
     @GET("competitions/{id}/matches")
-    Call<MatchesResponse> getMatches(@Path("id") int id,@Query("dateFrom") String dateFrom,@Query("dateTo") String dateTo);
+    Call<MatchesResponse> getMatches(@Path("id") int id,@Query("matchday") int matchday);
 }

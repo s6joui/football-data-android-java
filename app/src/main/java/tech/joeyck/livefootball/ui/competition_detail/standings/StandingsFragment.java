@@ -73,5 +73,6 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
         teamDetailIntent.putExtra(TeamDetailActivity.TEAM_ID_EXTRA, tableEntryEntity.getTeam().getId());
         teamDetailIntent.putExtra(TeamDetailActivity.TEAM_NAME_EXTRA,tableEntryEntity.getTeam().getName());
         startActivity(teamDetailIntent);
+        if(getActivity() != null)getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 }
