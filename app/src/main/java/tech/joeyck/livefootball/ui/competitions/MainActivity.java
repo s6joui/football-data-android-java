@@ -10,6 +10,7 @@ import android.util.Log;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
+import tech.joeyck.livefootball.utilities.CompetitionUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
 public class MainActivity extends AppCompatActivity implements CompetitionAdapter.CompetitionAdapterOnItemClickHandler {
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements CompetitionAdapte
         competitionDetailIntent.putExtra(CompetitionActivity.COMPETITION_ID_EXTRA, competition.getId());
         competitionDetailIntent.putExtra(CompetitionActivity.COMPETITION_NAME_EXTRA,competition.getName());
         competitionDetailIntent.putExtra(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA,competition.getCurrentSeason().getCurrentMatchday());
+        competitionDetailIntent.putExtra(CompetitionActivity.COMPETITION_COLOR_EXTRA,CompetitionUtils.getColorResourceId(competition.getId()));
         startActivity(competitionDetailIntent);
     }
 }

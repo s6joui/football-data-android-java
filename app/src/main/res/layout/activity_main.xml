@@ -21,6 +21,7 @@
             app:contentScrim="@color/white"
             app:expandedTitleMarginStart="12dp"
             app:expandedTitleMarginBottom="24dp"
+            app:expandedTitleTextAppearance="@style/AppTheme.ExpandedTitleAppearance"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <android.support.v7.widget.Toolbar

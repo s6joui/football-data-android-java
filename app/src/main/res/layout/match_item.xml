@@ -7,8 +7,8 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
-    android:background="@drawable/competition_item_background"
-    android:elevation="2dp"
+    android:background="@drawable/rounded_item_background"
+    android:elevation="1dp"
     android:padding="8dp">
 
     <TextView

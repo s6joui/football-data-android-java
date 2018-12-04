@@ -2,17 +2,18 @@ package tech.joeyck.livefootball.ui.competitions;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
+import tech.joeyck.livefootball.utilities.CompetitionUtils;
 
 public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.CompetitionAdapterViewHolder> {
 
@@ -67,15 +68,16 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.
      * details for this particular position, using the "position" argument that is conveniently
      * passed into us.
      *
-     * @param CompetitionAdapterViewHolder The ViewHolder which should be updated to represent the
+     * @param viewHolder The ViewHolder which should be updated to represent the
      *                                  contents of the item at the given position in the data set.
      * @param position                  The position of the item within the adapter's data set.
      */
     @Override
-    public void onBindViewHolder(CompetitionAdapterViewHolder CompetitionAdapterViewHolder, int position) {
+    public void onBindViewHolder(CompetitionAdapterViewHolder viewHolder, int position) {
         CompetitionEntity currentCompetition = mCompetitions.get(position);
-        CompetitionAdapterViewHolder.textView.setText(currentCompetition.getName());
-        CompetitionAdapterViewHolder.countryTextView.setText(currentCompetition.getArea().getName());
+        viewHolder.textView.setText(currentCompetition.getName());
+        viewHolder.countryTextView.setText(currentCompetition.getArea().getName());
+        viewHolder.cardView.setCardBackgroundColor(mContext.getResources().getColor(CompetitionUtils.getColorResourceId(currentCompetition.getId())));
     }
 
     /**
@@ -116,12 +118,14 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.
      */
     class CompetitionAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        final CardView cardView;
         final TextView textView;
         final TextView countryTextView;
 
         CompetitionAdapterViewHolder(View view) {
             super(view);
 
+            cardView = (CardView) view;
             textView = view.findViewById(R.id.competition_name);
             countryTextView = view.findViewById(R.id.competition_country);
 
