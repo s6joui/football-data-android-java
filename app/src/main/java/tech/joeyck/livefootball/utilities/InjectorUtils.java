@@ -43,7 +43,7 @@ public class InjectorUtils {
 
     public static LiveFootballRepository provideRepository(Context context) {
         AppExecutors executors = AppExecutors.getInstance();
-        LiveFootballAPI service = buildRetrofit(context).create(LiveFootballAPI.class);
+        LiveFootballAPI service = NetworkUtils.buildRetrofit(context).create(LiveFootballAPI.class);
         return LiveFootballRepository.getInstance(service,executors);
     }
 
@@ -69,39 +69,6 @@ public class InjectorUtils {
 
     public static CompetitionViewModelFactory provideCompetitionViewModelFactory(Context context, int competitionId, String competitionName, int matchday){
         return new CompetitionViewModelFactory(competitionId,competitionName,matchday);
-    }
-
-    private static final Retrofit buildRetrofit(Context context){
-        long cacheSize = (5 * 1024 * 1024);
-        Cache myCache = new Cache(context.getCacheDir(), cacheSize);
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.cache(myCache);
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
-                if(NetworkUtils.hasNetwork(context)){
-                    request = request.newBuilder().header("Cache-Control","public, max-age="+50).build();
-                }else{
-                    request = request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build();
-                }
-                return chain.proceed(request);
-            }
-        });
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder().addHeader("X-Auth-Token", LiveFootballRepository.API_KEY).build();
-                return chain.proceed(request);
-            }
-        });
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.football-data.org/v2/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient.build())
-                .build();
-        return retrofit;
     }
 
 }

@@ -63,11 +63,7 @@ public class MatchesFragment extends BaseListFragment implements MatchesAdapter.
 
         //If we get a team Id we get matches for the team, if not we get matches from the competition
         if(teamId > 0 ){
-            mViewModel.getMatchesForTeam().observe(this, matchEntities -> {
-                List<MatchEntity> shallowCopy = matchEntities.subList(0, matchEntities.size());
-                Collections.reverse(shallowCopy);
-                bindMatchesToUI(shallowCopy);
-            });
+            mViewModel.getMatchesForTeam().observe(this, this::bindMatchesToUI);
         }else{
             mViewModel.getMatches().observe(this, this::bindMatchesToUI);
         }

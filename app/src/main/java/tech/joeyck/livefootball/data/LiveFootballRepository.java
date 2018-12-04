@@ -8,6 +8,7 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -93,7 +94,13 @@ public class LiveFootballRepository {
         mApiService.getMatchesForTeam(teamId,fromDate,toDate).enqueue(new Callback<MatchesResponse>() {
             @Override
             public void onResponse(Call<MatchesResponse> call, Response<MatchesResponse> response) {
-                if(response.body()!=null) matches.postValue(response.body().getMatches());
+                if(response.body()!=null){
+                    //We reverse the list to show newer entries on top
+                    List<MatchEntity> matchList = response.body().getMatches();
+                    List<MatchEntity> revresedList = matchList.subList(0, matchList.size());
+                    Collections.reverse(revresedList);
+                    matches.postValue(revresedList);
+                }
             }
 
             @Override
