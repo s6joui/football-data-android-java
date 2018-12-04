@@ -1,12 +1,16 @@
 package tech.joeyck.livefootball.utilities;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.util.SparseIntArray;
 
 import tech.joeyck.livefootball.R;
+import tech.joeyck.livefootball.data.database.TeamEntity;
 
-public class CompetitionUtils {
-    
+public class ColorUtils {
+
+    private static final String LOG_TAG = ColorUtils.class.getSimpleName();
+
     private static final SparseIntArray competitionColors;
     static
     {

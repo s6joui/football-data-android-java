@@ -29,7 +29,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import tech.joeyck.livefootball.AppExecutors;
 import tech.joeyck.livefootball.data.LiveFootballRepository;
-import tech.joeyck.livefootball.data.database.LiveFootballAPI;
+import tech.joeyck.livefootball.data.network.LiveFootballAPI;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModelFactory;
 import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsViewModelFactory;
 import tech.joeyck.livefootball.ui.competitions.MainViewModelFactory;
@@ -62,9 +62,9 @@ public class InjectorUtils {
         return new TeamDetailViewModelFactory(repository,teamId);
     }
 
-    public static MatchesViewModelFactory provideMatchesViewModelFactory(Context context, int competitionId, int matchday) {
+    public static MatchesViewModelFactory provideMatchesViewModelFactory(Context context, int competitionId, int matchday, int teamId) {
         LiveFootballRepository repository = provideRepository(context.getApplicationContext());
-        return new MatchesViewModelFactory(repository,competitionId, matchday);
+        return new MatchesViewModelFactory(repository,competitionId, matchday,teamId);
     }
 
     public static CompetitionViewModelFactory provideCompetitionViewModelFactory(Context context, int competitionId, String competitionName, int matchday){

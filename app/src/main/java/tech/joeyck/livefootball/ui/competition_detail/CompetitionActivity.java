@@ -17,7 +17,7 @@ import android.view.WindowManager;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
 import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsFragment;
-import tech.joeyck.livefootball.utilities.CompetitionUtils;
+import tech.joeyck.livefootball.utilities.ColorUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
 public class CompetitionActivity extends AppCompatActivity {
@@ -97,7 +97,7 @@ public class CompetitionActivity extends AppCompatActivity {
     private void setThemeColor(int colorResourceId){
         int mainColor = getResources().getColor(colorResourceId);
         int transWhite = getResources().getColor(R.color.translucent_white);
-        int darkerColor = CompetitionUtils.getDarkerColor(mainColor,0.75f);
+        int darkerColor = ColorUtils.getDarkerColor(mainColor,0.75f);
         if(getSupportActionBar()!=null) getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mainColor));
 
         int[][] states = new int[][] {

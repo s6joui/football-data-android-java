@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
-import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import retrofit2.Response;
 import tech.joeyck.livefootball.AppExecutors;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.data.database.CompetitionResponse;
-import tech.joeyck.livefootball.data.database.LiveFootballAPI;
+import tech.joeyck.livefootball.data.network.LiveFootballAPI;
 import tech.joeyck.livefootball.data.database.MatchEntity;
 import tech.joeyck.livefootball.data.database.MatchesResponse;
 import tech.joeyck.livefootball.data.database.StagesEntity;
@@ -77,6 +77,31 @@ public class LiveFootballRepository {
 
     public LiveData<List<MatchEntity>> getMatchesForCompetition(int competitionId,int matchday) {
         return fetchMatches(competitionId,matchday);
+    }
+
+    public LiveData<List<MatchEntity>> getMatchesForTeam(int teamId) {
+        return fetchMatchesForTeam(teamId);
+    }
+
+    private LiveData<List<MatchEntity>> fetchMatchesForTeam(int teamId) {
+        MutableLiveData<List<MatchEntity>> matches = new MutableLiveData<>();
+        LocalDateTime to = LocalDateTime.now();
+        LocalDateTime from = to.minusMonths(3);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String fromDate = from.format(formatter);
+        String toDate = to.format(formatter);
+        mApiService.getMatchesForTeam(teamId,fromDate,toDate).enqueue(new Callback<MatchesResponse>() {
+            @Override
+            public void onResponse(Call<MatchesResponse> call, Response<MatchesResponse> response) {
+                if(response.body()!=null) matches.postValue(response.body().getMatches());
+            }
+
+            @Override
+            public void onFailure(Call<MatchesResponse> call, Throwable t) {
+                Log.e(LOG_TAG,t.getMessage());
+            }
+        });
+        return matches;
     }
 
     private LiveData<List<MatchEntity>> fetchMatches(int competitionId, int matchday) {

@@ -10,14 +10,29 @@ import tech.joeyck.livefootball.data.database.MatchEntity;
 
 public class MatchesViewModel extends ViewModel {
 
-    private LiveData<List<MatchEntity>> mMatches;
+    private LiveFootballRepository mRepository;
+    private int mCompetitionId;
+    private int mMatchday;
+    private int mTeamId;
 
-    MatchesViewModel(LiveFootballRepository repository, int competitionId, int matchday){
-        mMatches = repository.getMatchesForCompetition(competitionId,matchday);
+    MatchesViewModel(LiveFootballRepository repository, int competitionId, int matchday, int teamId){
+        this.mRepository = repository;
+        this.mCompetitionId = competitionId;
+        this.mMatchday = matchday;
+        this.mTeamId = teamId;
+    }
+
+    MatchesViewModel(LiveFootballRepository repository, int teamId){
+        this.mRepository = repository;
+        this.mTeamId = teamId;
     }
 
     LiveData<List<MatchEntity>> getMatches(){
-        return mMatches;
+        return mRepository.getMatchesForCompetition(mCompetitionId,mMatchday);
+    }
+
+    LiveData<List<MatchEntity>> getMatchesForTeam(){
+        return mRepository.getMatchesForTeam(mTeamId);
     }
 
 }

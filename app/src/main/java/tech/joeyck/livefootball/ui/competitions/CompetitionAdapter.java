@@ -13,7 +13,7 @@ import java.util.List;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
-import tech.joeyck.livefootball.utilities.CompetitionUtils;
+import tech.joeyck.livefootball.utilities.ColorUtils;
 
 public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.CompetitionAdapterViewHolder> {
 
@@ -77,7 +77,7 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.
         CompetitionEntity currentCompetition = mCompetitions.get(position);
         viewHolder.textView.setText(currentCompetition.getName());
         viewHolder.countryTextView.setText(currentCompetition.getArea().getName());
-        viewHolder.cardView.setCardBackgroundColor(mContext.getResources().getColor(CompetitionUtils.getColorResourceId(currentCompetition.getId())));
+        viewHolder.cardView.setCardBackgroundColor(mContext.getResources().getColor(ColorUtils.getColorResourceId(currentCompetition.getId())));
     }
 
     /**

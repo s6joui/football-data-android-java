@@ -2,6 +2,9 @@ package tech.joeyck.livefootball.ui.team_detail;
 
 import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +16,8 @@ import com.bumptech.glide.request.RequestOptions;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.TeamEntity;
 import tech.joeyck.livefootball.databinding.ActivityTeamDetailBinding;
+import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
+import tech.joeyck.livefootball.utilities.ColorUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 
@@ -30,10 +35,10 @@ public class TeamDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_team_detail);
 
-        int id = getIntent().getIntExtra(TEAM_ID_EXTRA, -1);
+        int teamId = getIntent().getIntExtra(TEAM_ID_EXTRA, -1);
         String teamName = getIntent().getStringExtra(TEAM_NAME_EXTRA);
 
-        TeamDetailViewModelFactory factory = InjectorUtils.provideTeamDetailViewModelFactory(this.getApplicationContext(),id);
+        TeamDetailViewModelFactory factory = InjectorUtils.provideTeamDetailViewModelFactory(this.getApplicationContext(),teamId);
         mViewModel = factory.create(TeamDetailViewModel.class);
 
         setTitle(teamName);
@@ -48,6 +53,8 @@ public class TeamDetailActivity extends AppCompatActivity {
             if(teamEntity!=null) bindTeamToUi(teamEntity,glideRequestOptions);
         });
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container,MatchesFragment.newInstance(teamId),MatchesFragment.FRAGMENT_TAG).commit();
     }
 
     private void bindTeamToUi(TeamEntity teamEntity, RequestOptions glideRequestOptions) {
