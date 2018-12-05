@@ -4,19 +4,20 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import tech.joeyck.livefootball.data.LiveFootballRepository;
-import tech.joeyck.livefootball.data.database.CompetitionResponse;
 import tech.joeyck.livefootball.data.database.StandingsResponse;
 import tech.joeyck.livefootball.data.network.ApiResponse;
 
 public class StandingsViewModel extends ViewModel {
 
-    private LiveData<ApiResponse<StandingsResponse>> mTableItems;
+    private LiveFootballRepository mRepository;
+    private int mCompetitionId;
 
-    StandingsViewModel(LiveFootballRepository repository, int id){
-        mTableItems = repository.getCompetitionStandings(id);
+    StandingsViewModel(LiveFootballRepository repository, int competitionId){
+        mRepository = repository;
+        mCompetitionId = competitionId;
     }
 
     public LiveData<ApiResponse<StandingsResponse>> getTableItems() {
-        return mTableItems;
+        return mRepository.getCompetitionStandings(mCompetitionId);
     }
 }

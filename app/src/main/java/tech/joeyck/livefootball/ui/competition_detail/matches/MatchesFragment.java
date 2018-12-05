@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Collections;
 import java.util.List;
 
 import tech.joeyck.livefootball.R;
@@ -24,9 +23,14 @@ public class MatchesFragment extends BaseListFragment implements MatchesAdapter.
     public static final String FRAGMENT_TAG = "MatchesFragment";
     public static final String TEAM_ID_EXTRA = "TEAM_ID_EXTRA";
 
+    private static final int TYPE_TEAM_MATCHES = 22;
+    private static final int TYPE_COMPETITION_MATCHES = 23;
+
     private RecyclerView mRecyclerView;
     private MatchesViewModel mViewModel;
     private MatchesAdapter mMatchesAdapter;
+
+    private int mMatchRequestType = TYPE_COMPETITION_MATCHES;
 
     public static MatchesFragment newInstance(int teamId){
         MatchesFragment fragment = new MatchesFragment();
@@ -53,6 +57,8 @@ public class MatchesFragment extends BaseListFragment implements MatchesAdapter.
         int matchday = getArguments().getInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, -1);
         int teamId = getArguments().getInt(TEAM_ID_EXTRA,-1);
 
+        mMatchRequestType = teamId > 0 ? TYPE_TEAM_MATCHES : TYPE_COMPETITION_MATCHES;
+
         View view = super.onCreateView(inflater,container,savedInstanceState,false,teamId > 0);
 
         MatchesViewModelFactory factory = InjectorUtils.provideMatchesViewModelFactory(getActivity().getApplicationContext(),competitionId,matchday,teamId);
@@ -61,14 +67,19 @@ public class MatchesFragment extends BaseListFragment implements MatchesAdapter.
         mMatchesAdapter = new MatchesAdapter(getActivity(), this);
         setAdapter(mMatchesAdapter);
 
-        //If we get a team Id we get matches for the team, if not we get matches from the competition
-        if(teamId > 0 ){
+        onDataRequest();
+
+        return view;
+    }
+
+    @Override
+    public void onDataRequest() {
+        super.onDataRequest();
+        if(mMatchRequestType == TYPE_TEAM_MATCHES){
             mViewModel.getMatchesForTeam().observe(this, responseObserver);
         }else{
             mViewModel.getMatchesForCompetition().observe(this, responseObserver);
         }
-        showLoading();
-        return view;
     }
 
     private ApiResponseObserver<MatchesResponse> responseObserver = new ApiResponseObserver<MatchesResponse>(new ApiResponseObserver.ChangeListener<MatchesResponse>() {
@@ -79,7 +90,7 @@ public class MatchesFragment extends BaseListFragment implements MatchesAdapter.
         @Override
         public void onException(String errorMessage) {
             hideLoading();
-            showError(errorMessage);
+            showError(R.string.no_connection);
         }
     });
 

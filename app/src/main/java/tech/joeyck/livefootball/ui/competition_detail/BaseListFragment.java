@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import tech.joeyck.livefootball.R;
@@ -22,8 +24,9 @@ public class BaseListFragment extends Fragment{
 
     public RecyclerView mRecyclerView;
     private ImageView mLoaderImageView;
+    private LinearLayout mErrorLayout;
     private TextView mErrorText;
-    private ImageView mErrorImageView;
+    private ImageButton mErrorImageButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,8 +37,16 @@ public class BaseListFragment extends Fragment{
         View view = inflater.inflate(R.layout.layout_recyclerview, container, false);
         mRecyclerView = view.findViewById(R.id.table_recyclerview);
         mLoaderImageView = view.findViewById(R.id.loading_animation);
-        mErrorImageView = view.findViewById(R.id.error_image);
+        mErrorLayout = view.findViewById(R.id.error_layout);
+        mErrorImageButton = view.findViewById(R.id.retry_button);
         mErrorText = view.findViewById(R.id.error_text);
+
+        mErrorImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onDataRequest();
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         if(reverseOrder){
@@ -54,25 +65,26 @@ public class BaseListFragment extends Fragment{
         return view;
     }
 
+    public void onDataRequest(){
+        hideError();
+        showLoading();
+    };
+
     public void setAdapter(RecyclerView.Adapter adapter){
         mRecyclerView.setAdapter(adapter);
     }
 
-    public void showError(int resId){
-        mErrorText.setText(resId);
-        mErrorImageView.setVisibility(View.VISIBLE);
-        mErrorText.setVisibility(View.VISIBLE);
+    public RecyclerView.Adapter getAdapter(){
+        return mRecyclerView.getAdapter();
     }
 
-    public void showError(String error){
-        mErrorText.setText(error);
-        mErrorImageView.setVisibility(View.VISIBLE);
-        mErrorText.setVisibility(View.VISIBLE);
+    public void showError(int resId){
+        mErrorText.setText(resId);
+        mErrorLayout.setVisibility(View.VISIBLE);
     }
 
     public void hideError(){
-        mErrorImageView.setVisibility(View.GONE);
-        mErrorText.setVisibility(View.GONE);
+        mErrorLayout.setVisibility(View.GONE);
     }
 
     public void showLoading(){

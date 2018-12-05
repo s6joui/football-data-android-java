@@ -57,10 +57,8 @@ public class TeamDetailActivity extends AppCompatActivity {
             public void onSuccess(TeamEntity teamEntity) {
                 bindTeamToUi(teamEntity,glideRequestOptions);
             }
-
             @Override
             public void onException(String errorMessage) {
-                Toast.makeText(TeamDetailActivity.this,errorMessage,Toast.LENGTH_SHORT).show();
             }
         }));
 

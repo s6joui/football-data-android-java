@@ -4,10 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,8 +47,6 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater,container,savedInstanceState,true,false);
 
-        showLoading();
-
         int competitionId = getArguments().getInt(CompetitionActivity.COMPETITION_ID_EXTRA, 0);
         int matchday = getArguments().getInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, 0);
         String competitionName = getArguments().getString(CompetitionActivity.COMPETITION_NAME_EXTRA);
@@ -63,12 +57,20 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
         CompetitionTableAdapter tableAdapter = new CompetitionTableAdapter(getActivity(), this);
         setAdapter(tableAdapter);
 
+        onDataRequest();
+
+        return view;
+    }
+
+    @Override
+    public void onDataRequest() {
+        super.onDataRequest();
         mViewModel.getTableItems().observe(this,new ApiResponseObserver<StandingsResponse>(new ApiResponseObserver.ChangeListener<StandingsResponse>() {
             @Override
             public void onSuccess(StandingsResponse responseBody) {
                 List<CompetitionTableItem> tableItems = formatTableData(responseBody.getStages());
                 if(tableItems != null && tableItems.size() != 0){
-                    tableAdapter.swapTable(tableItems);
+                    ((CompetitionTableAdapter)getAdapter()).swapTable(tableItems);
                     hideLoading();
                 }else{
                     showError(R.string.not_found);
@@ -77,11 +79,9 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
             @Override
             public void onException(String errorMessage) {
                 hideLoading();
-                showError(errorMessage);
+                showError(R.string.no_connection);
             }
         }));
-
-        return view;
     }
 
     @Override

@@ -49,4 +49,12 @@
         android:focusableInTouchMode="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+    <include
+        android:id="@+id/error_layout"
+        layout="@layout/error_layout"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </android.support.design.widget.CoordinatorLayout>
