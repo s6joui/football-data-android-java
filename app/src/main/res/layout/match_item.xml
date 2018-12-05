@@ -64,7 +64,7 @@
         android:layout_marginEnd="8dp"
         android:text="LIVE"
         android:textAllCaps="true"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/green"
         android:textSize="10sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/home_name_text"

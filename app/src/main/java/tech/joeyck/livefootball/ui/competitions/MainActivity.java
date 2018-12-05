@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements CompetitionAdapte
             }
             @Override
             public void onException(String errorMessage) {
-                Toast.makeText(MainActivity.this,errorMessage,Toast.LENGTH_SHORT).show();
+
             }
         }));
     }

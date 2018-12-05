@@ -14,4 +14,5 @@
     <string name="not_found">Sorry, we couldn\'t find this information</string>
     <string name="no_recent_matches">There are no recent matches</string>
     <string name="no_connection">Something went wrong...\nPlease try again</string>
+    <string name="offline">No connection. Information may be outdated</string>
 </resources>

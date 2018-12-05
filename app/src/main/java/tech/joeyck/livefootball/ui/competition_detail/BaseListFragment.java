@@ -17,16 +17,15 @@ import android.widget.TextView;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.utilities.AnimationUtils;
+import tech.joeyck.livefootball.utilities.NetworkUtils;
 
 public class BaseListFragment extends Fragment{
-
-    private static final String LOG_TAG = BaseListFragment.class.getSimpleName();
 
     public RecyclerView mRecyclerView;
     private ImageView mLoaderImageView;
     private LinearLayout mErrorLayout;
     private TextView mErrorText;
-    private ImageButton mErrorImageButton;
+    private TextView mOfflineText;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,10 +37,11 @@ public class BaseListFragment extends Fragment{
         mRecyclerView = view.findViewById(R.id.table_recyclerview);
         mLoaderImageView = view.findViewById(R.id.loading_animation);
         mErrorLayout = view.findViewById(R.id.error_layout);
-        mErrorImageButton = view.findViewById(R.id.retry_button);
         mErrorText = view.findViewById(R.id.error_text);
+        mOfflineText = view.findViewById(R.id.offline_text);
 
-        mErrorImageButton.setOnClickListener(new View.OnClickListener() {
+        ImageButton errorImageButton = view.findViewById(R.id.retry_button);
+        errorImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onDataRequest();
@@ -61,13 +61,18 @@ public class BaseListFragment extends Fragment{
         }
 
         mRecyclerView.setHasFixedSize(true);
-
         return view;
     }
 
     public void onDataRequest(){
         hideError();
         showLoading();
+
+        if(!NetworkUtils.hasNetwork(getContext())){
+            mOfflineText.setVisibility(View.VISIBLE);
+        }else{
+            mOfflineText.setVisibility(View.GONE);
+        }
     };
 
     public void setAdapter(RecyclerView.Adapter adapter){

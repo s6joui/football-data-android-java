@@ -35,7 +35,7 @@ public class NetworkUtils {
         return COVER_IMAGE_URL+TextUtils.join(",",query.toLowerCase().split(" "));
     }
 
-    private static boolean hasNetwork(Context context) {
+    public static boolean hasNetwork(Context context) {
         boolean isConnected = false; // Initial Value
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
