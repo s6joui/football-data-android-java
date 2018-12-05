@@ -6,6 +6,7 @@ import android.util.Log;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 import tech.joeyck.livefootball.AppExecutors;
+import tech.joeyck.livefootball.BuildConfig;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.data.database.CompetitionResponse;
 import tech.joeyck.livefootball.data.network.ApiResponse;
@@ -17,7 +18,7 @@ import tech.joeyck.livefootball.data.database.TeamEntity;
 public class LiveFootballRepository {
 
     private static final String LOG_TAG = LiveFootballRepository.class.getSimpleName();
-    public static final String API_KEY = "football_data_org_api_key";
+    public static final String API_KEY = BuildConfig.ApiKey;
 
     // For Singleton instantiation
     private static final Object LOCK = new Object();

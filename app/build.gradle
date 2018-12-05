@@ -11,7 +11,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField 'String', "ApiKey", FootballDataOrg_ApiKey
+            resValue 'string', "api_key", FootballDataOrg_ApiKey
+        }
         release {
+            buildConfigField 'String', "ApiKey", FootballDataOrg_ApiKey
+            resValue 'string', "api_key", FootballDataOrg_ApiKey
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
