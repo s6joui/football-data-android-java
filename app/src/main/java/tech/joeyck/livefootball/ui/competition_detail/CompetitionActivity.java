@@ -14,9 +14,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.mikepenz.aboutlibraries.util.Colors;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
@@ -115,7 +121,7 @@ public class CompetitionActivity extends AppCompatActivity {
     }
 
     private void setThemeColor(int colorResourceId){
-        int mainColor = getResources().getColor(colorResourceId);
+        int mainColor = getResources().getColor(colorResourceId)| 0xFF000000;
         int transWhite = getResources().getColor(R.color.translucent_white);
         int darkerColor = ColorUtils.getDarkerColor(mainColor,0.75f);
         if(getSupportActionBar()!=null) getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mainColor));
@@ -151,10 +157,27 @@ public class CompetitionActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar,menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case android.R.id.home:
                 showCompetitionPicker();
+                return true;
+            case R.id.about:
+                int themeColor =getResources().getColor(mViewModel.getThemeColor());
+                Colors activityColor = new Colors(themeColor,ColorUtils.getDarkerColor(themeColor,0.75f));
+                new LibsBuilder()
+                        .withActivityColor(activityColor)
+                        .withAboutAppName(getString(R.string.app_name))
+                        .withActivityTitle(getString(R.string.title_about))
+                        .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                        .start(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
