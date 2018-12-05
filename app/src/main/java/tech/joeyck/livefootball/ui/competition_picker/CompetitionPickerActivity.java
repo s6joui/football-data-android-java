@@ -70,19 +70,16 @@ public class CompetitionPickerActivity extends AppCompatActivity implements Comp
     }
 
     public void onDataRequest(){
-        mLoaderImageView.setVisibility(View.VISIBLE);
         AnimationUtils.loopAnimation(mLoaderImageView);
         mViewModel.getCompetitions().observe(this, new ApiResponseObserver<CompetitionResponse>(new ApiResponseObserver.ChangeListener<CompetitionResponse>() {
             @Override
             public void onSuccess(CompetitionResponse responseBody) {
                 mCompetitionAdapter.swapCompetitions(responseBody.getCompetitions());
                 AnimationUtils.stopAnimation(mLoaderImageView);
-                mLoaderImageView.setVisibility(View.INVISIBLE);
             }
             @Override
             public void onException(String errorMessage) {
                 AnimationUtils.stopAnimation(mLoaderImageView);
-                mLoaderImageView.setVisibility(View.INVISIBLE);
                 mErrorLayout.setVisibility(ImageView.VISIBLE);
             }
         }));

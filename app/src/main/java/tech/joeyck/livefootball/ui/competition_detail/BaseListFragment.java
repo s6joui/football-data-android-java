@@ -103,12 +103,10 @@ public class BaseListFragment extends Fragment{
 
     public void showLoading(){
         mSwipeRefresh.setRefreshing(false);
-        mLoaderImageView.setVisibility(View.VISIBLE);
         AnimationUtils.loopAnimation(mLoaderImageView);
     }
 
     public void hideLoading(){
-        mLoaderImageView.setVisibility(View.GONE);
         AnimationUtils.stopAnimation(mLoaderImageView);
     }
 
