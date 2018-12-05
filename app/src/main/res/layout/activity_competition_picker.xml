@@ -57,4 +57,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <ImageView
+        android:id="@+id/loading_animation"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ball_anim" />
+
 </android.support.design.widget.CoordinatorLayout>

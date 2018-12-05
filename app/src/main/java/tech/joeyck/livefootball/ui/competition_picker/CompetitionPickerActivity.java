@@ -9,12 +9,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.data.database.CompetitionResponse;
 import tech.joeyck.livefootball.data.network.ApiResponseObserver;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
+import tech.joeyck.livefootball.utilities.AnimationUtils;
 import tech.joeyck.livefootball.utilities.ColorUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
@@ -25,12 +30,16 @@ public class CompetitionPickerActivity extends AppCompatActivity implements Comp
     private CompetitionPickerViewModel mViewModel;
     private RecyclerView mRecyclerView;
     private CompetitionAdapter mCompetitionAdapter;
+    private ImageView mLoaderImageView;
+    private LinearLayout mErrorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_competition_picker);
         mRecyclerView = findViewById(R.id.competition_recyclerview);
+        mErrorLayout = findViewById(R.id.error_layout);
+        mLoaderImageView = findViewById(R.id.loading_animation);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -43,20 +52,37 @@ public class CompetitionPickerActivity extends AppCompatActivity implements Comp
         CompetitionPickerViewModelFactory factory = InjectorUtils.provideMainViewModelFactory(this.getApplicationContext());
         mViewModel = factory.create(CompetitionPickerViewModel.class);
 
-        mViewModel.getCompetitions().observe(this, new ApiResponseObserver<CompetitionResponse>(new ApiResponseObserver.ChangeListener<CompetitionResponse>() {
+        ImageButton errorImageButton = findViewById(R.id.retry_button);
+        errorImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(CompetitionResponse responseBody) {
-                mCompetitionAdapter.swapCompetitions(responseBody.getCompetitions());
+            public void onClick(View view) {
+                onDataRequest();
             }
-            @Override
-            public void onException(String errorMessage) {
+        });
 
-            }
-        }));
+        onDataRequest();
 
         //Customize task manager entry
         ActivityManager.TaskDescription td = new ActivityManager.TaskDescription(getString(R.string.title_competitions), null,Color.WHITE);
         setTaskDescription(td);
+    }
+
+    public void onDataRequest(){
+        AnimationUtils.loopAnimation(mLoaderImageView);
+        mViewModel.getCompetitions().observe(this, new ApiResponseObserver<CompetitionResponse>(new ApiResponseObserver.ChangeListener<CompetitionResponse>() {
+            @Override
+            public void onSuccess(CompetitionResponse responseBody) {
+                mCompetitionAdapter.swapCompetitions(responseBody.getCompetitions());
+                AnimationUtils.stopAnimation(mLoaderImageView);
+                mLoaderImageView.setVisibility(View.INVISIBLE);
+            }
+            @Override
+            public void onException(String errorMessage) {
+                AnimationUtils.stopAnimation(mLoaderImageView);
+                mLoaderImageView.setVisibility(View.INVISIBLE);
+                mErrorLayout.setVisibility(ImageView.VISIBLE);
+            }
+        }));
     }
 
     @Override

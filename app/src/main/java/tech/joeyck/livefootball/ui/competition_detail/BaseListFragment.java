@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ public class BaseListFragment extends Fragment{
     private LinearLayout mErrorLayout;
     private TextView mErrorText;
     private TextView mOfflineText;
+    private SwipeRefreshLayout mSwipeRefresh;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,11 +41,18 @@ public class BaseListFragment extends Fragment{
         mErrorLayout = view.findViewById(R.id.error_layout);
         mErrorText = view.findViewById(R.id.error_text);
         mOfflineText = view.findViewById(R.id.offline_text);
+        mSwipeRefresh = view.findViewById(R.id.swiperefresh);
 
         ImageButton errorImageButton = view.findViewById(R.id.retry_button);
         errorImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onDataRequest();
+            }
+        });
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
                 onDataRequest();
             }
         });
@@ -93,6 +102,7 @@ public class BaseListFragment extends Fragment{
     }
 
     public void showLoading(){
+        mSwipeRefresh.setRefreshing(false);
         mLoaderImageView.setVisibility(View.VISIBLE);
         AnimationUtils.loopAnimation(mLoaderImageView);
     }
