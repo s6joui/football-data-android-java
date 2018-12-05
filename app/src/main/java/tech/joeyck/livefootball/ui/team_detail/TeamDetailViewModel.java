@@ -5,16 +5,17 @@ import android.arch.lifecycle.ViewModel;
 
 import tech.joeyck.livefootball.data.LiveFootballRepository;
 import tech.joeyck.livefootball.data.database.TeamEntity;
+import tech.joeyck.livefootball.data.network.ApiResponse;
 
 public class TeamDetailViewModel extends ViewModel {
 
-    private LiveData<TeamEntity> mTeam;
+    private LiveData<ApiResponse<TeamEntity>> mTeam;
 
     TeamDetailViewModel(LiveFootballRepository repository, int id){
         mTeam = repository.getTeamById(id);
     }
 
-    LiveData<TeamEntity> getTeam(){
+    LiveData<ApiResponse<TeamEntity>> getTeam(){
         return mTeam;
     }
 

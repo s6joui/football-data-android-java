@@ -1,5 +1,7 @@
 package tech.joeyck.livefootball.data.network;
 
+import android.arch.lifecycle.LiveData;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -13,21 +15,21 @@ import tech.joeyck.livefootball.data.database.TeamEntity;
 public interface LiveFootballAPI {
 
     @GET("competitions?plan=TIER_ONE")
-    Call<CompetitionResponse> getCompetitions();
+    LiveData<ApiResponse<CompetitionResponse>> getCompetitions();
 
     @GET("competitions/{id}")
-    Call<CompetitionEntity> getCompetitionById(@Path("id") int id);
+    LiveData<ApiResponse<CompetitionEntity>> getCompetitionById(@Path("id") int id);
 
     @GET("competitions/{id}/standings")
-    Call<StandingsResponse> getCompetitionStandings(@Path("id") int id);
+    LiveData<ApiResponse<StandingsResponse>> getCompetitionStandings(@Path("id") int id);
 
     @GET("teams/{id}")
-    Call<TeamEntity> getTeamById(@Path("id") int id);
+    LiveData<ApiResponse<TeamEntity>> getTeamById(@Path("id") int id);
 
     @GET("competitions/{id}/matches")
-    Call<MatchesResponse> getMatches(@Path("id") int id, @Query("matchday") int matchday);
+    LiveData<ApiResponse<MatchesResponse>> getMatchesForCompetition(@Path("id") int competitionId, @Query("matchday") int matchday);
 
     @GET("teams/{id}/matches")
-    Call<MatchesResponse> getMatchesForTeam(@Path("id") int teamId, @Query("dateFrom") String dateFrom,@Query("dateTo") String dateTo);
+    LiveData<ApiResponse<MatchesResponse>> getMatchesForTeam(@Path("id") int teamId, @Query("dateFrom") String dateFrom,@Query("dateTo") String dateTo);
 
 }

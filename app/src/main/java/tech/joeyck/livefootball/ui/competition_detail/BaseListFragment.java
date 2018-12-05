@@ -27,10 +27,10 @@ public class BaseListFragment extends Fragment{
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return onCreateView(inflater,container,savedInstanceState,false);
+        return onCreateView(inflater,container,savedInstanceState,false,false);
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState, boolean showItemDivider) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState, boolean showItemDivider, boolean reverseOrder) {
         View view = inflater.inflate(R.layout.layout_recyclerview, container, false);
         mRecyclerView = view.findViewById(R.id.table_recyclerview);
         mLoaderImageView = view.findViewById(R.id.loading_animation);
@@ -38,6 +38,10 @@ public class BaseListFragment extends Fragment{
         mErrorText = view.findViewById(R.id.error_text);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        if(reverseOrder){
+            layoutManager.setReverseLayout(true);
+            layoutManager.setStackFromEnd(true);
+        }
         mRecyclerView.setLayoutManager(layoutManager);
 
         if(showItemDivider){
@@ -60,6 +64,11 @@ public class BaseListFragment extends Fragment{
         mErrorText.setVisibility(View.VISIBLE);
     }
 
+    public void showError(String error){
+        mErrorText.setText(error);
+        mErrorImageView.setVisibility(View.VISIBLE);
+        mErrorText.setVisibility(View.VISIBLE);
+    }
 
     public void hideError(){
         mErrorImageView.setVisibility(View.GONE);

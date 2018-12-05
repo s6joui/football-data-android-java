@@ -17,6 +17,7 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import tech.joeyck.livefootball.data.LiveFootballRepository;
+import tech.joeyck.livefootball.data.network.LiveDataCallAdapterFactory;
 
 public class NetworkUtils {
 
@@ -65,6 +66,7 @@ public class NetworkUtils {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.football-data.org/v2/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .client(httpClient.build())
                 .build();
         return retrofit;

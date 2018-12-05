@@ -13,11 +13,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import tech.joeyck.livefootball.R;
+import tech.joeyck.livefootball.data.database.StagesEntity;
+import tech.joeyck.livefootball.data.database.StandingsResponse;
 import tech.joeyck.livefootball.data.database.TableEntryEntity;
+import tech.joeyck.livefootball.data.network.ApiResponseObserver;
 import tech.joeyck.livefootball.ui.competition_detail.BaseListFragment;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
 import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.CompetitionTableAdapter;
+import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.CompetitionTableItem;
+import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.HeaderItem;
+import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.TeamItem;
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailActivity;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
@@ -40,7 +49,7 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater,container,savedInstanceState,true);
+        View view = super.onCreateView(inflater,container,savedInstanceState,true,false);
 
         showLoading();
 
@@ -54,14 +63,23 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
         CompetitionTableAdapter tableAdapter = new CompetitionTableAdapter(getActivity(), this);
         setAdapter(tableAdapter);
 
-        mViewModel.getTableItems().observe(this,tableItems -> {
-            if(tableItems != null && tableItems.size() != 0){
-                tableAdapter.swapTable(tableItems);
-                hideLoading();
-            }else{
-                showError(R.string.not_found);
+        mViewModel.getTableItems().observe(this,new ApiResponseObserver<StandingsResponse>(new ApiResponseObserver.ChangeListener<StandingsResponse>() {
+            @Override
+            public void onSuccess(StandingsResponse responseBody) {
+                List<CompetitionTableItem> tableItems = formatTableData(responseBody.getStages());
+                if(tableItems != null && tableItems.size() != 0){
+                    tableAdapter.swapTable(tableItems);
+                    hideLoading();
+                }else{
+                    showError(R.string.not_found);
+                }
             }
-        });
+            @Override
+            public void onException(String errorMessage) {
+                hideLoading();
+                showError(errorMessage);
+            }
+        }));
 
         return view;
     }
@@ -74,5 +92,21 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
         teamDetailIntent.putExtra(TeamDetailActivity.TEAM_NAME_EXTRA,tableEntryEntity.getTeam().getName());
         startActivity(teamDetailIntent);
         if(getActivity() != null)getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+    }
+
+    private static List<CompetitionTableItem> formatTableData(List<StagesEntity> stages){
+        List<CompetitionTableItem> tableItems = new ArrayList<>();
+        for (StagesEntity stage : stages) {
+            if(stage.getType().equals(StagesEntity.TYPE_TOTAL)){
+                String text = stage.getGroup() != null ? stage.getGroup() : stage.getStageName();
+                HeaderItem tableItem = new HeaderItem(text.replace("_"," "));
+                tableItems.add(tableItem);
+                for (TableEntryEntity team : stage.getTable()) {
+                    TeamItem teamTableItem = new TeamItem(team);
+                    tableItems.add(teamTableItem);
+                }
+            }
+        }
+        return tableItems;
     }
 }

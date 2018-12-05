@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
+import tech.joeyck.livefootball.data.database.CompetitionResponse;
+import tech.joeyck.livefootball.data.network.ApiResponseObserver;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
 import tech.joeyck.livefootball.utilities.ColorUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
@@ -38,9 +41,16 @@ public class MainActivity extends AppCompatActivity implements CompetitionAdapte
         MainViewModelFactory factory = InjectorUtils.provideMainViewModelFactory(this.getApplicationContext());
         mViewModel = factory.create(MainViewModel.class);
 
-        mViewModel.getCompetitions().observe(this,competitionEntries -> {
-            mCompetitionAdapter.swapCompetitions(competitionEntries);
-        });
+        mViewModel.getCompetitions().observe(this, new ApiResponseObserver<CompetitionResponse>(new ApiResponseObserver.ChangeListener<CompetitionResponse>() {
+            @Override
+            public void onSuccess(CompetitionResponse responseBody) {
+                mCompetitionAdapter.swapCompetitions(responseBody.getCompetitions());
+            }
+            @Override
+            public void onException(String errorMessage) {
+                Toast.makeText(MainActivity.this,errorMessage,Toast.LENGTH_SHORT).show();
+            }
+        }));
     }
 
     @Override

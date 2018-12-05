@@ -7,6 +7,8 @@ import java.util.List;
 
 import tech.joeyck.livefootball.data.LiveFootballRepository;
 import tech.joeyck.livefootball.data.database.MatchEntity;
+import tech.joeyck.livefootball.data.database.MatchesResponse;
+import tech.joeyck.livefootball.data.network.ApiResponse;
 
 public class MatchesViewModel extends ViewModel {
 
@@ -22,16 +24,11 @@ public class MatchesViewModel extends ViewModel {
         this.mTeamId = teamId;
     }
 
-    MatchesViewModel(LiveFootballRepository repository, int teamId){
-        this.mRepository = repository;
-        this.mTeamId = teamId;
-    }
-
-    LiveData<List<MatchEntity>> getMatches(){
+    LiveData<ApiResponse<MatchesResponse>> getMatchesForCompetition(){
         return mRepository.getMatchesForCompetition(mCompetitionId,mMatchday);
     }
 
-    LiveData<List<MatchEntity>> getMatchesForTeam(){
+    LiveData<ApiResponse<MatchesResponse>> getMatchesForTeam(){
         return mRepository.getMatchesForTeam(mTeamId);
     }
 
