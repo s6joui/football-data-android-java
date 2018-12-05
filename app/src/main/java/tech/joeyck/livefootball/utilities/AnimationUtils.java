@@ -16,6 +16,7 @@ public class AnimationUtils {
 
     public static void loopAnimation(ImageView imageView){
         imageView.setVisibility(View.VISIBLE);
+        imageView.animate().alpha(1).setStartDelay(100);
         Drawable drawable = imageView.getDrawable();
         if (Build.VERSION.SDK_INT >= 23 && drawable instanceof AnimatedVectorDrawable) {
             AnimatedVectorDrawable animation = (AnimatedVectorDrawable)drawable;
