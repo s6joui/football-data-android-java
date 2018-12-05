@@ -1,6 +1,10 @@
 package tech.joeyck.livefootball.ui.competitions;
 
+import android.app.ActivityManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -51,16 +55,30 @@ public class MainActivity extends AppCompatActivity implements CompetitionAdapte
 
             }
         }));
+
+        //Customize task manager entry
+        ActivityManager.TaskDescription td = new ActivityManager.TaskDescription(getString(R.string.title_competitions), null,Color.WHITE);
+        setTaskDescription(td);
     }
 
     @Override
     public void onItemClick(CompetitionEntity competition) {
-        Log.i(LOG_TAG,competition.getName());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(CompetitionActivity.COMPETITION_ID_PREF,competition.getId());
+        editor.putString(CompetitionActivity.COMPETITION_NAME_PREF,competition.getName());
+        editor.putInt(CompetitionActivity.COMPETITION_MATCHDAY_PREF,competition.getCurrentSeason().getCurrentMatchday());
+        editor.putInt(CompetitionActivity.COMPETITION_COLOR_PREF,ColorUtils.getColorResourceId(competition.getId()));
+        editor.apply();
         Intent competitionDetailIntent = new Intent(MainActivity.this, CompetitionActivity.class);
-        competitionDetailIntent.putExtra(CompetitionActivity.COMPETITION_ID_EXTRA, competition.getId());
-        competitionDetailIntent.putExtra(CompetitionActivity.COMPETITION_NAME_EXTRA,competition.getName());
-        competitionDetailIntent.putExtra(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA,competition.getCurrentSeason().getCurrentMatchday());
-        competitionDetailIntent.putExtra(CompetitionActivity.COMPETITION_COLOR_EXTRA,ColorUtils.getColorResourceId(competition.getId()));
+        competitionDetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(competitionDetailIntent);
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 }

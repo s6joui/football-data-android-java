@@ -16,6 +16,7 @@ import tech.joeyck.livefootball.data.database.MatchesResponse;
 import tech.joeyck.livefootball.data.network.ApiResponseObserver;
 import tech.joeyck.livefootball.ui.competition_detail.BaseListFragment;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
+import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModelFactory;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
 public class MatchesFragment extends BaseListFragment implements MatchesAdapter.MatchesAdapterOnItemClickHandler {

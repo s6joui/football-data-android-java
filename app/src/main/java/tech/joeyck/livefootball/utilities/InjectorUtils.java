@@ -67,8 +67,8 @@ public class InjectorUtils {
         return new MatchesViewModelFactory(repository,competitionId, matchday,teamId);
     }
 
-    public static CompetitionViewModelFactory provideCompetitionViewModelFactory(Context context, int competitionId, String competitionName, int matchday){
-        return new CompetitionViewModelFactory(competitionId,competitionName,matchday);
+    public static CompetitionViewModelFactory provideCompetitionViewModelFactory(Context context, int competitionId, String competitionName, int matchday,int themeColor){
+        return new CompetitionViewModelFactory(competitionId,competitionName,matchday,themeColor);
     }
 
 }

@@ -1,15 +1,23 @@
 package tech.joeyck.livefootball.ui.competition_detail;
 
+import android.app.ActivityManager;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,12 +25,18 @@ import android.view.WindowManager;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
 import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsFragment;
+import tech.joeyck.livefootball.ui.competitions.MainActivity;
 import tech.joeyck.livefootball.utilities.ColorUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
 public class CompetitionActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = CompetitionActivity.class.getSimpleName();
+
+    public static final String COMPETITION_ID_PREF = "COMPETITION_ID_PREF";
+    public static final String COMPETITION_NAME_PREF = "COMPETITION_NAME_PREF";
+    public static final String COMPETITION_MATCHDAY_PREF = "COMPETITION_MATCHDAY_PREF";
+    public static final String COMPETITION_COLOR_PREF = "COMPETITION_COLOR_PREF";
 
     public static final String COMPETITION_ID_EXTRA = "COMPETITION_ID_EXTRA";
     public static final String COMPETITION_NAME_EXTRA = "COMPETITION_NAME_EXTRA";
@@ -51,25 +65,35 @@ public class CompetitionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        int competitionId = prefs.getInt(COMPETITION_ID_PREF,-1);
+        if(competitionId < 0){
+            showCompetitionPicker();
+            finish();
+            return;
+        }
+        int matchday = prefs.getInt(COMPETITION_MATCHDAY_PREF, -1);
+        int themeColor = prefs.getInt(COMPETITION_COLOR_PREF, R.color.colorPrimary);
+        String competitionName = prefs.getString(COMPETITION_NAME_PREF,"");
+
         setContentView(R.layout.activity_competition);
         mBottomNavigationView = findViewById(R.id.navigation);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        int competitionId = getIntent().getIntExtra(COMPETITION_ID_EXTRA, -1);
-        int matchday = getIntent().getIntExtra(COMPETITION_MATCHDAY_EXTRA, -1);
-        int themeColor = getIntent().getIntExtra(COMPETITION_COLOR_EXTRA, R.color.colorPrimary);
-        String competitionName = getIntent().getStringExtra(COMPETITION_NAME_EXTRA);
+        if(getSupportActionBar()!=null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar()!=null) getSupportActionBar().setHomeAsUpIndicator(getDrawable(R.drawable.ic_menu));
 
-        setTitle(competitionName);
-        setThemeColor(themeColor);
-
-        CompetitionViewModelFactory factory = InjectorUtils.provideCompetitionViewModelFactory(this.getApplicationContext(),competitionId,competitionName,matchday);
+        CompetitionViewModelFactory factory = InjectorUtils.provideCompetitionViewModelFactory(this.getApplicationContext(),competitionId,competitionName,matchday,themeColor);
         mViewModel = factory.create(CompetitionViewModel.class);
 
         mFragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
             switchFragments(MatchesFragment.FRAGMENT_TAG);
         }
+
+        setTitle(mViewModel.getCompetitionName());
+        setThemeColor(mViewModel.getThemeColor());
     }
 
     private void switchFragments(String tag){
@@ -118,6 +142,25 @@ public class CompetitionActivity extends AppCompatActivity {
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(darkerColor);
+
+        //Customize task manager entry
+        ActivityManager.TaskDescription td = new ActivityManager.TaskDescription(mViewModel.getCompetitionName(), null, mainColor);
+        setTaskDescription(td);
     }
 
+    private void showCompetitionPicker(){
+        Intent competitionPickerIntent = new Intent(CompetitionActivity.this, MainActivity.class);
+        startActivity(competitionPickerIntent);
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                showCompetitionPicker();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
