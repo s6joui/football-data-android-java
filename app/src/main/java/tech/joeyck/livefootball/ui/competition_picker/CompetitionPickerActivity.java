@@ -21,6 +21,7 @@ import tech.joeyck.livefootball.data.network.ApiResponseObserver;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
 import tech.joeyck.livefootball.utilities.AnimationUtils;
 import tech.joeyck.livefootball.utilities.ColorUtils;
+import tech.joeyck.livefootball.utilities.CompetitionUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
 public class CompetitionPickerActivity extends AppCompatActivity implements CompetitionAdapter.CompetitionAdapterOnItemClickHandler {
@@ -56,6 +57,7 @@ public class CompetitionPickerActivity extends AppCompatActivity implements Comp
         errorImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mErrorLayout.setVisibility(ImageView.INVISIBLE);
                 onDataRequest();
             }
         });
@@ -68,6 +70,7 @@ public class CompetitionPickerActivity extends AppCompatActivity implements Comp
     }
 
     public void onDataRequest(){
+        mLoaderImageView.setVisibility(View.VISIBLE);
         AnimationUtils.loopAnimation(mLoaderImageView);
         mViewModel.getCompetitions().observe(this, new ApiResponseObserver<CompetitionResponse>(new ApiResponseObserver.ChangeListener<CompetitionResponse>() {
             @Override
@@ -92,7 +95,7 @@ public class CompetitionPickerActivity extends AppCompatActivity implements Comp
         editor.putInt(CompetitionActivity.COMPETITION_ID_PREF,competition.getId());
         editor.putString(CompetitionActivity.COMPETITION_NAME_PREF,competition.getName());
         editor.putInt(CompetitionActivity.COMPETITION_MATCHDAY_PREF,competition.getCurrentSeason().getCurrentMatchday());
-        editor.putInt(CompetitionActivity.COMPETITION_COLOR_PREF,ColorUtils.getColorResourceId(competition.getId()));
+        editor.putInt(CompetitionActivity.COMPETITION_COLOR_PREF,CompetitionUtils.getColorResourceId(competition.getId()));
         editor.apply();
         Intent competitionDetailIntent = new Intent(CompetitionPickerActivity.this, CompetitionActivity.class);
         competitionDetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

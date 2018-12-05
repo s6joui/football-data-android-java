@@ -10,15 +10,13 @@ import tech.joeyck.livefootball.data.network.ApiResponse;
 public class CompetitionPickerViewModel extends ViewModel {
 
     private LiveFootballRepository mRepository;
-    private LiveData<ApiResponse<CompetitionResponse>> mCompetitions;
 
     public CompetitionPickerViewModel(LiveFootballRepository repository){
         mRepository = repository;
-        mCompetitions = repository.getCompetitions();
     }
 
     public LiveData<ApiResponse<CompetitionResponse>> getCompetitions(){
-        return mCompetitions;
+        return mRepository.getCompetitions();
     }
 
 }

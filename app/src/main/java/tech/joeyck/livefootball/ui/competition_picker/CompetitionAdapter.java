@@ -14,6 +14,7 @@ import java.util.List;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.utilities.ColorUtils;
+import tech.joeyck.livefootball.utilities.CompetitionUtils;
 
 public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.CompetitionAdapterViewHolder> {
 
@@ -74,10 +75,11 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.
      */
     @Override
     public void onBindViewHolder(CompetitionAdapterViewHolder viewHolder, int position) {
-        CompetitionEntity currentCompetition = mCompetitions.get(position);
+        int reorderedPosition = CompetitionUtils.getReorderedPosition(position);
+        CompetitionEntity currentCompetition = mCompetitions.get(reorderedPosition);
         viewHolder.textView.setText(currentCompetition.getName());
         viewHolder.countryTextView.setText(currentCompetition.getArea().getName());
-        viewHolder.cardView.setCardBackgroundColor(mContext.getResources().getColor(ColorUtils.getColorResourceId(currentCompetition.getId())));
+        viewHolder.cardView.setCardBackgroundColor(mContext.getResources().getColor(CompetitionUtils.getColorResourceId(currentCompetition.getId())));
     }
 
     /**
@@ -141,7 +143,7 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.
          */
         @Override
         public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
+            int adapterPosition = CompetitionUtils.getReorderedPosition(getAdapterPosition());
             CompetitionEntity competitionEntity = mCompetitions.get(adapterPosition);
             mClickHandler.onItemClick(competitionEntity);
         }
