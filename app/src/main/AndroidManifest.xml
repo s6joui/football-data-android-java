@@ -15,12 +15,6 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.competitions.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
-        </activity>
-
-        <activity
             android:name=".ui.team_detail.TeamDetailActivity"
             android:label="@string/title_activity_team_detail"
             android:launchMode="singleTop"
@@ -38,6 +32,12 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.competition_picker.CompetitionPickerActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop">
         </activity>
 
     </application>

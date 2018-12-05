@@ -1,4 +1,4 @@
-package tech.joeyck.livefootball.ui.competitions;
+package tech.joeyck.livefootball.ui.competition_picker;
 
 import android.app.ActivityManager;
 import android.content.Intent;
@@ -9,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.Toast;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
@@ -20,11 +18,11 @@ import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
 import tech.joeyck.livefootball.utilities.ColorUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
-public class MainActivity extends AppCompatActivity implements CompetitionAdapter.CompetitionAdapterOnItemClickHandler {
+public class CompetitionPickerActivity extends AppCompatActivity implements CompetitionAdapter.CompetitionAdapterOnItemClickHandler {
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String LOG_TAG = CompetitionPickerActivity.class.getSimpleName();
 
-    private MainViewModel mViewModel;
+    private CompetitionPickerViewModel mViewModel;
     private RecyclerView mRecyclerView;
     private CompetitionAdapter mCompetitionAdapter;
 
@@ -42,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements CompetitionAdapte
         /* Setting the adapter attaches it to the RecyclerView in our layout. */
         mRecyclerView.setAdapter(mCompetitionAdapter);
 
-        MainViewModelFactory factory = InjectorUtils.provideMainViewModelFactory(this.getApplicationContext());
-        mViewModel = factory.create(MainViewModel.class);
+        CompetitionPickerViewModelFactory factory = InjectorUtils.provideMainViewModelFactory(this.getApplicationContext());
+        mViewModel = factory.create(CompetitionPickerViewModel.class);
 
         mViewModel.getCompetitions().observe(this, new ApiResponseObserver<CompetitionResponse>(new ApiResponseObserver.ChangeListener<CompetitionResponse>() {
             @Override
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements CompetitionAdapte
         editor.putInt(CompetitionActivity.COMPETITION_MATCHDAY_PREF,competition.getCurrentSeason().getCurrentMatchday());
         editor.putInt(CompetitionActivity.COMPETITION_COLOR_PREF,ColorUtils.getColorResourceId(competition.getId()));
         editor.apply();
-        Intent competitionDetailIntent = new Intent(MainActivity.this, CompetitionActivity.class);
+        Intent competitionDetailIntent = new Intent(CompetitionPickerActivity.this, CompetitionActivity.class);
         competitionDetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(competitionDetailIntent);
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);

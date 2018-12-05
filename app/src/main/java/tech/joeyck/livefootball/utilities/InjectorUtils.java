@@ -18,21 +18,12 @@ package tech.joeyck.livefootball.utilities;
 
 import android.content.Context;
 
-import java.io.IOException;
-
-import okhttp3.Cache;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import tech.joeyck.livefootball.AppExecutors;
 import tech.joeyck.livefootball.data.LiveFootballRepository;
 import tech.joeyck.livefootball.data.network.LiveFootballAPI;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModelFactory;
 import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsViewModelFactory;
-import tech.joeyck.livefootball.ui.competitions.MainViewModelFactory;
+import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerViewModelFactory;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesViewModelFactory;
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailViewModelFactory;
 
@@ -47,9 +38,9 @@ public class InjectorUtils {
         return LiveFootballRepository.getInstance(service,executors);
     }
 
-    public static MainViewModelFactory provideMainViewModelFactory(Context context) {
+    public static CompetitionPickerViewModelFactory provideMainViewModelFactory(Context context) {
         LiveFootballRepository repository = provideRepository(context.getApplicationContext());
-        return new MainViewModelFactory(repository);
+        return new CompetitionPickerViewModelFactory(repository);
     }
 
     public static StandingsViewModelFactory provideStandingsViewModelFactory(Context context, int competitionId) {

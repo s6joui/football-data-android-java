@@ -2,14 +2,10 @@ package tech.joeyck.livefootball.ui.team_detail;
 
 import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -19,8 +15,6 @@ import tech.joeyck.livefootball.data.database.TeamEntity;
 import tech.joeyck.livefootball.data.network.ApiResponseObserver;
 import tech.joeyck.livefootball.databinding.ActivityTeamDetailBinding;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
-import tech.joeyck.livefootball.ui.competitions.MainActivity;
-import tech.joeyck.livefootball.utilities.ColorUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 

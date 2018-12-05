@@ -4,9 +4,6 @@ import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,7 +21,7 @@ import android.view.WindowManager;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
 import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsFragment;
-import tech.joeyck.livefootball.ui.competitions.MainActivity;
+import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerActivity;
 import tech.joeyck.livefootball.utilities.ColorUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
@@ -149,7 +145,7 @@ public class CompetitionActivity extends AppCompatActivity {
     }
 
     private void showCompetitionPicker(){
-        Intent competitionPickerIntent = new Intent(CompetitionActivity.this, MainActivity.class);
+        Intent competitionPickerIntent = new Intent(CompetitionActivity.this, CompetitionPickerActivity.class);
         startActivity(competitionPickerIntent);
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }

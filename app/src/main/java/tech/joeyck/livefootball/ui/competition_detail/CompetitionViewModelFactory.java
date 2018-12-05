@@ -3,9 +3,6 @@ package tech.joeyck.livefootball.ui.competition_detail;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import tech.joeyck.livefootball.data.LiveFootballRepository;
-import tech.joeyck.livefootball.ui.competitions.MainViewModel;
-
 public class CompetitionViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final int mCompetitionId;

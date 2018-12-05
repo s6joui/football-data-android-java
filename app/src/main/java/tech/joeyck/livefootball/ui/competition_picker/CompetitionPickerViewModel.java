@@ -1,21 +1,18 @@
-package tech.joeyck.livefootball.ui.competitions;
+package tech.joeyck.livefootball.ui.competition_picker;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import java.util.List;
-
 import tech.joeyck.livefootball.data.LiveFootballRepository;
-import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.data.database.CompetitionResponse;
 import tech.joeyck.livefootball.data.network.ApiResponse;
 
-public class MainViewModel extends ViewModel {
+public class CompetitionPickerViewModel extends ViewModel {
 
     private LiveFootballRepository mRepository;
     private LiveData<ApiResponse<CompetitionResponse>> mCompetitions;
 
-    public MainViewModel(LiveFootballRepository repository){
+    public CompetitionPickerViewModel(LiveFootballRepository repository){
         mRepository = repository;
         mCompetitions = repository.getCompetitions();
     }

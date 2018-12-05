@@ -1,4 +1,4 @@
-package tech.joeyck.livefootball.ui.competitions;
+package tech.joeyck.livefootball.ui.competition_picker;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -94,7 +94,7 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.
 
     /**
      * Swaps the list used by the CompetitionAdapter for its weather data. This method is called by
-     * {@link MainActivity} after a load has finished. When this method is called, we assume we have
+     * {@link CompetitionPickerActivity} after a load has finished. When this method is called, we assume we have
      * a new set of data, so we call notifyDataSetChanged to tell the RecyclerView to update.
      *
      * @param newForecast the new list of forecasts to use as CompetitionAdapter's data source

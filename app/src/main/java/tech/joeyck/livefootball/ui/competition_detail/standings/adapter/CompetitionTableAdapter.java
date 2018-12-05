@@ -16,7 +16,7 @@ import java.util.List;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.TableEntryEntity;
-import tech.joeyck.livefootball.ui.competitions.MainActivity;
+import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerActivity;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 
 public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -122,7 +122,7 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * Swaps the list used by the CompetitionAdapter for its weather data. This method is called by
-     * {@link MainActivity} after a load has finished. When this method is called, we assume we have
+     * {@link CompetitionPickerActivity} after a load has finished. When this method is called, we assume we have
      * a new set of data, so we call notifyDataSetChanged to tell the RecyclerView to update.
      *
      * @param table the new list of forecasts to use as CompetitionAdapter's data source
