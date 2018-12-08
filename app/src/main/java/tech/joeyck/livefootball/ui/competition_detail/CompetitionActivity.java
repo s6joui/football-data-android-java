@@ -176,6 +176,8 @@ public class CompetitionActivity extends AppCompatActivity {
                         .withActivityColor(activityColor)
                         .withAboutAppName(getString(R.string.app_name))
                         .withActivityTitle(getString(R.string.title_about))
+                        .withLicenseShown(true)
+                        .withLicenseDialog(true)
                         .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                         .start(this);
                 return true;
