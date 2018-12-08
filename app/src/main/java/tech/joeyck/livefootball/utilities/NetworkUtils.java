@@ -24,7 +24,7 @@ import tech.joeyck.livefootball.data.network.LiveDataCallAdapterFactory;
 
 public class NetworkUtils {
 
-    private static final String SVG_CONVERTER_URL = " https://svg2png-jck.herokuapp.com/convert?";
+    private static final String SVG_CONVERTER_URL = "https://svg2png-jck.herokuapp.com/convert?svg=";
     private static final String COVER_IMAGE_URL = "https://loremflickr.com/320/240/";
 
     public static String getPngUrl(String url){
