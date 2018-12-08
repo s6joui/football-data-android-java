@@ -3,11 +3,14 @@ package tech.joeyck.livefootball.utilities;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.bumptech.glide.RequestBuilder;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -21,7 +24,7 @@ import tech.joeyck.livefootball.data.network.LiveDataCallAdapterFactory;
 
 public class NetworkUtils {
 
-    private static final String SVG_CONVERTER_URL = "http://172.30.1.1/convert?svg=";
+    private static final String SVG_CONVERTER_URL = " https://svg2png-jck.herokuapp.com/convert?";
     private static final String COVER_IMAGE_URL = "https://loremflickr.com/320/240/";
 
     public static String getPngUrl(String url){
