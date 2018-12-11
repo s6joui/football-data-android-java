@@ -43,7 +43,7 @@ public class CompetitionActivity extends AppCompatActivity {
     public static final String COMPETITION_ID_EXTRA = "COMPETITION_ID_EXTRA";
     public static final String COMPETITION_NAME_EXTRA = "COMPETITION_NAME_EXTRA";
     public static final String COMPETITION_MATCHDAY_EXTRA = "COMPETITION_MATCHDAY_EXTRA";
-    public static final String COMPETITION_COLOR_EXTRA = "COMPETITION_COLOR_EXTRA";
+    public static final String COMPETITION_COLOR_RESOURCE_EXTRA = "COMPETITION_COLOR_RESOURCE_EXTRA";
 
     FragmentManager mFragmentManager;
     CompetitionViewModel mViewModel;
@@ -107,9 +107,9 @@ public class CompetitionActivity extends AppCompatActivity {
         Fragment fragment = mFragmentManager.findFragmentByTag(tag);
         if (fragment == null) {
             if(tag.equals(MatchesFragment.FRAGMENT_TAG)){
-                fragment = MatchesFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay());
+                fragment = MatchesFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay(),mViewModel.getThemeColor());
             }else if(tag.equals(StandingsFragment.FRAGMENT_TAG)){
-                fragment = StandingsFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay());
+                fragment = StandingsFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay(),mViewModel.getThemeColor());
             }
             fragmentTransaction.add(R.id.fragment_container, fragment, tag);
         } else {

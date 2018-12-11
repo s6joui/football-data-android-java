@@ -110,4 +110,10 @@ public class BaseListFragment extends Fragment{
         AnimationUtils.stopAnimation(mLoaderImageView);
     }
 
+    public void setSwipeRefreshColor(int color){
+        if(mSwipeRefresh != null){
+            mSwipeRefresh.setColorSchemeColors(color,color,color);
+        }
+    }
+
 }

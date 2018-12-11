@@ -1,6 +1,5 @@
 package tech.joeyck.livefootball.ui.competition_detail.matches;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +16,6 @@ import tech.joeyck.livefootball.data.database.MatchesResponse;
 import tech.joeyck.livefootball.data.network.ApiResponseObserver;
 import tech.joeyck.livefootball.ui.competition_detail.BaseListFragment;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
-import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModelFactory;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
 public class MatchesFragment extends BaseListFragment implements MatchesAdapter.MatchesAdapterOnItemClickHandler {
@@ -42,12 +40,13 @@ public class MatchesFragment extends BaseListFragment implements MatchesAdapter.
         return fragment;
     }
 
-    public static MatchesFragment newInstance(int competitionId,String competitionName,int matchDay){
+    public static MatchesFragment newInstance(int competitionId,String competitionName,int matchDay, int colorResource){
         MatchesFragment fragment = new MatchesFragment();
         Bundle args = new Bundle();
         args.putInt(CompetitionActivity.COMPETITION_ID_EXTRA, competitionId);
         args.putInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, matchDay);
         args.putString(CompetitionActivity.COMPETITION_NAME_EXTRA, competitionName);
+        args.putInt(CompetitionActivity.COMPETITION_COLOR_RESOURCE_EXTRA, colorResource);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,10 +57,12 @@ public class MatchesFragment extends BaseListFragment implements MatchesAdapter.
         int competitionId = getArguments().getInt(CompetitionActivity.COMPETITION_ID_EXTRA, -1);
         int matchday = getArguments().getInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, -1);
         int teamId = getArguments().getInt(TEAM_ID_EXTRA,-1);
+        int colorResource = getArguments().getInt(CompetitionActivity.COMPETITION_COLOR_RESOURCE_EXTRA);
 
         mMatchRequestType = teamId > 0 ? TYPE_TEAM_MATCHES : TYPE_COMPETITION_MATCHES;
 
         View view = super.onCreateView(inflater,container,savedInstanceState,false,teamId > 0);
+        setSwipeRefreshColor(getResources().getColor(colorResource));
 
         MatchesViewModelFactory factory = InjectorUtils.provideMatchesViewModelFactory(getActivity().getApplicationContext(),competitionId,matchday,teamId);
         mViewModel = factory.create(MatchesViewModel.class);

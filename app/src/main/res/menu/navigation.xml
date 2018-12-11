@@ -5,6 +5,7 @@
         android:id="@+id/navigation_standings"
         android:icon="@drawable/ic_standings"
         android:title="@string/title_standings" />
+
     <item
         android:id="@+id/navigation_matches"
         android:icon="@drawable/ic_matches"

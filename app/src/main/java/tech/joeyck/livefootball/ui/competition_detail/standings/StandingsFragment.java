@@ -1,7 +1,6 @@
 package tech.joeyck.livefootball.ui.competition_detail.standings;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,12 +33,13 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
 
     private StandingsViewModel mViewModel;
 
-    public static StandingsFragment newInstance(int competitionId, String competitionName, int matchDay){
+    public static StandingsFragment newInstance(int competitionId, String competitionName, int matchDay, int colorResource){
         StandingsFragment fragment = new StandingsFragment();
         Bundle args = new Bundle();
         args.putInt(CompetitionActivity.COMPETITION_ID_EXTRA, competitionId);
         args.putInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, matchDay);
         args.putString(CompetitionActivity.COMPETITION_NAME_EXTRA, competitionName);
+        args.putInt(CompetitionActivity.COMPETITION_COLOR_RESOURCE_EXTRA, colorResource);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,6 +51,9 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
         int competitionId = getArguments().getInt(CompetitionActivity.COMPETITION_ID_EXTRA, 0);
         int matchday = getArguments().getInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, 0);
         String competitionName = getArguments().getString(CompetitionActivity.COMPETITION_NAME_EXTRA);
+        int colorResource = getArguments().getInt(CompetitionActivity.COMPETITION_COLOR_RESOURCE_EXTRA);
+
+        setSwipeRefreshColor(getResources().getColor(colorResource));
 
         StandingsViewModelFactory factory = InjectorUtils.provideStandingsViewModelFactory(getActivity().getApplicationContext(),competitionId);
         mViewModel = factory.create(StandingsViewModel.class);
