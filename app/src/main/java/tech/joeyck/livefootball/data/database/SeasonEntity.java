@@ -1,6 +1,6 @@
 package tech.joeyck.livefootball.data.database;
 
-public class SeasonEntity {
+public class SeasonEntity extends BaseEntity {
 
     private int id;
     private int currentMatchday;

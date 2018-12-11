@@ -57,7 +57,7 @@ public class MatchesFragment extends BaseListFragment implements MatchesAdapter.
         int competitionId = getArguments().getInt(CompetitionActivity.COMPETITION_ID_EXTRA, -1);
         int matchday = getArguments().getInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, -1);
         int teamId = getArguments().getInt(TEAM_ID_EXTRA,-1);
-        int colorResource = getArguments().getInt(CompetitionActivity.COMPETITION_COLOR_RESOURCE_EXTRA);
+        int colorResource = getArguments().getInt(CompetitionActivity.COMPETITION_COLOR_RESOURCE_EXTRA, R.color.gray);
 
         mMatchRequestType = teamId > 0 ? TYPE_TEAM_MATCHES : TYPE_COMPETITION_MATCHES;
 
@@ -88,7 +88,7 @@ public class MatchesFragment extends BaseListFragment implements MatchesAdapter.
     private ApiResponseObserver<MatchesResponse> responseObserver = new ApiResponseObserver<MatchesResponse>(new ApiResponseObserver.ChangeListener<MatchesResponse>() {
         @Override
         public void onSuccess(MatchesResponse responseBody) {
-            bindMatchesToUI(responseBody.getMatches());
+            bindMatchesToUI(responseBody);
         }
         @Override
         public void onException(String errorMessage) {
@@ -97,9 +97,13 @@ public class MatchesFragment extends BaseListFragment implements MatchesAdapter.
         }
     });
 
-    private void bindMatchesToUI(List<MatchEntity> matchEntities){
+    private void bindMatchesToUI(MatchesResponse responseBody){
+        List<MatchEntity> matchEntities = responseBody.getMatches();
         if(matchEntities!=null){
             mMatchesAdapter.swapMatches(matchEntities);
+            if(mMatchRequestType == TYPE_COMPETITION_MATCHES){
+                mMatchesAdapter.setLastUpdated(responseBody.getCompetition().getLastUpdatedLocalDateTime());
+            }
             hideLoading();
             if(matchEntities.size() == 0){
                 showError(R.string.no_recent_matches);

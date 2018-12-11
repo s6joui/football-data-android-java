@@ -18,6 +18,7 @@
             android:name=".ui.team_detail.TeamDetailActivity"
             android:label="@string/title_activity_team_detail"
             android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".ui.competition_detail.CompetitionActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

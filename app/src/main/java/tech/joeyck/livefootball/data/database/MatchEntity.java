@@ -7,7 +7,7 @@ import org.threeten.bp.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 
-public class MatchEntity {
+public class MatchEntity  extends BaseEntity {
 
     public static String STATUS_FINISHED = "FINISHED";
     public static String STATUS_IN_PLAY = "IN_PLAY";
@@ -24,7 +24,6 @@ public class MatchEntity {
     private HashMap<String,String> homeTeam;
     private HashMap<String,String> awayTeam;
     private ScoreEntity score;
-    private Date lastUpdated;
 
     public int getId() {
         return id;
@@ -95,13 +94,4 @@ public class MatchEntity {
         return status.equals(STATUS_PAUSED);
     }
 
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public LocalDateTime getLastUpdatedLocalDateTime() {
-        return Instant.ofEpochMilli(utcDate.getTime())
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
-    }
 }

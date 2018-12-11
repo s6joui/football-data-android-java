@@ -2,7 +2,7 @@ package tech.joeyck.livefootball.data.database;
 
 import java.util.List;
 
-public class CompetitionResponse {
+public class CompetitionResponse  extends BaseEntity {
 
     private int count;
     private List<CompetitionEntity> competitions;

@@ -1,6 +1,6 @@
 package tech.joeyck.livefootball.data.database;
 
-public class TeamEntity {
+public class TeamEntity extends BaseEntity {
 
     private int id;
     private String name;

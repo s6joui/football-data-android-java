@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,10 @@ import tech.joeyck.livefootball.utilities.NetworkUtils;
 
 import static org.threeten.bp.temporal.ChronoUnit.MINUTES;
 
-class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterViewHolder> {
+class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    public static final int TYPE_DEFAULT = 10;
+    public static final int TYPE_FOOTER = 15;
 
     // The context we use to utility methods, app resources and layout inflaters
     private final Context mContext;
@@ -36,6 +40,8 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
     private final MatchesAdapter.MatchesAdapterOnItemClickHandler mClickHandler;
 
     private List<MatchEntity> mMatches;
+    private LocalDateTime mLastUpdated;
+    private boolean mHasFooter = false;
 
     /**
      * Creates a CompetitionAdapter.
@@ -61,8 +67,11 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
      * @return A new CompetitionAdapterViewHolder that holds the View for each list item
      */
     @Override
-    public MatchesAdapter.MatchesAdapterViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        if(viewType == TYPE_FOOTER){
+            View view = LayoutInflater.from(mContext).inflate(R.layout.table_footer, viewGroup, false);
+            return new MatchesAdapter.FooterViewHolder(view);
+        }
         int layoutId = R.layout.match_item;
         View view = LayoutInflater.from(mContext).inflate(layoutId, viewGroup, false);
         view.setFocusable(true);
@@ -80,52 +89,61 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
      * @param position                  The position of the item within the adapter's data set.
      */
     @Override
-    public void onBindViewHolder(MatchesAdapter.MatchesAdapterViewHolder viewHolder, int position) {
-        MatchEntity currentMatch = mMatches.get(position);
-        viewHolder.homeTeamNameText.setText(currentMatch.getHomeTeam().get("name"));
-        viewHolder.awayTeamNameText.setText(currentMatch.getAwayTeam().get("name"));
-        viewHolder.homeTeamScoreText.setText(currentMatch.getScore().getHomeTeamScore());
-        viewHolder.awayTeamScoreText.setText(currentMatch.getScore().getAwayTeamScore());
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        int type = getItemViewType(position);
+        if(type == TYPE_DEFAULT){
+            MatchEntity currentMatch = mMatches.get(position);
+            MatchesAdapterViewHolder vh = (MatchesAdapterViewHolder) viewHolder;
+            vh.homeTeamNameText.setText(currentMatch.getHomeTeam().get("name"));
+            vh.awayTeamNameText.setText(currentMatch.getAwayTeam().get("name"));
+            vh.homeTeamScoreText.setText(currentMatch.getScore().getHomeTeamScore());
+            vh.awayTeamScoreText.setText(currentMatch.getScore().getAwayTeamScore());
 
-        String winner = currentMatch.getScore().getWinner();
-        if(currentMatch.isFinished() && winner!=null && !winner.equals(ScoreEntity.DRAW)){
-            if(winner.equals(ScoreEntity.HOME_TEAM_WINNER)){
-                viewHolder.homeTeamNameText.setTypeface(null, Typeface.BOLD);
-                viewHolder.awayTeamNameText.setTypeface(null, Typeface.NORMAL);
-                viewHolder.homeTeamScoreText.setTypeface(null, Typeface.BOLD);
-                viewHolder.awayTeamScoreText.setTypeface(null, Typeface.NORMAL);
-            }else if(winner.equals(ScoreEntity.AWAY_TEAM_WINNER)){
-                viewHolder.homeTeamNameText.setTypeface(null, Typeface.NORMAL);
-                viewHolder.awayTeamNameText.setTypeface(null, Typeface.BOLD);
-                viewHolder.homeTeamScoreText.setTypeface(null, Typeface.NORMAL);
-                viewHolder.awayTeamScoreText.setTypeface(null, Typeface.BOLD);
+            String winner = currentMatch.getScore().getWinner();
+            if(currentMatch.isFinished() && winner!=null && !winner.equals(ScoreEntity.DRAW)){
+                if(winner.equals(ScoreEntity.HOME_TEAM_WINNER)){
+                    vh.homeTeamNameText.setTypeface(null, Typeface.BOLD);
+                    vh.awayTeamNameText.setTypeface(null, Typeface.NORMAL);
+                    vh.homeTeamScoreText.setTypeface(null, Typeface.BOLD);
+                    vh.awayTeamScoreText.setTypeface(null, Typeface.NORMAL);
+                }else if(winner.equals(ScoreEntity.AWAY_TEAM_WINNER)){
+                    vh.homeTeamNameText.setTypeface(null, Typeface.NORMAL);
+                    vh.awayTeamNameText.setTypeface(null, Typeface.BOLD);
+                    vh.homeTeamScoreText.setTypeface(null, Typeface.NORMAL);
+                    vh.awayTeamScoreText.setTypeface(null, Typeface.BOLD);
+                }
+            }else{
+                vh.homeTeamNameText.setTypeface(null, Typeface.NORMAL);
+                vh.awayTeamNameText.setTypeface(null, Typeface.NORMAL);
+                vh.homeTeamScoreText.setTypeface(null, Typeface.NORMAL);
+                vh.awayTeamScoreText.setTypeface(null, Typeface.NORMAL);
             }
-        }else{
-            viewHolder.homeTeamNameText.setTypeface(null, Typeface.NORMAL);
-            viewHolder.awayTeamNameText.setTypeface(null, Typeface.NORMAL);
-            viewHolder.homeTeamScoreText.setTypeface(null, Typeface.NORMAL);
-            viewHolder.awayTeamScoreText.setTypeface(null, Typeface.NORMAL);
-        }
 
-        LocalDateTime matchTime = currentMatch.getLocalDateTime();
-        LocalDateTime now = NetworkUtils.hasNetwork(mContext) ? LocalDateTime.now() : currentMatch.getLastUpdatedLocalDateTime();
-        viewHolder.dateText.setText(DateUtils.getFormattedMatchDate(mContext,matchTime));
-        viewHolder.liveText.setVisibility(View.VISIBLE);
-        viewHolder.liveText.setTextColor(mContext.getResources().getColor(R.color.green));
-        viewHolder.liveText.setTypeface(null, Typeface.BOLD);
-        if(currentMatch.isInSecondHalf()) {
-            long mins = MINUTES.between(matchTime, now) - 15;
-            viewHolder.liveText.setText("LIVE " + mins + "'");
-        }else if(currentMatch.isInPlay()){
-            viewHolder.liveText.setText("LIVE " + MINUTES.between(matchTime, now) + "'");
-        }else if(currentMatch.isPaused()){
-            viewHolder.liveText.setText(R.string.half_time);
-        }else if(currentMatch.isFinished()){
-            viewHolder.liveText.setTypeface(null, Typeface.NORMAL);
-            viewHolder.liveText.setTextColor(mContext.getResources().getColor(R.color.gray));
-            viewHolder.liveText.setText(R.string.full_time);
-        }else{
-            viewHolder.liveText.setVisibility(View.INVISIBLE);
+            LocalDateTime matchTime = currentMatch.getLocalDateTime();
+            LocalDateTime now = NetworkUtils.hasNetwork(mContext) ? LocalDateTime.now() : currentMatch.getLastUpdatedLocalDateTime();
+            vh.dateText.setText(DateUtils.getFormattedMatchDate(mContext,matchTime));
+            vh.liveText.setVisibility(View.VISIBLE);
+            vh.liveText.setTextColor(mContext.getResources().getColor(R.color.green));
+            vh.liveText.setTypeface(null, Typeface.BOLD);
+            if(currentMatch.isInSecondHalf()) {
+                long mins = MINUTES.between(matchTime, now) - 15;
+                vh.liveText.setText("LIVE " + mins + "'");
+            }else if(currentMatch.isInPlay()){
+                vh.liveText.setText("LIVE " + MINUTES.between(matchTime, now) + "'");
+            }else if(currentMatch.isPaused()){
+                vh.liveText.setText(R.string.half_time);
+            }else if(currentMatch.isFinished()){
+                vh.liveText.setTypeface(null, Typeface.NORMAL);
+                vh.liveText.setTextColor(mContext.getResources().getColor(R.color.gray));
+                vh.liveText.setText(R.string.full_time);
+            }else{
+                vh.liveText.setVisibility(View.INVISIBLE);
+            }
+        }else if(type == TYPE_FOOTER){
+            if(mLastUpdated!=null){
+                FooterViewHolder vh = (FooterViewHolder) viewHolder;
+                vh.footerText.setText(DateUtils.getLastUpdatedString(mContext,mLastUpdated));
+            }
         }
     }
 
@@ -138,6 +156,7 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
     @Override
     public int getItemCount() {
         if (null == mMatches) return 0;
+        if (mHasFooter) return mMatches.size() + 1;
         return mMatches.size();
     }
 
@@ -153,11 +172,24 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
         notifyDataSetChanged();
     }
 
+    void setLastUpdated(final LocalDateTime mLastUpdated){
+        mHasFooter = true;
+        this.mLastUpdated = mLastUpdated;
+    }
+
     /**
      * The interface that receives onItemClick messages.
      */
     public interface MatchesAdapterOnItemClickHandler {
         void onItemClick(MatchEntity match);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(position==mMatches.size()){
+            return TYPE_FOOTER;
+        }
+        return TYPE_DEFAULT;
     }
 
     /**
@@ -176,14 +208,12 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
 
         MatchesAdapterViewHolder(View view) {
             super(view);
-
             homeTeamNameText = view.findViewById(R.id.home_name_text);
             awayTeamNameText = view.findViewById(R.id.away_name_text);
             homeTeamScoreText = view.findViewById(R.id.home_score_text);
             awayTeamScoreText = view.findViewById(R.id.away_score_tex);
             liveText = view.findViewById(R.id.live_text);
             dateText = view.findViewById(R.id.date_text);
-
             view.setOnClickListener(this);
         }
 
@@ -202,5 +232,15 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
         }
     }
 
+    class FooterViewHolder extends RecyclerView.ViewHolder {
+
+        final TextView footerText;
+
+        FooterViewHolder(View view) {
+            super(view);
+            footerText = view.findViewById(R.id.footerText);
+        }
+
+    }
 
 }

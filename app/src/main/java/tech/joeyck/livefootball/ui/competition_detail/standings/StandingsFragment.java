@@ -51,7 +51,7 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
         int competitionId = getArguments().getInt(CompetitionActivity.COMPETITION_ID_EXTRA, 0);
         int matchday = getArguments().getInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, 0);
         String competitionName = getArguments().getString(CompetitionActivity.COMPETITION_NAME_EXTRA);
-        int colorResource = getArguments().getInt(CompetitionActivity.COMPETITION_COLOR_RESOURCE_EXTRA);
+        int colorResource = getArguments().getInt(CompetitionActivity.COMPETITION_COLOR_RESOURCE_EXTRA, R.color.gray);
 
         setSwipeRefreshColor(getResources().getColor(colorResource));
 

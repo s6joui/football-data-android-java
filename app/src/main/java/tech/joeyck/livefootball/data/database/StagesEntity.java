@@ -2,7 +2,7 @@ package tech.joeyck.livefootball.data.database;
 
 import java.util.List;
 
-public class StagesEntity {
+public class StagesEntity extends BaseEntity {
 
     public static final String TYPE_TOTAL = "TOTAL";
 
