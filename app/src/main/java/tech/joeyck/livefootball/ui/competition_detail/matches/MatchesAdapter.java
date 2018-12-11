@@ -18,6 +18,7 @@ import tech.joeyck.livefootball.data.database.MatchEntity;
 import tech.joeyck.livefootball.data.database.ScoreEntity;
 import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerActivity;
 import tech.joeyck.livefootball.utilities.DateUtils;
+import tech.joeyck.livefootball.utilities.NetworkUtils;
 
 import static org.threeten.bp.temporal.ChronoUnit.MINUTES;
 
@@ -107,18 +108,22 @@ class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchesAdapterV
         }
 
         LocalDateTime matchTime = currentMatch.getLocalDateTime();
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = NetworkUtils.hasNetwork(mContext) ? LocalDateTime.now() : currentMatch.getLastUpdatedLocalDateTime();
         viewHolder.dateText.setText(DateUtils.getFormattedMatchDate(mContext,matchTime));
+        viewHolder.liveText.setVisibility(View.VISIBLE);
+        viewHolder.liveText.setTextColor(mContext.getResources().getColor(R.color.green));
+        viewHolder.liveText.setTypeface(null, Typeface.BOLD);
         if(currentMatch.isInSecondHalf()) {
-            viewHolder.liveText.setVisibility(View.VISIBLE);
             long mins = MINUTES.between(matchTime, now) - 15;
             viewHolder.liveText.setText("LIVE " + mins + "'");
         }else if(currentMatch.isInPlay()){
-            viewHolder.liveText.setVisibility(View.VISIBLE);
             viewHolder.liveText.setText("LIVE " + MINUTES.between(matchTime, now) + "'");
         }else if(currentMatch.isPaused()){
-            viewHolder.liveText.setVisibility(View.VISIBLE);
             viewHolder.liveText.setText(R.string.half_time);
+        }else if(currentMatch.isFinished()){
+            viewHolder.liveText.setTypeface(null, Typeface.NORMAL);
+            viewHolder.liveText.setTextColor(mContext.getResources().getColor(R.color.gray));
+            viewHolder.liveText.setText(R.string.full_time);
         }else{
             viewHolder.liveText.setVisibility(View.INVISIBLE);
         }

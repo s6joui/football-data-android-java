@@ -24,19 +24,7 @@ public class MatchEntity {
     private HashMap<String,String> homeTeam;
     private HashMap<String,String> awayTeam;
     private ScoreEntity score;
-
-    public MatchEntity(int id, SeasonEntity season, Date utcDate, String status, int matchday, String stage, String group, HashMap<String, String> homeTeam, HashMap<String, String> awayTeam, ScoreEntity score) {
-        this.id = id;
-        this.season = season;
-        this.utcDate = utcDate;
-        this.status = status;
-        this.matchday = matchday;
-        this.stage = stage;
-        this.group = group;
-        this.homeTeam = homeTeam;
-        this.awayTeam = awayTeam;
-        this.score = score;
-    }
+    private Date lastUpdated;
 
     public int getId() {
         return id;
@@ -105,5 +93,15 @@ public class MatchEntity {
 
     public boolean isPaused() {
         return status.equals(STATUS_PAUSED);
+    }
+
+    public Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public LocalDateTime getLastUpdatedLocalDateTime() {
+        return Instant.ofEpochMilli(utcDate.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
     }
 }

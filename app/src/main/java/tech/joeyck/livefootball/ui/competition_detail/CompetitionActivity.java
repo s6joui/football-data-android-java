@@ -91,7 +91,7 @@ public class CompetitionActivity extends AppCompatActivity {
 
         mFragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            switchFragments(MatchesFragment.FRAGMENT_TAG);
+            switchFragments(StandingsFragment.FRAGMENT_TAG);
         }
 
         setTitle(mViewModel.getCompetitionName());

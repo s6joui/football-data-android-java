@@ -2,14 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_matches"
-        android:icon="@drawable/ic_matches"
-        android:title="@string/title_matches" />
-
-
-    <item
         android:id="@+id/navigation_standings"
         android:icon="@drawable/ic_standings"
         android:title="@string/title_standings" />
+    <item
+        android:id="@+id/navigation_matches"
+        android:icon="@drawable/ic_matches"
+        android:title="@string/title_matches" />
 
 </menu>

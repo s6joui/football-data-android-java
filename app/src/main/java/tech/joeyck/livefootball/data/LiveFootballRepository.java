@@ -60,7 +60,7 @@ public class LiveFootballRepository {
     }
 
     public LiveData<ApiResponse<MatchesResponse>> getMatchesForTeam(int teamId) {
-        LocalDateTime to = LocalDateTime.now().plusDays(2);
+        LocalDateTime to = LocalDateTime.now().plusDays(7);
         LocalDateTime from = LocalDateTime.now().minusMonths(3);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return mApiService.getMatchesForTeam(teamId,from.format(formatter),to.format(formatter));
