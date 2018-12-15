@@ -98,7 +98,7 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
         if(getActivity() != null)getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 
-    private static List<CompetitionTableItem> formatTableData(List<StagesEntity> stages){
+    private List<CompetitionTableItem> formatTableData(List<StagesEntity> stages){
         List<CompetitionTableItem> tableItems = new ArrayList<>();
         for (StagesEntity stage : stages) {
             if(stage.getType().equals(StagesEntity.TYPE_TOTAL)){

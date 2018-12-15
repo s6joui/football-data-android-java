@@ -35,7 +35,7 @@ public class NetworkUtils {
     }
 
     public static String getCoverImageUrl(String query){
-        return COVER_IMAGE_URL+TextUtils.join(",",query.toLowerCase().split(" "));
+        return COVER_IMAGE_URL+query;
     }
 
     public static boolean hasNetwork(Context context) {

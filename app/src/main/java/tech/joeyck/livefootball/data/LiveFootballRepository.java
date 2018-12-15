@@ -32,7 +32,7 @@ public class LiveFootballRepository {
         mApiService = apiService;
     }
 
-    public synchronized static LiveFootballRepository getInstance(LiveFootballAPI apiService, AppExecutors executors) {
+    public synchronized static LiveFootballRepository getInstance(LiveFootballAPI apiService,AppExecutors executors) {
         Log.d(LOG_TAG, "Getting the repository");
         if (sInstance == null) {
             synchronized (LOCK) {

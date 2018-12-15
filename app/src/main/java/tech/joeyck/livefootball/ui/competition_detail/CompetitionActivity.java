@@ -191,4 +191,6 @@ public class CompetitionActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

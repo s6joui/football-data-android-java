@@ -20,4 +20,5 @@ public class StandingsViewModel extends ViewModel {
     public LiveData<ApiResponse<StandingsResponse>> getTableItems() {
         return mRepository.getCompetitionStandings(mCompetitionId);
     }
+
 }
