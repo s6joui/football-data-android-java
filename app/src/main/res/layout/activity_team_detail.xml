@@ -10,7 +10,7 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/team_header_height"
             android:background="@color/white">
 
             <android.support.design.widget.CollapsingToolbarLayout
@@ -19,7 +19,7 @@
                 android:layout_height="match_parent"
                 app:contentScrim="@color/white"
                 app:expandedTitleGravity="bottom|center_horizontal"
-                app:expandedTitleMarginBottom="24dp"
+                app:expandedTitleMarginBottom="@dimen/team_name_margin"
                 app:expandedTitleTextAppearance="@style/AppTheme.TeamExpandedTitleAppearance"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -39,11 +39,12 @@
                     android:background="#77000000"/>
 
                 <FrameLayout
-                    android:layout_marginTop="12dp"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="@dimen/back_button_background_margin_top"
+                    android:layout_marginStart="@dimen/back_button_background_margin_start"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:background="@drawable/circle_background"/>
+                    android:background="@drawable/circle_background"
+                    app:layout_collapseMode="pin"/>
 
                 <ImageView
                     android:id="@+id/crest_image_view"
@@ -51,9 +52,21 @@
                     android:layout_height="112dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/team_extra_text_margin"
                     app:srcCompat="@drawable/default_crest"
                     android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/teamExtraText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="@dimen/team_extra_text_margin"
+                    android:fontFamily="sans-serif-light"
+                    app:layout_collapseMode="parallax"
+                    android:text=""/>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"

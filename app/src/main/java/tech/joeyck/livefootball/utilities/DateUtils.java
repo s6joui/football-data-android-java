@@ -28,7 +28,9 @@ public class DateUtils {
     public static String getLastUpdatedString(Context context, LocalDateTime lastUpdateTime){
         LocalDateTime now = LocalDateTime.now();
         long minUpdate = MINUTES.between(lastUpdateTime,now);
-        if(minUpdate < 60) {
+        if(minUpdate <= 0){
+            return context.getString(R.string.updated_now);
+        }else if(minUpdate < 60) {
             return context.getString(R.string.updated_minutes_ago, minUpdate);
         }else if(minUpdate < 1440){
             long hourUpdate = minUpdate / 60;

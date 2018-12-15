@@ -20,6 +20,7 @@
     <string name="updated_minutes_ago">Last updated %1$d minutes ago</string>
     <string name="updated_hours_ago">Last updated %1$d hours ago</string>
     <string name="updated_day_ago">Last updated 1 day ago</string>
+    <string name="updated_now">Just updated</string>
     <string name="updated_days_ago">Last updated %1$d days ago</string>
     <!--About screen -->
     <string name="aboutLibraries_description_showIcon">true</string>

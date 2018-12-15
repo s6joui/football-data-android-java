@@ -65,7 +65,7 @@ public class TeamDetailActivity extends AppCompatActivity {
     private void bindTeamToUi(TeamEntity teamEntity, RequestOptions glideRequestOptions) {
         setTitle(teamEntity.getName());
         mBinding.toolbar.setTitle(teamEntity.getName());
-        mBinding.toolbar.setSubtitle(teamEntity.getArea().getName()+" | "+teamEntity.getFounded());
+        mBinding.teamExtraText.setText(teamEntity.getArea().getName()+" | "+teamEntity.getFounded());
         Glide.with(this).load(NetworkUtils.getCoverImageUrl(teamEntity.getName())).into(mBinding.coverImage);
         Glide.with(this).load(NetworkUtils.getPngUrl(teamEntity.getCrestUrl())).apply(glideRequestOptions).into(mBinding.crestImageView);
     }

@@ -4,9 +4,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="app_bar_height">120dp</dimen>
-    <dimen name="team_header_height">240dp</dimen>
-    <dimen name="back_button_background_margin_top">12dp</dimen>
+    <dimen name="team_header_height">190dp</dimen>
+    <dimen name="back_button_background_margin_top">9dp</dimen>
     <dimen name="back_button_background_margin_start">12dp</dimen>
-    <dimen name="team_name_margin">56dp</dimen>
-    <dimen name="team_extra_text_margin">24dp</dimen>
+    <dimen name="team_name_margin">38dp</dimen>
+    <dimen name="team_extra_text_margin">12dp</dimen>
 </resources>
