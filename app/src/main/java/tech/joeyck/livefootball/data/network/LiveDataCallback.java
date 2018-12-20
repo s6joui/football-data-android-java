@@ -1,6 +1,6 @@
 package tech.joeyck.livefootball.data.network;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import retrofit2.Call;
 import retrofit2.Callback;

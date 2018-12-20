@@ -1,9 +1,9 @@
 package tech.joeyck.livefootball.ui.competition_picker;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,6 @@ import java.util.List;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
-import tech.joeyck.livefootball.utilities.ColorUtils;
 import tech.joeyck.livefootball.utilities.CompetitionUtils;
 
 public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.CompetitionAdapterViewHolder> {
@@ -50,7 +49,7 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionAdapter.
      * @param viewGroup The ViewGroup that these ViewHolders are contained within.
      * @param viewType  If your RecyclerView has more than one type of item (like ours does) you
      *                  can use this viewType integer to provide a different layout. See
-     *                  {@link android.support.v7.widget.RecyclerView.Adapter#getItemViewType(int)}
+     *                  {@link RecyclerView.Adapter#getItemViewType(int)}
      *                  for more details.
      * @return A new CompetitionAdapterViewHolder that holds the View for each list item
      */

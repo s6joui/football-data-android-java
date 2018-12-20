@@ -1,10 +1,9 @@
 package tech.joeyck.livefootball.ui.competition_detail.matches;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import tech.joeyck.livefootball.data.LiveFootballRepository;
-import tech.joeyck.livefootball.data.database.CompetitionEntity;
 
 public class MatchesViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 

@@ -20,7 +20,6 @@
 
     <style name="AppTheme.ExpandedTitleAppearance" parent="TextAppearance.AppCompat.Title">
         <item name="android:textSize">36sp</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppTheme.TeamExpandedTitleAppearance" parent="TextAppearance.AppCompat.Title">

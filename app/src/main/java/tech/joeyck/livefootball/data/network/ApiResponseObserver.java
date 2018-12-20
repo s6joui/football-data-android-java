@@ -1,7 +1,7 @@
 package tech.joeyck.livefootball.data.network;
 
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.annotation.Nullable;
 
 public class ApiResponseObserver<T> implements Observer<ApiResponse<T>> {
 

@@ -1,10 +1,10 @@
 package tech.joeyck.livefootball.ui.team_detail;
 
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.DataBindingUtil;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -15,7 +15,6 @@ import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.TeamEntity;
 import tech.joeyck.livefootball.data.network.ApiResponseObserver;
 import tech.joeyck.livefootball.databinding.ActivityTeamDetailBinding;
-import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
 import tech.joeyck.livefootball.ui.competition_detail.matches.TeamMatchesFragment;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 import tech.joeyck.livefootball.utilities.NetworkUtils;

@@ -16,8 +16,8 @@ package tech.joeyck.livefootball.data.network;
  * limitations under the License.
  */
 
-import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.annotation.NonNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;

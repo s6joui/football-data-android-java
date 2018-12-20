@@ -1,8 +1,8 @@
 package tech.joeyck.livefootball.ui.competition_detail.matches;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import tech.joeyck.livefootball.data.LiveFootballRepository;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
