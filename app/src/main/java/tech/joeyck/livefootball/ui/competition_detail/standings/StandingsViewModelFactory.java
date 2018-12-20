@@ -8,16 +8,14 @@ import tech.joeyck.livefootball.data.LiveFootballRepository;
 public class StandingsViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final LiveFootballRepository mRepository;
-    private final int mCompetitionId;
 
-    public StandingsViewModelFactory(LiveFootballRepository repository, int competitionId){
+    public StandingsViewModelFactory(LiveFootballRepository repository){
         this.mRepository = repository;
-        this.mCompetitionId = competitionId;
     }
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         //noinspection unchecked
-        return (T) new StandingsViewModel(mRepository,mCompetitionId);
+        return (T) new StandingsViewModel(mRepository);
     }
 }

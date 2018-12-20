@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import java.util.List;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.MatchEntity;
 import tech.joeyck.livefootball.data.database.ScoreEntity;
-import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerActivity;
 import tech.joeyck.livefootball.utilities.DateUtils;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 

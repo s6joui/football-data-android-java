@@ -1,5 +1,7 @@
 package tech.joeyck.livefootball.data.database;
 
+import android.graphics.Color;
+
 import java.util.Date;
 
 public class CompetitionEntity extends BaseEntity {
@@ -9,6 +11,14 @@ public class CompetitionEntity extends BaseEntity {
     private String code;
     private SeasonEntity currentSeason;
     private AreaEntity area;
+    private int themeColor;
+
+    public CompetitionEntity(int id, String name, SeasonEntity currentSeason, int themeColor) {
+        this.id = id;
+        this.name = name;
+        this.currentSeason = currentSeason;
+        this.themeColor = themeColor;
+    }
 
     public int getId() {
         return id;
@@ -28,5 +38,13 @@ public class CompetitionEntity extends BaseEntity {
 
     public SeasonEntity getCurrentSeason() {
         return currentSeason;
+    }
+
+    public int getThemeColor() {
+        return themeColor;
+    }
+
+    public void setThemeColor(int themeColor) {
+        this.themeColor = themeColor;
     }
 }

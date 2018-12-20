@@ -1,6 +1,7 @@
 package tech.joeyck.livefootball.ui.team_detail;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import tech.joeyck.livefootball.data.database.TeamEntity;
 import tech.joeyck.livefootball.data.network.ApiResponseObserver;
 import tech.joeyck.livefootball.databinding.ActivityTeamDetailBinding;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
+import tech.joeyck.livefootball.ui.competition_detail.matches.TeamMatchesFragment;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 
@@ -36,7 +38,7 @@ public class TeamDetailActivity extends AppCompatActivity {
         String teamName = getIntent().getStringExtra(TEAM_NAME_EXTRA);
 
         TeamDetailViewModelFactory factory = InjectorUtils.provideTeamDetailViewModelFactory(this.getApplicationContext(),teamId);
-        mViewModel = factory.create(TeamDetailViewModel.class);
+        mViewModel = ViewModelProviders.of(this,factory).get(TeamDetailViewModel.class);
 
         setTitle(teamName);
         mBinding.toolbar.setTitle(teamName);
@@ -59,7 +61,7 @@ public class TeamDetailActivity extends AppCompatActivity {
         }));
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container,MatchesFragment.newInstance(teamId),MatchesFragment.FRAGMENT_TAG).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container,TeamMatchesFragment.newInstance(teamId),TeamMatchesFragment.FRAGMENT_TAG).commit();
     }
 
     private void bindTeamToUi(TeamEntity teamEntity, RequestOptions glideRequestOptions) {

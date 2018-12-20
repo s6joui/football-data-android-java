@@ -1,50 +1,34 @@
 package tech.joeyck.livefootball.ui.competition_detail;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-class CompetitionViewModel extends ViewModel {
+import tech.joeyck.livefootball.data.LiveFootballRepository;
+import tech.joeyck.livefootball.data.database.CompetitionEntity;
+import tech.joeyck.livefootball.data.database.CompetitionResponse;
+import tech.joeyck.livefootball.data.network.ApiResponse;
 
-    private int mCompetitionId;
-    private String mCompetitionName;
-    private int mMatchDay;
-    private int mThemeColor;
+public class CompetitionViewModel extends ViewModel {
 
-    CompetitionViewModel(int competitionId, String competitionName, int matchday, int themeColor){
-        this.mCompetitionId = competitionId;
-        this.mCompetitionName = competitionName;
-        this.mMatchDay = matchday;
-        this.mThemeColor = themeColor;
+    private LiveData<ApiResponse<CompetitionResponse>> mCompetitionList;
+    private MutableLiveData<CompetitionEntity> mCompetition = new MutableLiveData<>();
+
+    CompetitionViewModel(LiveFootballRepository repository, CompetitionEntity competition){
+        this.mCompetitionList = repository.getCompetitions();
+        this.mCompetition.setValue(competition);
     }
 
-    public int getCompetitionId() {
-        return mCompetitionId;
+    public LiveData<CompetitionEntity> getCompetition(){
+        return mCompetition;
     }
 
-    public String getCompetitionName() {
-        return mCompetitionName;
+    public void setCompetition(CompetitionEntity competition){
+        mCompetition.setValue(competition);
     }
 
-    public int getMatchDay() {
-        return mMatchDay;
+    public LiveData<ApiResponse<CompetitionResponse>> getCompetitionList(){
+        return mCompetitionList;
     }
 
-    public int getThemeColor(){
-        return mThemeColor;
-    }
-
-    public void setCompetitionId(int mCompetitionId) {
-        this.mCompetitionId = mCompetitionId;
-    }
-
-    public void setCompetitionName(String mCompetitionName) {
-        this.mCompetitionName = mCompetitionName;
-    }
-
-    public void setMatchDay(int mMatchDay) {
-        this.mMatchDay = mMatchDay;
-    }
-
-    public void setThemeColor(int mThemeColor) {
-        this.mThemeColor = mThemeColor;
-    }
 }

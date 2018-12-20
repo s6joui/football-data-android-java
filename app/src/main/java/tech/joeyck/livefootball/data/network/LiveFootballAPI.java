@@ -18,18 +18,18 @@ public interface LiveFootballAPI {
     LiveData<ApiResponse<CompetitionResponse>> getCompetitions();
 
     @GET("competitions/{id}")
-    LiveData<ApiResponse<CompetitionEntity>> getCompetitionById(@Path("id") int id);
+    Call<CompetitionEntity> getCompetitionById(@Path("id") int id);
 
     @GET("competitions/{id}/standings")
-    LiveData<ApiResponse<StandingsResponse>> getCompetitionStandings(@Path("id") int id);
+    Call<StandingsResponse> getCompetitionStandings(@Path("id") int id);
 
     @GET("teams/{id}")
     LiveData<ApiResponse<TeamEntity>> getTeamById(@Path("id") int id);
 
     @GET("competitions/{id}/matches")
-    LiveData<ApiResponse<MatchesResponse>> getMatchesForCompetition(@Path("id") int competitionId, @Query("matchday") int matchday);
+    Call<MatchesResponse> getMatchesForCompetition(@Path("id") int competitionId, @Query("matchday") int matchday);
 
     @GET("teams/{id}/matches")
-    LiveData<ApiResponse<MatchesResponse>> getMatchesForTeam(@Path("id") int teamId, @Query("dateFrom") String dateFrom,@Query("dateTo") String dateTo);
+    Call<MatchesResponse> getMatchesForTeam(@Path("id") int teamId, @Query("dateFrom") String dateFrom,@Query("dateTo") String dateTo);
 
 }

@@ -3,23 +3,22 @@ package tech.joeyck.livefootball.ui.competition_detail;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import tech.joeyck.livefootball.data.LiveFootballRepository;
+import tech.joeyck.livefootball.data.database.CompetitionEntity;
+
 public class CompetitionViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final int mCompetitionId;
-    private final String mCompetitionName;
-    private final int mMatchDay;
-    private final int mThemeColor;
+    private final CompetitionEntity mCompetition;
+    private LiveFootballRepository mRepository;
 
-    public CompetitionViewModelFactory(int competitionId, String competitionName, int matchday, int themeColor){
-        this.mCompetitionId = competitionId;
-        this.mCompetitionName = competitionName;
-        this.mMatchDay = matchday;
-        this.mThemeColor = themeColor;
+    public CompetitionViewModelFactory(LiveFootballRepository repository, CompetitionEntity competition){
+        this.mCompetition = competition;
+        this.mRepository = repository;
     }
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         //noinspection unchecked
-        return (T) new CompetitionViewModel(mCompetitionId,mCompetitionName,mMatchDay,mThemeColor);
+        return (T) new CompetitionViewModel(mRepository,mCompetition);
     }
 }

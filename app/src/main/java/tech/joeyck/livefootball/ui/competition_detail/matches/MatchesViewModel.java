@@ -1,35 +1,45 @@
 package tech.joeyck.livefootball.ui.competition_detail.matches;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import java.util.List;
-
 import tech.joeyck.livefootball.data.LiveFootballRepository;
-import tech.joeyck.livefootball.data.database.MatchEntity;
+import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.data.database.MatchesResponse;
 import tech.joeyck.livefootball.data.network.ApiResponse;
 
 public class MatchesViewModel extends ViewModel {
 
     private LiveFootballRepository mRepository;
-    private int mCompetitionId;
-    private int mMatchday;
+    private CompetitionEntity mCompetition;
     private int mTeamId;
+    private MutableLiveData<ApiResponse<MatchesResponse>> matches = new MutableLiveData<>();
 
-    MatchesViewModel(LiveFootballRepository repository, int competitionId, int matchday, int teamId){
+    MatchesViewModel(LiveFootballRepository repository){
         this.mRepository = repository;
-        this.mCompetitionId = competitionId;
-        this.mMatchday = matchday;
+    }
+
+    void setCompetition(CompetitionEntity competition){
+        this.mCompetition = competition;
+        fetchCompetitionMatchData();
+    }
+
+    void setTeamId(int teamId){
         this.mTeamId = teamId;
+        fetchTeamMatchData();
     }
 
-    LiveData<ApiResponse<MatchesResponse>> getMatchesForCompetition(){
-        return mRepository.getMatchesForCompetition(mCompetitionId,mMatchday);
+    void fetchCompetitionMatchData(){
+        mRepository.fetchMatchesForCompetition(matches,mCompetition.getId(),mCompetition.getCurrentSeason().getCurrentMatchday());
     }
 
-    LiveData<ApiResponse<MatchesResponse>> getMatchesForTeam(){
-        return mRepository.getMatchesForTeam(mTeamId);
+    void fetchTeamMatchData(){
+        mRepository.fetchMatchesForTeam(matches,mTeamId);
+    }
+
+    LiveData<ApiResponse<MatchesResponse>> getMatches(){
+        return matches;
     }
 
 }

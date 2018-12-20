@@ -1,6 +1,7 @@
 package tech.joeyck.livefootball.ui.competition_detail.standings;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import tech.joeyck.livefootball.data.LiveFootballRepository;
@@ -9,16 +10,25 @@ import tech.joeyck.livefootball.data.network.ApiResponse;
 
 public class StandingsViewModel extends ViewModel {
 
-    private LiveFootballRepository mRepository;
+    private MutableLiveData<ApiResponse<StandingsResponse>> mTableItems = new MutableLiveData<>();
     private int mCompetitionId;
+    private LiveFootballRepository mRepository;
 
-    StandingsViewModel(LiveFootballRepository repository, int competitionId){
+    StandingsViewModel(LiveFootballRepository repository){
         mRepository = repository;
+    }
+
+    public void setCompetitionId(int competitionId){
         mCompetitionId = competitionId;
+        fetchData();
+    }
+
+    public void fetchData(){
+        mRepository.fetchCompetitionStandings(mTableItems,mCompetitionId);
     }
 
     public LiveData<ApiResponse<StandingsResponse>> getTableItems() {
-        return mRepository.getCompetitionStandings(mCompetitionId);
+        return mTableItems;
     }
 
 }

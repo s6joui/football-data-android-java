@@ -16,7 +16,6 @@ import java.util.List;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.TableEntryEntity;
-import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerActivity;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 
 public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

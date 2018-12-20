@@ -1,7 +1,9 @@
 package tech.joeyck.livefootball.ui.competition_detail.standings;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -17,8 +19,8 @@ import tech.joeyck.livefootball.data.database.StagesEntity;
 import tech.joeyck.livefootball.data.database.StandingsResponse;
 import tech.joeyck.livefootball.data.database.TableEntryEntity;
 import tech.joeyck.livefootball.data.network.ApiResponseObserver;
-import tech.joeyck.livefootball.ui.competition_detail.BaseListFragment;
-import tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity;
+import tech.joeyck.livefootball.ui.BaseRefreshListFragment;
+import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModel;
 import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.CompetitionTableAdapter;
 import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.CompetitionTableItem;
 import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.HeaderItem;
@@ -26,66 +28,73 @@ import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.TeamItem
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailActivity;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
-public class StandingsFragment extends BaseListFragment implements CompetitionTableAdapter.CompetitionAdapterOnItemClickHandler{
+public class StandingsFragment extends BaseRefreshListFragment implements CompetitionTableAdapter.CompetitionAdapterOnItemClickHandler{
 
     public static final String FRAGMENT_TAG = "StandingsFragment";
     private static final String LOG_TAG = StandingsFragment.class.getSimpleName();
 
     private StandingsViewModel mViewModel;
 
-    public static StandingsFragment newInstance(int competitionId, String competitionName, int matchDay, int colorResource){
-        StandingsFragment fragment = new StandingsFragment();
-        Bundle args = new Bundle();
-        args.putInt(CompetitionActivity.COMPETITION_ID_EXTRA, competitionId);
-        args.putInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, matchDay);
-        args.putString(CompetitionActivity.COMPETITION_NAME_EXTRA, competitionName);
-        args.putInt(CompetitionActivity.COMPETITION_COLOR_RESOURCE_EXTRA, colorResource);
-        fragment.setArguments(args);
-        return fragment;
+    public static StandingsFragment newInstance(){
+        return new StandingsFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater,container,savedInstanceState,true,false);
 
-        int competitionId = getArguments().getInt(CompetitionActivity.COMPETITION_ID_EXTRA, 0);
-        int matchday = getArguments().getInt(CompetitionActivity.COMPETITION_MATCHDAY_EXTRA, 0);
-        String competitionName = getArguments().getString(CompetitionActivity.COMPETITION_NAME_EXTRA);
-        int colorResource = getArguments().getInt(CompetitionActivity.COMPETITION_COLOR_RESOURCE_EXTRA, R.color.gray);
-
-        setSwipeRefreshColor(getResources().getColor(colorResource));
-
-        StandingsViewModelFactory factory = InjectorUtils.provideStandingsViewModelFactory(getActivity().getApplicationContext(),competitionId);
-        mViewModel = factory.create(StandingsViewModel.class);
-
         CompetitionTableAdapter tableAdapter = new CompetitionTableAdapter(getActivity(), this);
         setAdapter(tableAdapter);
 
-        onDataRequest();
+        StandingsViewModelFactory factory = InjectorUtils.provideStandingsViewModelFactory(getActivity().getApplicationContext());
+        mViewModel = ViewModelProviders.of(this,factory).get(StandingsViewModel.class);
+
+        CompetitionViewModel sharedViewModel  = ViewModelProviders.of(getActivity()).get(CompetitionViewModel.class);
+        sharedViewModel.getCompetition().observe(this, competitionEntity -> {
+            if(competitionEntity!=null){
+                mRecyclerView.setVisibility(View.GONE);
+                setSwipeRefreshColor(getResources().getColor(competitionEntity.getThemeColor()));
+                hideError();
+                showLoading();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mViewModel.setCompetitionId(competitionEntity.getId());
+                    }
+                },350);
+            }
+        });
+
+        mViewModel.getTableItems().observe(this,new ApiResponseObserver<StandingsResponse>(new ApiResponseObserver.ChangeListener<StandingsResponse>() {
+            @Override
+            public void onSuccess(StandingsResponse res) {
+                bindStandingsToUI(res);
+            }
+
+            @Override
+            public void onException(String errorMessage) {
+                showError(R.string.no_connection);
+            }
+        }));
 
         return view;
     }
 
+    private void bindStandingsToUI(StandingsResponse res) {
+        mRecyclerView.setVisibility(View.VISIBLE);
+        List<CompetitionTableItem> tableItems = formatTableData(res.getStages());
+        if(tableItems != null && tableItems.size() != 0){
+            ((CompetitionTableAdapter)getAdapter()).swapTable(tableItems);
+            hideLoading();
+        }else{
+            showError(R.string.not_found);
+        }
+    }
+
     @Override
-    public void onDataRequest() {
-        super.onDataRequest();
-        mViewModel.getTableItems().observe(this,new ApiResponseObserver<StandingsResponse>(new ApiResponseObserver.ChangeListener<StandingsResponse>() {
-            @Override
-            public void onSuccess(StandingsResponse responseBody) {
-                List<CompetitionTableItem> tableItems = formatTableData(responseBody.getStages());
-                if(tableItems != null && tableItems.size() != 0){
-                    ((CompetitionTableAdapter)getAdapter()).swapTable(tableItems);
-                    hideLoading();
-                }else{
-                    showError(R.string.not_found);
-                }
-            }
-            @Override
-            public void onException(String errorMessage) {
-                hideLoading();
-                showError(R.string.no_connection);
-            }
-        }));
+    public void onRefresh() {
+        super.onRefresh();
+        mViewModel.fetchData();
     }
 
     @Override
@@ -98,7 +107,7 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
         if(getActivity() != null)getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 
-    private List<CompetitionTableItem> formatTableData(List<StagesEntity> stages){
+    public static List<CompetitionTableItem> formatTableData(List<StagesEntity> stages){
         List<CompetitionTableItem> tableItems = new ArrayList<>();
         for (StagesEntity stage : stages) {
             if(stage.getType().equals(StagesEntity.TYPE_TOTAL)){
@@ -113,4 +122,5 @@ public class StandingsFragment extends BaseListFragment implements CompetitionTa
         }
         return tableItems;
     }
+
 }

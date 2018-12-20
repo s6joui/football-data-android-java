@@ -20,10 +20,10 @@ import android.content.Context;
 
 import tech.joeyck.livefootball.AppExecutors;
 import tech.joeyck.livefootball.data.LiveFootballRepository;
+import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.data.network.LiveFootballAPI;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModelFactory;
 import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsViewModelFactory;
-import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerViewModelFactory;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesViewModelFactory;
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailViewModelFactory;
 
@@ -33,19 +33,13 @@ import tech.joeyck.livefootball.ui.team_detail.TeamDetailViewModelFactory;
 public class InjectorUtils {
 
     public static LiveFootballRepository provideRepository(Context context) {
-        AppExecutors executors = AppExecutors.getInstance();
         LiveFootballAPI service = NetworkUtils.buildRetrofit(context).create(LiveFootballAPI.class);
-        return LiveFootballRepository.getInstance(service,executors);
+        return LiveFootballRepository.getInstance(service);
     }
 
-    public static CompetitionPickerViewModelFactory provideMainViewModelFactory(Context context) {
+    public static StandingsViewModelFactory provideStandingsViewModelFactory(Context context) {
         LiveFootballRepository repository = provideRepository(context.getApplicationContext());
-        return new CompetitionPickerViewModelFactory(repository);
-    }
-
-    public static StandingsViewModelFactory provideStandingsViewModelFactory(Context context, int competitionId) {
-        LiveFootballRepository repository = provideRepository(context.getApplicationContext());
-        return new StandingsViewModelFactory(repository,competitionId);
+        return new StandingsViewModelFactory(repository);
     }
 
     public static TeamDetailViewModelFactory provideTeamDetailViewModelFactory(Context context, int teamId) {
@@ -53,13 +47,14 @@ public class InjectorUtils {
         return new TeamDetailViewModelFactory(repository,teamId);
     }
 
-    public static MatchesViewModelFactory provideMatchesViewModelFactory(Context context, int competitionId, int matchday, int teamId) {
+    public static MatchesViewModelFactory provideMatchesViewModelFactory(Context context) {
         LiveFootballRepository repository = provideRepository(context.getApplicationContext());
-        return new MatchesViewModelFactory(repository,competitionId, matchday,teamId);
+        return new MatchesViewModelFactory(repository);
     }
 
-    public static CompetitionViewModelFactory provideCompetitionViewModelFactory(Context context, int competitionId, String competitionName, int matchday,int themeColor){
-        return new CompetitionViewModelFactory(competitionId,competitionName,matchday,themeColor);
+    public static CompetitionViewModelFactory provideCompetitionViewModelFactory(Context context, CompetitionEntity competition){
+        LiveFootballRepository repository = provideRepository(context.getApplicationContext());
+        return new CompetitionViewModelFactory(repository,competition);
     }
 
 }

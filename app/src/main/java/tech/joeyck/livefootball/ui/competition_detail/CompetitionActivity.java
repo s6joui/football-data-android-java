@@ -1,18 +1,11 @@
 package tech.joeyck.livefootball.ui.competition_detail;
 
 import android.app.ActivityManager;
-import android.content.Intent;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.StateListDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -20,7 +13,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,10 +27,15 @@ import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.util.Colors;
 
+import java.lang.reflect.Field;
+
 import tech.joeyck.livefootball.R;
+import tech.joeyck.livefootball.data.database.CompetitionEntity;
+import tech.joeyck.livefootball.data.database.SeasonEntity;
+import tech.joeyck.livefootball.ui.competition_detail.matches.CompetitionMatchesFragment;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
 import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsFragment;
-import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerActivity;
+import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerFragment;
 import tech.joeyck.livefootball.utilities.ColorUtils;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
@@ -47,21 +48,19 @@ public class CompetitionActivity extends AppCompatActivity {
     public static final String COMPETITION_MATCHDAY_PREF = "COMPETITION_MATCHDAY_PREF";
     public static final String COMPETITION_COLOR_PREF = "COMPETITION_COLOR_PREF";
 
-    public static final String COMPETITION_ID_EXTRA = "COMPETITION_ID_EXTRA";
-    public static final String COMPETITION_NAME_EXTRA = "COMPETITION_NAME_EXTRA";
-    public static final String COMPETITION_MATCHDAY_EXTRA = "COMPETITION_MATCHDAY_EXTRA";
-    public static final String COMPETITION_COLOR_RESOURCE_EXTRA = "COMPETITION_COLOR_RESOURCE_EXTRA";
-
     FragmentManager mFragmentManager;
     CompetitionViewModel mViewModel;
     BottomNavigationView mBottomNavigationView;
+    DrawerLayout mDrawerLayout;
+
+    private CompetitionEntity mCurrentCompetition;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_matches:
-                    switchFragments(MatchesFragment.FRAGMENT_TAG);
+                    switchFragments(CompetitionMatchesFragment.FRAGMENT_TAG);
                     return true;
                 case R.id.navigation_standings:
                     switchFragments(StandingsFragment.FRAGMENT_TAG);
@@ -77,32 +76,59 @@ public class CompetitionActivity extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         int competitionId = prefs.getInt(COMPETITION_ID_PREF,-1);
-        if(competitionId < 0){
-            showCompetitionPicker();
-            finish();
-            return;
-        }
         int matchday = prefs.getInt(COMPETITION_MATCHDAY_PREF, -1);
         int themeColor = prefs.getInt(COMPETITION_COLOR_PREF, R.color.colorPrimary);
         String competitionName = prefs.getString(COMPETITION_NAME_PREF,"");
+        mCurrentCompetition = new CompetitionEntity(competitionId,competitionName,new SeasonEntity(0,matchday),themeColor);
 
         setContentView(R.layout.activity_competition);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        fixMinDrawerMargin(mDrawerLayout);
         mBottomNavigationView = findViewById(R.id.navigation);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         if(getSupportActionBar()!=null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(getSupportActionBar()!=null) getSupportActionBar().setHomeAsUpIndicator(getDrawable(R.drawable.ic_menu));
 
-        CompetitionViewModelFactory factory = InjectorUtils.provideCompetitionViewModelFactory(this.getApplicationContext(),competitionId,competitionName,matchday,themeColor);
-        mViewModel = factory.create(CompetitionViewModel.class);
+        CompetitionViewModelFactory factory = InjectorUtils.provideCompetitionViewModelFactory(this,mCurrentCompetition);
+        mViewModel = ViewModelProviders.of(this,factory).get(CompetitionViewModel.class);
 
         mFragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
             switchFragments(StandingsFragment.FRAGMENT_TAG);
+            mFragmentManager.beginTransaction().add(R.id.side_content_frame, new CompetitionPickerFragment(),CompetitionPickerFragment.FRAGMENT_TAG).commit();
         }
 
-        setTitle(mViewModel.getCompetitionName());
-        setThemeColor(mViewModel.getThemeColor());
+        mViewModel.getCompetition().observe(this,competition -> {
+            if(competition!=null) bindCompetitionToUI(competition);
+        });
+    }
+
+    private void bindCompetitionToUI(CompetitionEntity competition) {
+        if(competition.getId() >= 0){
+            mCurrentCompetition = competition;
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            setTitle(competition.getName());
+            setThemeColor(competition.getThemeColor());
+            if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
+        }else{
+            mDrawerLayout.openDrawer(GravityCompat.START);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+        }
+    }
+
+    public void setTab(int tab){
+        mBottomNavigationView.setSelectedItemId(tab);
+    }
+
+    public void closeDrawer() {
+        if(mCurrentCompetition.getId() >= 0)
+            mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private void switchFragments(String tag){
@@ -113,10 +139,10 @@ public class CompetitionActivity extends AppCompatActivity {
         }
         Fragment fragment = mFragmentManager.findFragmentByTag(tag);
         if (fragment == null) {
-            if(tag.equals(MatchesFragment.FRAGMENT_TAG)){
-                fragment = MatchesFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay(),mViewModel.getThemeColor());
+            if(tag.equals(CompetitionMatchesFragment.FRAGMENT_TAG)){
+                fragment = CompetitionMatchesFragment.newInstance();
             }else if(tag.equals(StandingsFragment.FRAGMENT_TAG)){
-                fragment = StandingsFragment.newInstance(mViewModel.getCompetitionId(),mViewModel.getCompetitionName(),mViewModel.getMatchDay(),mViewModel.getThemeColor());
+                fragment = StandingsFragment.newInstance();
             }
             fragmentTransaction.add(R.id.fragment_container, fragment, tag);
         } else {
@@ -153,14 +179,17 @@ public class CompetitionActivity extends AppCompatActivity {
         window.setStatusBarColor(darkerColor);
 
         //Customize task manager entry
-        ActivityManager.TaskDescription td = new ActivityManager.TaskDescription(mViewModel.getCompetitionName(), null, mainColor);
+        ActivityManager.TaskDescription td = new ActivityManager.TaskDescription(mCurrentCompetition.getName(), null, mainColor);
         setTaskDescription(td);
     }
 
-    private void showCompetitionPicker(){
-        Intent competitionPickerIntent = new Intent(CompetitionActivity.this, CompetitionPickerActivity.class);
-        startActivity(competitionPickerIntent);
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+    @Override
+    public void onBackPressed() {
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.START) && mCurrentCompetition.getId() >= 0){
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -174,10 +203,10 @@ public class CompetitionActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case android.R.id.home:
-                showCompetitionPicker();
+                mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.about:
-                int themeColor =getResources().getColor(mViewModel.getThemeColor());
+                int themeColor =getResources().getColor(mCurrentCompetition.getThemeColor());
                 Colors activityColor = new Colors(themeColor,ColorUtils.getDarkerColor(themeColor,0.75f));
                 new LibsBuilder()
                         .withActivityColor(activityColor)
@@ -192,5 +221,15 @@ public class CompetitionActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void fixMinDrawerMargin(DrawerLayout drawerLayout) {
+        try {
+            Field f = DrawerLayout.class.getDeclaredField("mMinDrawerMargin");
+            f.setAccessible(true);
+            f.set(drawerLayout, 0);
+            drawerLayout.requestLayout();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

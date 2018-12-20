@@ -28,17 +28,12 @@
         <activity
             android:name=".ui.competition_detail.CompetitionActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".ui.competition_picker.CompetitionPickerActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
         </activity>
 
     </application>
