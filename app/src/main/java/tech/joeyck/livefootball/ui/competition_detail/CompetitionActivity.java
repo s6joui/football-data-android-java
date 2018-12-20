@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -32,8 +33,8 @@ import java.lang.reflect.Field;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.data.database.SeasonEntity;
+import tech.joeyck.livefootball.databinding.ActivityCompetitionBinding;
 import tech.joeyck.livefootball.ui.competition_detail.matches.CompetitionMatchesFragment;
-import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesFragment;
 import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsFragment;
 import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerFragment;
 import tech.joeyck.livefootball.utilities.ColorUtils;
@@ -48,11 +49,8 @@ public class CompetitionActivity extends AppCompatActivity {
     public static final String COMPETITION_MATCHDAY_PREF = "COMPETITION_MATCHDAY_PREF";
     public static final String COMPETITION_COLOR_PREF = "COMPETITION_COLOR_PREF";
 
-    FragmentManager mFragmentManager;
-    CompetitionViewModel mViewModel;
-    BottomNavigationView mBottomNavigationView;
-    DrawerLayout mDrawerLayout;
-
+    private FragmentManager mFragmentManager;
+    private ActivityCompetitionBinding mBinding;
     private CompetitionEntity mCurrentCompetition;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,6 +71,7 @@ public class CompetitionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_competition);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         int competitionId = prefs.getInt(COMPETITION_ID_PREF,-1);
@@ -81,11 +80,8 @@ public class CompetitionActivity extends AppCompatActivity {
         String competitionName = prefs.getString(COMPETITION_NAME_PREF,"");
         mCurrentCompetition = new CompetitionEntity(competitionId,competitionName,new SeasonEntity(0,matchday),themeColor);
 
-        setContentView(R.layout.activity_competition);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        fixMinDrawerMargin(mDrawerLayout);
-        mBottomNavigationView = findViewById(R.id.navigation);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        fixMinDrawerMargin(mBinding.drawerLayout);
+        mBinding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,7 +90,7 @@ public class CompetitionActivity extends AppCompatActivity {
         if(getSupportActionBar()!=null) getSupportActionBar().setHomeAsUpIndicator(getDrawable(R.drawable.ic_menu));
 
         CompetitionViewModelFactory factory = InjectorUtils.provideCompetitionViewModelFactory(this,mCurrentCompetition);
-        mViewModel = ViewModelProviders.of(this,factory).get(CompetitionViewModel.class);
+        CompetitionViewModel viewModel = ViewModelProviders.of(this, factory).get(CompetitionViewModel.class);
 
         mFragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
@@ -102,7 +98,7 @@ public class CompetitionActivity extends AppCompatActivity {
             mFragmentManager.beginTransaction().add(R.id.side_content_frame, new CompetitionPickerFragment(),CompetitionPickerFragment.FRAGMENT_TAG).commit();
         }
 
-        mViewModel.getCompetition().observe(this,competition -> {
+        viewModel.getCompetition().observe(this, competition -> {
             if(competition!=null) bindCompetitionToUI(competition);
         });
     }
@@ -110,25 +106,25 @@ public class CompetitionActivity extends AppCompatActivity {
     private void bindCompetitionToUI(CompetitionEntity competition) {
         if(competition.getId() >= 0){
             mCurrentCompetition = competition;
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            mBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             setTitle(competition.getName());
             setThemeColor(competition.getThemeColor());
-            if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
-                mDrawerLayout.closeDrawer(GravityCompat.START);
+            if(mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+                mBinding.drawerLayout.closeDrawer(GravityCompat.START);
             }
         }else{
-            mDrawerLayout.openDrawer(GravityCompat.START);
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+            mBinding.drawerLayout.openDrawer(GravityCompat.START);
+            mBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
         }
     }
 
     public void setTab(int tab){
-        mBottomNavigationView.setSelectedItemId(tab);
+        mBinding.navigation.setSelectedItemId(tab);
     }
 
     public void closeDrawer() {
         if(mCurrentCompetition.getId() >= 0)
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+            mBinding.drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private void switchFragments(String tag){
@@ -170,9 +166,9 @@ public class CompetitionActivity extends AppCompatActivity {
         };
 
         ColorStateList colorStateList = new ColorStateList(states,colors);
-        mBottomNavigationView.setItemTextColor(colorStateList);
-        mBottomNavigationView.setItemIconTintList(colorStateList);
-        mBottomNavigationView.setBackgroundColor(mainColor);
+        mBinding.navigation.setItemTextColor(colorStateList);
+        mBinding.navigation.setItemIconTintList(colorStateList);
+        mBinding.navigation.setBackgroundColor(mainColor);
 
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -185,8 +181,8 @@ public class CompetitionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(mDrawerLayout.isDrawerOpen(GravityCompat.START) && mCurrentCompetition.getId() >= 0){
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+        if(mBinding.drawerLayout.isDrawerOpen(GravityCompat.START) && mCurrentCompetition.getId() >= 0){
+            mBinding.drawerLayout.closeDrawer(GravityCompat.START);
         }else{
             super.onBackPressed();
         }
@@ -203,7 +199,7 @@ public class CompetitionActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                mBinding.drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.about:
                 int themeColor =getResources().getColor(mCurrentCompetition.getThemeColor());
