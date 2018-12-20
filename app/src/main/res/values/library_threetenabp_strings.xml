@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="define_int_threetenabp"></string>
+	<!-- Author section -->
+	<string name="library_threetenabp_author">Jake Wharton</string>
+	<string name="library_threetenabp_authorWebsite">jakewharton.com</string>
+	<!-- Library section -->
+	<string name="library_threetenabp_libraryName">ThreeTenABP</string>
+	<string name="library_threetenabp_libraryDescription">An adaptation of the JSR-310 backport for Android.</string>
+	<string name="library_threetenabp_libraryWebsite">https://github.com/JakeWharton/ThreeTenABP</string>
+	<string name="library_threetenabp_libraryVersion">1.1.1</string>
+	<!-- OpenSource section -->
+	<string name="library_threetenabp_isOpenSource">true</string>
+	<string name="library_threetenabp_repositoryLink">https://github.com/JakeWharton/ThreeTenABP</string>
+	<!-- ClassPath for autoDetect section -->
+	<string name="library_threetenabp_classPath">com.jakewharton.threetenabp</string>
+	<!-- License section -->
+	<string name="library_threetenabp_licenseId">apache_2_0</string>
+	<!-- Custom variables section -->
+</resources>
+

@@ -8,7 +8,6 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import tech.joeyck.livefootball.R;
 
-import static org.threeten.bp.temporal.ChronoUnit.HOURS;
 import static org.threeten.bp.temporal.ChronoUnit.MINUTES;
 
 public class DateUtils {

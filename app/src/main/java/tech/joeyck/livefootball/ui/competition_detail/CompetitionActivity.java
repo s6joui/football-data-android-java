@@ -205,12 +205,14 @@ public class CompetitionActivity extends AppCompatActivity {
                 int themeColor =getResources().getColor(mCurrentCompetition.getThemeColor());
                 Colors activityColor = new Colors(themeColor,ColorUtils.getDarkerColor(themeColor,0.75f));
                 new LibsBuilder()
+                        .withAutoDetect(true)
                         .withActivityColor(activityColor)
                         .withAboutAppName(getString(R.string.app_name))
                         .withActivityTitle(getString(R.string.title_about))
                         .withLicenseShown(true)
                         .withLicenseDialog(true)
                         .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                        .withLibraries("threetenabp")
                         .start(this);
                 return true;
         }
