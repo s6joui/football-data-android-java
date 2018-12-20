@@ -26,7 +26,7 @@ public class BaseListFragment extends Fragment{
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return onCreateView(inflater,container,savedInstanceState,R.layout.layout_recyclerview);
+        return onCreateView(inflater,container,savedInstanceState,R.layout.recyclerview_layout);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState, int layoutResource) {
