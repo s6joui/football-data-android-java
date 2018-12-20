@@ -48,7 +48,7 @@ public class BaseRefreshListFragment extends BaseListFragment{
         });
 
         mReverseOrder = reverseOrder;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         if(mReverseOrder){
             layoutManager.setReverseLayout(true);
             layoutManager.setStackFromEnd(true);
