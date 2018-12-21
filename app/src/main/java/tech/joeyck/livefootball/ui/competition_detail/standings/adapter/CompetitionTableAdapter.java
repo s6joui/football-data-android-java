@@ -16,6 +16,7 @@ import java.util.List;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.TableEntryEntity;
+import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerFragment;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 
 public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -94,14 +95,15 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
         } else {
             CompetitionAdapterViewHolder holder = (CompetitionAdapterViewHolder) viewHolder;
             TeamItem currentTeamTableEntity = (TeamItem)mTable.get(position);
-            holder.teamNameTextView.setText(currentTeamTableEntity.getTeam().getTeam().getName());
-            holder.pointsTextView.setText(""+currentTeamTableEntity.getTeam().getPoints());
-            holder.positionTextView.setText(""+currentTeamTableEntity.getTeam().getPosition());
-            holder.playedTextView.setText(""+currentTeamTableEntity.getTeam().getPlayedGames());
-            holder.lostTextView.setText(""+currentTeamTableEntity.getTeam().getLost());
-            holder.drawnTextView.setText(""+currentTeamTableEntity.getTeam().getDraw());
-            holder.wonTextView.setText(""+currentTeamTableEntity.getTeam().getWon());
-            String crestUrl = NetworkUtils.getPngUrl(currentTeamTableEntity.getTeam().getTeam().getCrestUrl());
+            TableEntryEntity tableEntry = currentTeamTableEntity.getTableEntryEntity();
+            holder.teamNameTextView.setText(tableEntry.getTeam().getName());
+            holder.pointsTextView.setText(String.valueOf(tableEntry.getPoints()));
+            holder.positionTextView.setText(String.valueOf(tableEntry.getPosition()));
+            holder.playedTextView.setText(String.valueOf(tableEntry.getPlayedGames()));
+            holder.lostTextView.setText(String.valueOf(tableEntry.getLost()));
+            holder.drawnTextView.setText(String.valueOf(tableEntry.getDraw()));
+            holder.wonTextView.setText(String.valueOf(tableEntry.getWon()));
+            String crestUrl = NetworkUtils.getCrestUrl(tableEntry.getTeam().getId(),NetworkUtils.IMAGE_QUALITY_SD);
             Glide.with(mContext).load(crestUrl).apply(mGlideRequestOptions).into(holder.crestView);
         }
 
@@ -121,7 +123,7 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * Swaps the list used by the CompetitionAdapter for its weather data. This method is called by
-     * {@link CompetitionPickerActivity} after a load has finished. When this method is called, we assume we have
+     * {@link CompetitionPickerFragment} after a load has finished. When this method is called, we assume we have
      * a new set of data, so we call notifyDataSetChanged to tell the RecyclerView to update.
      *
      * @param table the new list of forecasts to use as CompetitionAdapter's data source
@@ -183,7 +185,7 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            TableEntryEntity tableEntryEntity = ((TeamItem)mTable.get(adapterPosition)).getTeam();
+            TableEntryEntity tableEntryEntity = ((TeamItem)mTable.get(adapterPosition)).getTableEntryEntity();
             mClickHandler.onItemClick(tableEntryEntity);
         }
     }

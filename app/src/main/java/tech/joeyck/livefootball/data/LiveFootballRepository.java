@@ -8,6 +8,8 @@ import android.util.Log;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
+import java.util.HashMap;
+
 import tech.joeyck.livefootball.BuildConfig;
 import tech.joeyck.livefootball.data.database.CompetitionResponse;
 import tech.joeyck.livefootball.data.network.ApiResponse;
@@ -26,6 +28,7 @@ public class LiveFootballRepository {
     private static final Object LOCK = new Object();
     private static LiveFootballRepository sInstance;
     private final LiveFootballAPI mApiService;
+    private HashMap<Integer,String> mCrestCache;
 
     private LiveFootballRepository(LiveFootballAPI apiService) {
         mApiService = apiService;

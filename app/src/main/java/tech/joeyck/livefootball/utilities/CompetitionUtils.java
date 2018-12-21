@@ -35,13 +35,13 @@ public class CompetitionUtils {
     static
     {
         competitionReorder = new SparseIntArray();
-        competitionReorder.put(0, 1);
-        competitionReorder.put(1, 10);
-        competitionReorder.put(2, 6);
-        competitionReorder.put(3, 7);
-        competitionReorder.put(4, 8);
+        competitionReorder.put(0, 10);
+        competitionReorder.put(1, 1);
+        competitionReorder.put(2, 7);
+        competitionReorder.put(3, 6);
+        competitionReorder.put(4, 5);
         competitionReorder.put(5, 9);
-        competitionReorder.put(6, 5);
+        competitionReorder.put(6, 8);
         competitionReorder.put(7, 4);
         competitionReorder.put(8, 0);
         competitionReorder.put(9, 2);

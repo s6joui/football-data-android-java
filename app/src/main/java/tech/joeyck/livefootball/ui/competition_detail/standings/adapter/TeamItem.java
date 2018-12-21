@@ -4,14 +4,14 @@ import tech.joeyck.livefootball.data.database.TableEntryEntity;
 
 public class TeamItem extends CompetitionTableItem {
 
-    private TableEntryEntity team;
+    private TableEntryEntity tableEntryEntity;
 
-    public TeamItem(TableEntryEntity team) {
-        this.team = team;
+    public TeamItem(TableEntryEntity tableEntryEntity) {
+        this.tableEntryEntity = tableEntryEntity;
     }
 
-    public TableEntryEntity getTeam() {
-        return team;
+    public TableEntryEntity getTableEntryEntity() {
+        return tableEntryEntity;
     }
 
     @Override

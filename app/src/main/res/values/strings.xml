@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LiveFootball</string>
+    <string name="app_name">Football data</string>
     <string name="title_activity_competition_detail">Competition</string>
     <string name="title_activity_team_detail">Team</string>
     <string name="today">Today</string>

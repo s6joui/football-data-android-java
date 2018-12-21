@@ -24,14 +24,15 @@ import tech.joeyck.livefootball.data.network.LiveDataCallAdapterFactory;
 
 public class NetworkUtils {
 
-    private static final String SVG_CONVERTER_URL = "https://svg2png-jck.herokuapp.com/convert?svg=";
+    private static final String FOOTBALL_API_URL = "https://api.football-data.org/v2/";
+    private static final String CREST_API_URL = "https://football-crest-api.herokuapp.com/crest/";
     private static final String COVER_IMAGE_URL = "https://loremflickr.com/320/240/";
 
-    public static String getPngUrl(String url){
-        if(url!=null && url.endsWith("svg")){
-            return SVG_CONVERTER_URL+url;
-        }
-        return url;
+    public static final String IMAGE_QUALITY_SD = "sd";
+    public static final String IMAGE_QUALITY_HD = "hd";
+
+    public static String getCrestUrl(int teamId, String quality){
+        return CREST_API_URL + quality + "/" + teamId;
     }
 
     public static String getCoverImageUrl(String query){
@@ -67,7 +68,7 @@ public class NetworkUtils {
             }
         });
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.football-data.org/v2/")
+                .baseUrl(FOOTBALL_API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .client(httpClient.build())

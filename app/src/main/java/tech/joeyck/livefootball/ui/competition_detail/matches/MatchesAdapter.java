@@ -4,14 +4,21 @@ import android.content.Context;
 import android.graphics.Typeface;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.threeten.bp.LocalDateTime;
 
 import java.util.List;
+import java.util.Objects;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.MatchEntity;
@@ -40,6 +47,7 @@ class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<MatchEntity> mMatches;
     private LocalDateTime mLastUpdated;
     private boolean mHasFooter = false;
+    private RequestOptions mGlideRequestOptions;
 
     /**
      * Creates a CompetitionAdapter.
@@ -51,6 +59,10 @@ class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     MatchesAdapter(@NonNull Context context, MatchesAdapter.MatchesAdapterOnItemClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
+        mGlideRequestOptions = new RequestOptions();
+        mGlideRequestOptions.placeholder(R.drawable.default_crest);
+        mGlideRequestOptions.error(R.drawable.default_crest);
+        mGlideRequestOptions.fallback(R.drawable.default_crest);
     }
 
     /**
@@ -96,6 +108,13 @@ class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             vh.awayTeamNameText.setText(currentMatch.getAwayTeam().get("name"));
             vh.homeTeamScoreText.setText(currentMatch.getScore().getHomeTeamScore());
             vh.awayTeamScoreText.setText(currentMatch.getScore().getAwayTeamScore());
+
+            int homeTeamId = Integer.parseInt(Objects.requireNonNull(currentMatch.getHomeTeam().get("id")));
+            int awayTeamId = Integer.parseInt(Objects.requireNonNull(currentMatch.getAwayTeam().get("id")));
+            String homeCrestUrl = NetworkUtils.getCrestUrl(homeTeamId,NetworkUtils.IMAGE_QUALITY_SD);
+            String awayCrestUrl = NetworkUtils.getCrestUrl(awayTeamId,NetworkUtils.IMAGE_QUALITY_SD);
+            Glide.with(mContext).load(homeCrestUrl).apply(mGlideRequestOptions).into(vh.crestHome);
+            Glide.with(mContext).load(awayCrestUrl).apply(mGlideRequestOptions).into(vh.crestAway);
 
             String winner = currentMatch.getScore().getWinner();
             if(currentMatch.isFinished() && winner!=null && !winner.equals(ScoreEntity.DRAW)){
@@ -160,7 +179,7 @@ class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /**
      * Swaps the list used by the CompetitionAdapter for its weather data. This method is called by
-     * {@link CompetitionPickerActivity} after a load has finished. When this method is called, we assume we have
+     * {@link tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerFragment} after a load has finished. When this method is called, we assume we have
      * a new set of data, so we call notifyDataSetChanged to tell the RecyclerView to update.
      *
      * @param matches the new list of forecasts to use as CompetitionAdapter's data source
@@ -203,6 +222,8 @@ class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final TextView awayTeamScoreText;
         final TextView liveText;
         final TextView dateText;
+        final ImageView crestHome;
+        final ImageView crestAway;
 
         MatchesAdapterViewHolder(View view) {
             super(view);
@@ -210,6 +231,8 @@ class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             awayTeamNameText = view.findViewById(R.id.away_name_text);
             homeTeamScoreText = view.findViewById(R.id.home_score_text);
             awayTeamScoreText = view.findViewById(R.id.away_score_tex);
+            crestHome = view.findViewById(R.id.crestHomeTeam);
+            crestAway = view.findViewById(R.id.crestAwayTeam);
             liveText = view.findViewById(R.id.live_text);
             dateText = view.findViewById(R.id.date_text);
             view.setOnClickListener(this);

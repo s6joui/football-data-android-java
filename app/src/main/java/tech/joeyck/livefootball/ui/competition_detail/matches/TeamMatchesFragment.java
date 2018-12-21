@@ -16,7 +16,7 @@ import tech.joeyck.livefootball.data.database.MatchesResponse;
 public class TeamMatchesFragment extends MatchesFragment {
 
     public static final String FRAGMENT_TAG = "TeamMatchesFragment";
-    public static final String ARG_TEAM_ID = "TEAM_ID";
+    private static final String ARG_TEAM_ID = "TEAM_ID";
 
     public static TeamMatchesFragment newInstance(int teamId){
         TeamMatchesFragment fragment = new TeamMatchesFragment();
@@ -28,7 +28,7 @@ public class TeamMatchesFragment extends MatchesFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater,container,savedInstanceState,false);
+        View view = super.onCreateView(inflater,container,savedInstanceState,true);
 
         int teamId = getArguments().getInt(ARG_TEAM_ID,0);
         mViewModel.setTeamId(teamId);
