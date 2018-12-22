@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +32,15 @@ public class CompetitionMatchesFragment extends MatchesFragment {
         CompetitionViewModel sharedViewModel = ViewModelProviders.of(getActivity()).get(CompetitionViewModel.class);
         sharedViewModel.getCompetition().observe(this, competitionEntity -> {
             if(competitionEntity!=null) {
-                mViewModel.setCompetition(competitionEntity);
+                hideError();
+                showLoading();
                 setSwipeRefreshColor(getResources().getColor(competitionEntity.getThemeColor()));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mViewModel.setCompetition(competitionEntity);
+                    }
+                },350);
             }
         });
 

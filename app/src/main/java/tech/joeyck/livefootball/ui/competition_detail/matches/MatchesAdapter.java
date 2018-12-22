@@ -5,15 +5,13 @@ import android.graphics.Typeface;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
 import org.threeten.bp.LocalDateTime;
 
@@ -26,6 +24,7 @@ import tech.joeyck.livefootball.data.database.ScoreEntity;
 import tech.joeyck.livefootball.utilities.DateUtils;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 
+import static androidx.recyclerview.widget.RecyclerView.NO_ID;
 import static org.threeten.bp.temporal.ChronoUnit.MINUTES;
 
 class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -47,7 +46,6 @@ class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<MatchEntity> mMatches;
     private LocalDateTime mLastUpdated;
     private boolean mHasFooter = false;
-    private RequestOptions mGlideRequestOptions;
 
     /**
      * Creates a CompetitionAdapter.
@@ -59,10 +57,6 @@ class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     MatchesAdapter(@NonNull Context context, MatchesAdapter.MatchesAdapterOnItemClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
-        mGlideRequestOptions = new RequestOptions();
-        mGlideRequestOptions.placeholder(R.drawable.default_crest);
-        mGlideRequestOptions.error(R.drawable.default_crest);
-        mGlideRequestOptions.fallback(R.drawable.default_crest);
     }
 
     /**
@@ -113,8 +107,8 @@ class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             int awayTeamId = Integer.parseInt(Objects.requireNonNull(currentMatch.getAwayTeam().get("id")));
             String homeCrestUrl = NetworkUtils.getCrestUrl(homeTeamId,NetworkUtils.IMAGE_QUALITY_SD);
             String awayCrestUrl = NetworkUtils.getCrestUrl(awayTeamId,NetworkUtils.IMAGE_QUALITY_SD);
-            Glide.with(mContext).load(homeCrestUrl).apply(mGlideRequestOptions).into(vh.crestHome);
-            Glide.with(mContext).load(awayCrestUrl).apply(mGlideRequestOptions).into(vh.crestAway);
+            Picasso.get().load(homeCrestUrl).placeholder(R.drawable.default_crest).error(R.drawable.default_crest).into(vh.crestHome);
+            Picasso.get().load(awayCrestUrl).placeholder(R.drawable.default_crest).error(R.drawable.default_crest).into(vh.crestAway);
 
             String winner = currentMatch.getScore().getWinner();
             if(currentMatch.isFinished() && winner!=null && !winner.equals(ScoreEntity.DRAW)){
@@ -192,6 +186,16 @@ class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     void setLastUpdated(final LocalDateTime mLastUpdated){
         mHasFooter = true;
         this.mLastUpdated = mLastUpdated;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        int type = getItemViewType(position);
+        if (type == TYPE_FOOTER) {
+            return NO_ID;
+        }else{
+            return mMatches.get(position).getId();
+        }
     }
 
     /**

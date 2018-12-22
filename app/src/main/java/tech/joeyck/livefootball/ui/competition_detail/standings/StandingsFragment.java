@@ -44,6 +44,7 @@ public class StandingsFragment extends BaseRefreshListFragment implements Compet
         View view = super.onCreateView(inflater,container,savedInstanceState,true,false);
 
         CompetitionTableAdapter tableAdapter = new CompetitionTableAdapter(getActivity(), this);
+        tableAdapter.setHasStableIds(true);
         setAdapter(tableAdapter);
 
         StandingsViewModelFactory factory = InjectorUtils.provideStandingsViewModelFactory(getActivity().getApplicationContext());
@@ -52,7 +53,6 @@ public class StandingsFragment extends BaseRefreshListFragment implements Compet
         CompetitionViewModel sharedViewModel  = ViewModelProviders.of(getActivity()).get(CompetitionViewModel.class);
         sharedViewModel.getCompetition().observe(this, competitionEntity -> {
             if(competitionEntity!=null){
-                mRecyclerView.setVisibility(View.GONE);
                 setSwipeRefreshColor(getResources().getColor(competitionEntity.getThemeColor()));
                 hideError();
                 showLoading();
@@ -81,7 +81,6 @@ public class StandingsFragment extends BaseRefreshListFragment implements Compet
     }
 
     private void bindStandingsToUI(StandingsResponse res) {
-        mRecyclerView.setVisibility(View.VISIBLE);
         List<CompetitionTableItem> tableItems = formatTableData(res.getStages());
         if(tableItems != null && tableItems.size() != 0){
             ((CompetitionTableAdapter)getAdapter()).swapTable(tableItems);

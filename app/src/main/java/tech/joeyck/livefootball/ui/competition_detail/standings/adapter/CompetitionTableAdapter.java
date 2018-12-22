@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -18,6 +17,8 @@ import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.TableEntryEntity;
 import tech.joeyck.livefootball.ui.competition_picker.CompetitionPickerFragment;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
+
+import static androidx.recyclerview.widget.RecyclerView.NO_ID;
 
 public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -31,9 +32,7 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
      * an item is clicked in the list.
      */
     private final CompetitionAdapterOnItemClickHandler mClickHandler;
-
     private List<CompetitionTableItem> mTable;
-    private RequestOptions mGlideRequestOptions;
 
     /**
      * Creates a CompetitionAdapter.
@@ -45,10 +44,6 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
     public CompetitionTableAdapter(@NonNull Context context, CompetitionAdapterOnItemClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
-        mGlideRequestOptions = new RequestOptions();
-        mGlideRequestOptions.placeholder(R.drawable.default_crest);
-        mGlideRequestOptions.error(R.drawable.default_crest);
-        mGlideRequestOptions.fallback(R.drawable.default_crest);
     }
 
     /**
@@ -86,7 +81,6 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-
         int type = getItemViewType(position);
         if (type == CompetitionTableItem.TYPE_HEADER) {
             HeaderItem header = (HeaderItem) mTable.get(position);
@@ -104,7 +98,7 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
             holder.drawnTextView.setText(String.valueOf(tableEntry.getDraw()));
             holder.wonTextView.setText(String.valueOf(tableEntry.getWon()));
             String crestUrl = NetworkUtils.getCrestUrl(tableEntry.getTeam().getId(),NetworkUtils.IMAGE_QUALITY_SD);
-            Glide.with(mContext).load(crestUrl).apply(mGlideRequestOptions).into(holder.crestView);
+            Picasso.get().load(crestUrl).placeholder(R.drawable.default_crest).error(R.drawable.default_crest).into(holder.crestView);
         }
 
     }
@@ -119,6 +113,16 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
     public int getItemCount() {
         if (null == mTable) return 0;
         return mTable.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        int type = getItemViewType(position);
+        if (type == CompetitionTableItem.TYPE_HEADER) {
+            return NO_ID;
+        }else{
+            return ((TeamItem)mTable.get(position)).getTableEntryEntity().getTeam().getId();
+        }
     }
 
     /**
@@ -163,7 +167,6 @@ public class CompetitionTableAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         CompetitionAdapterViewHolder(View view) {
             super(view);
-
             crestView = view.findViewById(R.id.team_crest);
             teamNameTextView = view.findViewById(R.id.team_name);
             pointsTextView = view.findViewById(R.id.team_points);

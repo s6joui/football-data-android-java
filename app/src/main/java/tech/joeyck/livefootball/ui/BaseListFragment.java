@@ -42,6 +42,13 @@ public class BaseListFragment extends Fragment{
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemViewCacheSize(20);
+        mRecyclerView.setDrawingCacheEnabled(true);
+        mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        if(mRecyclerView.getItemAnimator()!=null) mRecyclerView.getItemAnimator().setChangeDuration(500);
+        if(mRecyclerView.getItemAnimator()!=null) mRecyclerView.getItemAnimator().setMoveDuration(500);
+        if(mRecyclerView.getItemAnimator()!=null) mRecyclerView.getItemAnimator().setAddDuration(500);
+        if(mRecyclerView.getItemAnimator()!=null) mRecyclerView.getItemAnimator().setRemoveDuration(500);
         return view;
     }
 

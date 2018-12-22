@@ -3,14 +3,8 @@ package tech.joeyck.livefootball.utilities;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.text.TextUtils;
-
-import com.bumptech.glide.RequestBuilder;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;

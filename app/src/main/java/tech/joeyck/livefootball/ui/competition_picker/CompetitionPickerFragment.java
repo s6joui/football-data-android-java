@@ -89,10 +89,6 @@ public class CompetitionPickerFragment extends BaseListFragment implements Compe
 
         competition.setThemeColor(CompetitionUtils.getColorResourceId(competition.getId()));
         mViewModel.setCompetition(competition);
-
-        //TODO: replace with SingleLiveEvent
-        CompetitionActivity activity = (CompetitionActivity) getActivity();
-        if(activity!=null) activity.setTab(R.id.navigation_standings);
     }
 
 }

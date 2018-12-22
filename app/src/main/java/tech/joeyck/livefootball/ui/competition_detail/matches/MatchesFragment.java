@@ -27,12 +27,13 @@ public abstract class MatchesFragment extends BaseRefreshListFragment implements
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState, boolean reverseOrder) {
-        View view = super.onCreateView(inflater,container,savedInstanceState,false,reverseOrder);
+        View view = super.onCreateView(inflater,container,savedInstanceState,true,reverseOrder);
 
         MatchesViewModelFactory factory = InjectorUtils.provideMatchesViewModelFactory(getActivity().getApplicationContext());
         mViewModel = ViewModelProviders.of(this,factory).get(MatchesViewModel.class);
 
         mMatchesAdapter = new MatchesAdapter(getActivity(), this);
+        mMatchesAdapter.setHasStableIds(true);
         setAdapter(mMatchesAdapter);
 
         mViewModel.getMatches().observe(this, new ApiResponseObserver<MatchesResponse>(new ApiResponseObserver.ChangeListener<MatchesResponse>() {
