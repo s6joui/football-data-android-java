@@ -15,7 +15,7 @@ import tech.joeyck.livefootball.data.database.TeamEntity;
 public interface LiveFootballAPI {
 
     @GET("competitions?plan=TIER_ONE")
-    LiveData<ApiResponse<CompetitionResponse>> getCompetitions();
+    Call<CompetitionResponse> getCompetitions();
 
     @GET("competitions/{id}")
     Call<CompetitionEntity> getCompetitionById(@Path("id") int id);
@@ -24,7 +24,7 @@ public interface LiveFootballAPI {
     Call<StandingsResponse> getCompetitionStandings(@Path("id") int id);
 
     @GET("teams/{id}")
-    LiveData<ApiResponse<TeamEntity>> getTeamById(@Path("id") int id);
+    Call<TeamEntity> getTeamById(@Path("id") int id);
 
     @GET("competitions/{id}/matches")
     Call<MatchesResponse> getMatchesForCompetition(@Path("id") int competitionId, @Query("matchday") int matchday);

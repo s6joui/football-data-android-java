@@ -94,7 +94,7 @@ public class StandingsFragment extends BaseRefreshListFragment implements Compet
     @Override
     public void onRefresh() {
         super.onRefresh();
-        mViewModel.fetchData();
+        mViewModel.fetchCompetitionStandings();
     }
 
     @Override

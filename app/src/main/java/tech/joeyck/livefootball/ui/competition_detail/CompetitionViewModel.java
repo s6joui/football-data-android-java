@@ -12,12 +12,11 @@ import tech.joeyck.livefootball.data.network.ApiResponse;
 public class CompetitionViewModel extends ViewModel {
 
     private final LiveFootballRepository mRepository;
-    private LiveData<ApiResponse<CompetitionResponse>> mCompetitionList;
+    private MutableLiveData<ApiResponse<CompetitionResponse>> mCompetitionList = new MutableLiveData<>();
     private MutableLiveData<CompetitionEntity> mCompetition = new MutableLiveData<>();
 
     CompetitionViewModel(LiveFootballRepository repository, CompetitionEntity competition){
         this.mRepository = repository;
-        this.mCompetitionList = repository.getCompetitions();
         this.mCompetition.setValue(competition);
     }
 
@@ -31,6 +30,10 @@ public class CompetitionViewModel extends ViewModel {
 
     public LiveData<ApiResponse<CompetitionResponse>> getCompetitionList(){
         return mCompetitionList;
+    }
+
+    public void fetchCompetitionList(){
+        mRepository.fetchCompetitionList(data -> mCompetitionList.postValue(data));
     }
 
 }

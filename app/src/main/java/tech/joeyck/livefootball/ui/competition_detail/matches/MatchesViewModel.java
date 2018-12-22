@@ -2,12 +2,14 @@ package tech.joeyck.livefootball.ui.competition_detail.matches;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import tech.joeyck.livefootball.data.LiveFootballRepository;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.data.database.MatchesResponse;
 import tech.joeyck.livefootball.data.network.ApiResponse;
+import tech.joeyck.livefootball.data.network.LiveDataCallback;
 
 public class MatchesViewModel extends ViewModel {
 
@@ -31,11 +33,15 @@ public class MatchesViewModel extends ViewModel {
     }
 
     void fetchCompetitionMatchData(){
-        mRepository.fetchMatchesForCompetition(matches,mCompetition.getId(),mCompetition.getCurrentSeason().getCurrentMatchday());
+        mRepository.fetchMatchesForCompetition(mCompetition.getId(),mCompetition.getCurrentSeason().getCurrentMatchday(), newData -> {
+            matches.postValue(newData);
+        });
     }
 
     void fetchTeamMatchData(){
-        mRepository.fetchMatchesForTeam(matches,mTeamId);
+        mRepository.fetchMatchesForTeam(mTeamId, newData -> {
+            matches.postValue(newData);
+        });
     }
 
     LiveData<ApiResponse<MatchesResponse>> getMatches(){

@@ -37,12 +37,7 @@ public class BaseListFragment extends Fragment{
         mErrorText = view.findViewById(R.id.error_text);
 
         ImageButton errorImageButton = view.findViewById(R.id.retry_button);
-        errorImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onRefresh();
-            }
-        });
+        errorImageButton.setOnClickListener(button -> onRefresh());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);

@@ -20,6 +20,7 @@ import tech.joeyck.livefootball.ui.competition_detail.standings.adapter.TeamItem
 public class StandingsViewModel extends ViewModel {
 
     private MutableLiveData<ApiResponse<StandingsResponse>> mTableItems = new MutableLiveData<>();
+
     private int mCompetitionId;
     private LiveFootballRepository mRepository;
 
@@ -29,11 +30,13 @@ public class StandingsViewModel extends ViewModel {
 
     public void setCompetitionId(int competitionId){
         mCompetitionId = competitionId;
-        fetchData();
+        fetchCompetitionStandings();
     }
 
-    public void fetchData(){
-        mRepository.fetchCompetitionStandings(mTableItems,mCompetitionId);
+    public void fetchCompetitionStandings(){
+        mRepository.fetchCompetitionStandings(mCompetitionId,(standings) -> {
+            mTableItems.postValue(standings);
+        });
     }
 
     public LiveData<ApiResponse<StandingsResponse>> getTableItems() {

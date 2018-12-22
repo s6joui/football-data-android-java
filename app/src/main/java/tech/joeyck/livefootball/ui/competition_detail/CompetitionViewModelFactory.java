@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import tech.joeyck.livefootball.data.LiveFootballRepository;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
 
-public class CompetitionViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+public class CompetitionViewModelFactory implements ViewModelProvider.Factory {
 
     private final CompetitionEntity mCompetition;
     private LiveFootballRepository mRepository;

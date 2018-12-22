@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import tech.joeyck.livefootball.data.LiveFootballRepository;
 
-public class TeamDetailViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+public class TeamDetailViewModelFactory implements ViewModelProvider.Factory {
 
     private final LiveFootballRepository mRepository;
     private final int mTeamId;

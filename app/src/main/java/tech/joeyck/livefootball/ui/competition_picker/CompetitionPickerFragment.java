@@ -54,6 +54,7 @@ public class CompetitionPickerFragment extends BaseListFragment implements Compe
 
         mViewModel = ViewModelProviders.of(getActivity()).get(CompetitionViewModel.class);
 
+        mViewModel.fetchCompetitionList();
         mViewModel.getCompetitionList().observe(this, new ApiResponseObserver<>(new ApiResponseObserver.ChangeListener<CompetitionResponse>() {
             @Override
             public void onSuccess(CompetitionResponse responseBody) {
@@ -68,6 +69,12 @@ public class CompetitionPickerFragment extends BaseListFragment implements Compe
         }));
 
         return view;
+    }
+
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+        mViewModel.fetchCompetitionList();
     }
 
     @Override
