@@ -59,4 +59,9 @@ public class TableEntryEntity implements BaseAdapter.BaseAdapterItem {
     public int getType() {
         return TYPE_DEFAULT;
     }
+
+    @Override
+    public int getId() {
+        return team.getId();
+    }
 }

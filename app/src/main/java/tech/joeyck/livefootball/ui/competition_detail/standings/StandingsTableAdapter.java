@@ -17,10 +17,6 @@ import tech.joeyck.livefootball.data.database.TableEntryEntity;
 import tech.joeyck.livefootball.ui.BaseAdapter;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 
-import static androidx.recyclerview.widget.RecyclerView.NO_ID;
-import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_DEFAULT;
-import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_HEADER;
-
 public class StandingsTableAdapter extends BaseAdapter<TableEntryEntity> {
 
     StandingsTableAdapter(@NonNull Context context, AdapterOnItemClickHandler<TableEntryEntity> clickHandler) {
@@ -29,7 +25,7 @@ public class StandingsTableAdapter extends BaseAdapter<TableEntryEntity> {
 
     @Override
     public RecyclerView.ViewHolder onCreateMainViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.table_item, viewGroup, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.table_item, viewGroup, false);
         view.setFocusable(true);
         return new CompetitionAdapterViewHolder(view);
     }
@@ -37,7 +33,7 @@ public class StandingsTableAdapter extends BaseAdapter<TableEntryEntity> {
     @Override
     public void onBindMainViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         CompetitionAdapterViewHolder holder = (CompetitionAdapterViewHolder) viewHolder;
-        TableEntryEntity tableEntry = (TableEntryEntity) mItems.get(position);
+        TableEntryEntity tableEntry = (TableEntryEntity) getItems().get(position);
         holder.teamNameTextView.setText(tableEntry.getTeam().getName());
         holder.pointsTextView.setText(String.valueOf(tableEntry.getPoints()));
         holder.positionTextView.setText(String.valueOf(tableEntry.getPosition()));
@@ -47,15 +43,6 @@ public class StandingsTableAdapter extends BaseAdapter<TableEntryEntity> {
         holder.wonTextView.setText(String.valueOf(tableEntry.getWon()));
         String crestUrl = NetworkUtils.getCrestUrl(tableEntry.getTeam().getId(),NetworkUtils.IMAGE_QUALITY_SD);
         Picasso.get().load(crestUrl).placeholder(R.drawable.default_crest).error(R.drawable.default_crest).into(holder.crestView);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        int type = getItemViewType(position);
-        if (type == TYPE_DEFAULT) {
-            return ((TableEntryEntity)mItems.get(position)).getTeam().getId();
-        }
-        return NO_ID;
     }
 
     /**
@@ -97,8 +84,8 @@ public class StandingsTableAdapter extends BaseAdapter<TableEntryEntity> {
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            TableEntryEntity tableEntryEntity = (TableEntryEntity)mItems.get(adapterPosition);
-            mClickHandler.onItemClick(tableEntryEntity);
+            TableEntryEntity tableEntryEntity = (TableEntryEntity)getItems().get(adapterPosition);
+            getClickHandler().onItemClick(tableEntryEntity);
         }
     }
 

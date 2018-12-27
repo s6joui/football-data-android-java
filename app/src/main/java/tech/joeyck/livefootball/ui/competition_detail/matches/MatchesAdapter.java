@@ -24,9 +24,7 @@ import tech.joeyck.livefootball.ui.BaseAdapter;
 import tech.joeyck.livefootball.utilities.DateUtils;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 
-import static androidx.recyclerview.widget.RecyclerView.NO_ID;
 import static org.threeten.bp.temporal.ChronoUnit.MINUTES;
-import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_DEFAULT;
 
 class MatchesAdapter extends BaseAdapter<MatchEntity> {
 
@@ -36,13 +34,13 @@ class MatchesAdapter extends BaseAdapter<MatchEntity> {
 
     @Override
     public RecyclerView.ViewHolder onCreateMainViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.match_item, viewGroup, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.match_item, viewGroup, false);
         return new MatchesAdapterViewHolder(view);
     }
 
     @Override
     public void onBindMainViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        MatchEntity currentMatch = (MatchEntity) mItems.get(position);
+        MatchEntity currentMatch = (MatchEntity) getItems().get(position);
         MatchesAdapterViewHolder vh = (MatchesAdapterViewHolder) viewHolder;
         vh.homeTeamNameText.setText(currentMatch.getHomeTeam().get("name"));
         vh.awayTeamNameText.setText(currentMatch.getAwayTeam().get("name"));
@@ -77,34 +75,25 @@ class MatchesAdapter extends BaseAdapter<MatchEntity> {
         }
 
         LocalDateTime matchTime = currentMatch.getLocalDateTime();
-        LocalDateTime now = NetworkUtils.hasNetwork(mContext) ? LocalDateTime.now() : currentMatch.getLastUpdatedLocalDateTime();
-        vh.dateText.setText(DateUtils.getFormattedMatchDate(mContext,matchTime));
+        LocalDateTime now = NetworkUtils.hasNetwork(getContext()) ? LocalDateTime.now() : currentMatch.getLastUpdatedLocalDateTime();
+        vh.dateText.setText(DateUtils.getFormattedMatchDate(getContext(),matchTime));
         vh.liveText.setVisibility(View.VISIBLE);
-        vh.liveText.setTextColor(mContext.getResources().getColor(R.color.green));
+        vh.liveText.setTextColor(getContext().getResources().getColor(R.color.green));
         vh.liveText.setTypeface(null, Typeface.BOLD);
         if(currentMatch.isInSecondHalf()) {
             long mins = MINUTES.between(matchTime, now) - 15;
-            vh.liveText.setText(mContext.getResources().getString(R.string.live,mins));
+            vh.liveText.setText(getContext().getResources().getString(R.string.live,mins));
         }else if(currentMatch.isInPlay()){
-            vh.liveText.setText(mContext.getResources().getString(R.string.live,MINUTES.between(matchTime, now)));
+            vh.liveText.setText(getContext().getResources().getString(R.string.live,MINUTES.between(matchTime, now)));
         }else if(currentMatch.isPaused()){
             vh.liveText.setText(R.string.half_time);
         }else if(currentMatch.isFinished()){
             vh.liveText.setTypeface(null, Typeface.NORMAL);
-            vh.liveText.setTextColor(mContext.getResources().getColor(R.color.gray));
+            vh.liveText.setTextColor(getContext().getResources().getColor(R.color.gray));
             vh.liveText.setText(R.string.full_time);
         }else{
             vh.liveText.setVisibility(View.INVISIBLE);
         }
-    }
-
-    @Override
-    public long getItemId(int position) {
-        int type = getItemViewType(position);
-        if (type == TYPE_DEFAULT) {
-            return ((MatchEntity)mItems.get(position)).getId();
-        }
-        return NO_ID;
     }
 
     /**
@@ -146,8 +135,8 @@ class MatchesAdapter extends BaseAdapter<MatchEntity> {
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            MatchEntity matchEntity = (MatchEntity) mItems.get(adapterPosition);
-            mClickHandler.onItemClick(matchEntity);
+            MatchEntity matchEntity = (MatchEntity) getItems().get(adapterPosition);
+            getClickHandler().onItemClick(matchEntity);
         }
     }
 

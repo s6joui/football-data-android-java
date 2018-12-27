@@ -11,16 +11,17 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import tech.joeyck.livefootball.R;
+import tech.joeyck.livefootball.data.database.TableEntryEntity;
 
+import static android.view.View.NO_ID;
 import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_DEFAULT;
-import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_HEADER;
 
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public final Context mContext;
-    public final AdapterOnItemClickHandler<T> mClickHandler;
+    private final Context mContext;
+    private final AdapterOnItemClickHandler<T> mClickHandler;
 
-    public List<BaseAdapterItem> mItems;
+    private List<BaseAdapterItem> mItems;
 
     public BaseAdapter(@NonNull Context context, AdapterOnItemClickHandler<T> clickHandler) {
         mContext = context;
@@ -59,6 +60,15 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     }
 
     @Override
+    public long getItemId(int position) {
+        int type = getItemViewType(position);
+        if (type == TYPE_DEFAULT) {
+            return mItems.get(position).getId();
+        }
+        return RecyclerView.NO_ID;
+    }
+
+    @Override
     public int getItemCount() {
         if(mItems!=null) return mItems.size();
         return 0;
@@ -81,6 +91,18 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     public void addHeader(int position, final String headerText, int layout){
         mItems.add(position,new HeaderItem(headerText,layout));
         notifyItemRangeInserted(position,1);
+    }
+
+    public List<BaseAdapterItem> getItems() {
+        return mItems;
+    }
+
+    public Context getContext() {
+        return mContext;
+    }
+
+    public AdapterOnItemClickHandler<T> getClickHandler() {
+        return mClickHandler;
     }
 
     /**
@@ -118,6 +140,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         public int getType() {
             return mLayout;
         }
+
+        @Override
+        public int getId() {
+            return NO_ID;
+        }
     }
 
     public static class TextItem {
@@ -140,6 +167,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         int TYPE_HEADER = R.layout.table_header;
 
         int getType();
+        int getId();
 
     }
 

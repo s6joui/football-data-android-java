@@ -27,6 +27,7 @@ public class MatchEntity extends BaseEntity implements BaseAdapterItem {
     private HashMap<String,String> awayTeam;
     private ScoreEntity score;
 
+    @Override
     public int getId() {
         return id;
     }
