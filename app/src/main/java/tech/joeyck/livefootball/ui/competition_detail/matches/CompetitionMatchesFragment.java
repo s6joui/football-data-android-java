@@ -10,12 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.threeten.bp.LocalDateTime;
+
 import java.util.List;
 
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.MatchEntity;
 import tech.joeyck.livefootball.data.database.MatchesResponse;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModel;
+import tech.joeyck.livefootball.utilities.DateUtils;
 
 public class CompetitionMatchesFragment extends MatchesFragment {
 
@@ -57,8 +60,10 @@ public class CompetitionMatchesFragment extends MatchesFragment {
         hideLoading();
         List<MatchEntity> matchEntities = responseBody.getMatches();
         if(matchEntities!=null){
-            mMatchesAdapter.swapMatches(matchEntities);
-            mMatchesAdapter.setLastUpdated(responseBody.getCompetition().getLastUpdatedLocalDateTime());
+            mMatchesAdapter.swapItems(matchEntities);
+            mMatchesAdapter.addHeader(0,getString(R.string.matchday,mViewModel.getCompetition().getCurrentSeason().getCurrentMatchday()));
+            LocalDateTime lastUpdated = responseBody.getCompetition().getLastUpdatedLocalDateTime();
+            mMatchesAdapter.addFooter(matchEntities.size(),DateUtils.getLastUpdatedString(getContext(),lastUpdated));
             if(matchEntities.size() == 0){
                 showError(R.string.no_recent_matches);
             }

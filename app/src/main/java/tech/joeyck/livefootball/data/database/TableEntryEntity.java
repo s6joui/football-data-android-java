@@ -1,6 +1,8 @@
 package tech.joeyck.livefootball.data.database;
 
-public class TableEntryEntity {
+import tech.joeyck.livefootball.ui.BaseAdapter;
+
+public class TableEntryEntity implements BaseAdapter.BaseAdapterItem {
 
     private int position;
     private TeamEntity team;
@@ -51,5 +53,10 @@ public class TableEntryEntity {
 
     public int getGoalDifference() {
         return goalDifference;
+    }
+
+    @Override
+    public int getType() {
+        return TYPE_DEFAULT;
     }
 }

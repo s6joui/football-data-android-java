@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import tech.joeyck.livefootball.R;
+import tech.joeyck.livefootball.data.database.MatchEntity;
 import tech.joeyck.livefootball.data.database.MatchesResponse;
 import tech.joeyck.livefootball.data.network.ApiResponseObserver;
 import tech.joeyck.livefootball.ui.BaseRefreshListFragment;
 import tech.joeyck.livefootball.utilities.InjectorUtils;
 
-public abstract class MatchesFragment extends BaseRefreshListFragment implements MatchesAdapter.MatchesAdapterOnItemClickHandler {
+public abstract class MatchesFragment extends BaseRefreshListFragment implements MatchesAdapter.AdapterOnItemClickHandler<MatchEntity> {
 
     public static final String FRAGMENT_TAG = "MatchesFragment";
 

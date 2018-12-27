@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import tech.joeyck.livefootball.R;
@@ -48,15 +49,15 @@ public class BaseRefreshListFragment extends BaseListFragment{
         });
 
         mReverseOrder = reverseOrder;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         if(mReverseOrder){
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
             layoutManager.setReverseLayout(true);
             layoutManager.setStackFromEnd(true);
+            mRecyclerView.setLayoutManager(layoutManager);
         }
-        mRecyclerView.setLayoutManager(layoutManager);
 
         if(showItemDivider){
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),layoutManager.getOrientation());
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),LinearLayout.VERTICAL);
             mRecyclerView.addItemDecoration(dividerItemDecoration);
         }
         mRecyclerView.setHasFixedSize(true);

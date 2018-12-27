@@ -7,7 +7,9 @@ import org.threeten.bp.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 
-public class MatchEntity  extends BaseEntity {
+import tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem;
+
+public class MatchEntity extends BaseEntity implements BaseAdapterItem {
 
     public static String STATUS_FINISHED = "FINISHED";
     public static String STATUS_IN_PLAY = "IN_PLAY";
@@ -94,4 +96,8 @@ public class MatchEntity  extends BaseEntity {
         return status.equals(STATUS_PAUSED);
     }
 
+    @Override
+    public int getType() {
+        return TYPE_DEFAULT;
+    }
 }

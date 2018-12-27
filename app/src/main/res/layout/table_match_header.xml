@@ -1,51 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:orientation="horizontal"
-    android:paddingStart="8dp"
+    android:background="@color/background"
+    android:paddingStart="12dp"
     android:paddingTop="8dp"
-    android:paddingEnd="8dp"
     android:paddingBottom="8dp">
 
     <TextView
-        android:id="@+id/team_position"
-        android:layout_width="22dp"
+        android:id="@+id/mainText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1"
-        android:textAlignment="center"
+        android:text="TextView"
+        android:textColor="@color/gray"
+        android:textStyle="bold"
+        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/team_crest"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        app:layout_constraintStart_toEndOf="@+id/team_position"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/default_crest" />
-
-    <TextView
-        android:id="@+id/team_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="8dp"
-        android:text="Team Name"
-        app:layout_constraintEnd_toStartOf="@+id/matches_played"
-        app:layout_constraintStart_toEndOf="@+id/team_crest"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/team_points"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="0"
+        android:layout_marginEnd="16dp"
+        android:text="Pts"
         android:textAlignment="center"
+        android:textColor="@color/gray"
+        android:textSize="12dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,8 +39,11 @@
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="0"
+        android:text="L"
         android:textAlignment="center"
+        android:textColor="@color/gray"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/team_points"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,8 +52,11 @@
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="0"
+        android:text="D"
         android:textAlignment="center"
+        android:textColor="@color/gray"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/matches_lost"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,8 +65,11 @@
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="0"
+        android:text="W"
         android:textAlignment="center"
+        android:textColor="@color/gray"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/matches_drawn"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,9 +78,13 @@
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="0"
+        android:text="MP"
         android:textAlignment="center"
+        android:textColor="@color/gray"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/matches_won"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,4 +48,7 @@ public class MatchesViewModel extends ViewModel {
         return matches;
     }
 
+    public CompetitionEntity getCompetition() {
+        return mCompetition;
+    }
 }

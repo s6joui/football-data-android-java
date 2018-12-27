@@ -13,7 +13,10 @@
     <string name="title_standings">Standings</string>
     <string name="half_time">Half time</string>
     <string name="full_time">FT</string>
+    <string name="live">LIVE %1$d\'</string>
     <string name="not_found">Sorry, we couldn\'t find this information</string>
+    <string name="matchday">MATCHDAY %1$d</string>
+    <string name="recent_matches">Recent matches</string>
     <string name="no_recent_matches">There are no recent matches</string>
     <string name="no_connection">Something went wrong...\nPlease try again</string>
     <string name="offline">Offline</string>

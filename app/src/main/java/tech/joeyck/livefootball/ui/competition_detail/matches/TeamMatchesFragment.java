@@ -46,7 +46,8 @@ public class TeamMatchesFragment extends MatchesFragment {
         hideLoading();
         List<MatchEntity> matchEntities = responseBody.getMatches();
         if(matchEntities!=null){
-            mMatchesAdapter.swapMatches(matchEntities);
+            mMatchesAdapter.swapItems(matchEntities);
+            mMatchesAdapter.addHeader(matchEntities.size(),getString(R.string.recent_matches));
             if(matchEntities.size() == 0){
                 showError(R.string.no_recent_matches);
             }

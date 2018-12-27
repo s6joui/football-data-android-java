@@ -10,80 +10,16 @@
     android:paddingBottom="8dp">
 
     <TextView
-        android:id="@+id/headerText"
+        android:id="@+id/mainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textColor="@color/gray"
-        android:textStyle="bold"
-        android:textSize="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/team_points"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="Pts"
-        android:textAlignment="center"
-        android:textColor="@color/gray"
         android:textSize="12dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/matches_lost"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="L"
-        android:textAlignment="center"
-        android:textColor="@color/gray"
-        android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/team_points"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/matches_drawn"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="D"
-        android:textAlignment="center"
-        android:textColor="@color/gray"
-        android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/matches_lost"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/matches_won"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="W"
-        android:textAlignment="center"
-        android:textColor="@color/gray"
-        android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/matches_drawn"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/matches_played"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="MP"
-        android:textAlignment="center"
-        android:textColor="@color/gray"
-        android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/matches_won"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
