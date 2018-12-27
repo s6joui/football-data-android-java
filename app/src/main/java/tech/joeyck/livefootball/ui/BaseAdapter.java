@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import tech.joeyck.livefootball.R;
 
 import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_DEFAULT;
-import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_FOOTER;
 import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_HEADER;
 
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -33,23 +32,14 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        if(viewType == TYPE_FOOTER){
-            return onCreateFooterViewHolder(viewGroup,viewType);
-        }else if(viewType == TYPE_HEADER){
-            return onCreateHeaderViewHolder(viewGroup,viewType);
-        }else if(viewType == TYPE_DEFAULT){
+        if(viewType == TYPE_DEFAULT){
             return onCreateMainViewHolder(viewGroup,viewType);
         }
-        return onCreateMainViewHolder(viewGroup,viewType);
-    }
-
-    public RecyclerView.ViewHolder onCreateFooterViewHolder(ViewGroup viewGroup, int viewType){
-        View view = LayoutInflater.from(mContext).inflate(R.layout.table_footer, viewGroup, false);
-        return new TextViewHolder(view);
+        return onCreateHeaderViewHolder(viewGroup,viewType);
     }
 
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup, int viewType){
-        View view = LayoutInflater.from(mContext).inflate(R.layout.table_header, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(viewType, viewGroup, false);
         return new TextViewHolder(view);
     }
 
@@ -58,16 +48,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         int type = getItemViewType(position);
         if(type == TYPE_DEFAULT){
             onBindMainViewHolder(viewHolder,position);
-        }else if(type == TYPE_FOOTER){
-            onBindFooterViewHolder(viewHolder,position);
-        }else if(type == TYPE_HEADER){
+        }else{
             onBindHeaderViewHolder(viewHolder,position);
         }
-    }
-
-    public void onBindFooterViewHolder(RecyclerView.ViewHolder viewHolder, int position){
-        TextViewHolder vh = (TextViewHolder)viewHolder;
-        vh.text.setText(((TextItem)mItems.get(position)).getTitle());
     }
 
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int position){
@@ -92,12 +75,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public void addHeader(int position, final String headerText){
-        mItems.add(position,new HeaderItem(headerText));
-        notifyItemRangeInserted(position,1);
+        addHeader(position,headerText,R.layout.table_header);
     }
 
-    public void addFooter(int position, final String footerText){
-        mItems.add(position,new FooterItem(footerText));
+    public void addHeader(int position, final String headerText, int layout){
+        mItems.add(position,new HeaderItem(headerText,layout));
         notifyItemRangeInserted(position,1);
     }
 
@@ -125,23 +107,16 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public static class HeaderItem extends TextItem implements BaseAdapterItem {
-        public HeaderItem(String text) {
+        int mLayout;
+
+        public HeaderItem(String text,int layout) {
             super(text);
+            this.mLayout = layout;
         }
 
         @Override
         public int getType() {
-            return TYPE_HEADER;
-        }
-    }
-
-    public static class FooterItem extends TextItem implements BaseAdapterItem {
-        FooterItem(String text) {
-            super(text);
-        }
-        @Override
-        public int getType() {
-            return TYPE_FOOTER;
+            return mLayout;
         }
     }
 
@@ -162,7 +137,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     public interface BaseAdapterItem {
 
         int TYPE_DEFAULT = 14;
-        int TYPE_FOOTER = R.layout.table_footer;
         int TYPE_HEADER = R.layout.table_header;
 
         int getType();

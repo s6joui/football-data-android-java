@@ -108,7 +108,7 @@ public class StandingsFragment extends BaseRefreshListFragment implements BaseAd
         for (StagesEntity stage : stages) {
             if(stage.getType().equals(StagesEntity.TYPE_TOTAL)){
                 String text = stage.getGroup() != null ? stage.getGroup() : stage.getStageName();
-                BaseAdapter.HeaderItem tableItem = new BaseAdapter.HeaderItem(text.replace("_"," "));
+                BaseAdapter.HeaderItem tableItem = new BaseAdapter.HeaderItem(text.replace("_"," "),R.layout.table_match_header);
                 tableItems.add(tableItem);
                 for (TableEntryEntity team : stage.getTable()) {
                     tableItems.add(team);

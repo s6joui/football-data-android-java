@@ -18,7 +18,7 @@ import tech.joeyck.livefootball.ui.BaseAdapter;
 import tech.joeyck.livefootball.utilities.NetworkUtils;
 
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
-import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_FOOTER;
+import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_DEFAULT;
 import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_HEADER;
 
 public class StandingsTableAdapter extends BaseAdapter<TableEntryEntity> {
@@ -32,13 +32,6 @@ public class StandingsTableAdapter extends BaseAdapter<TableEntryEntity> {
         View view = LayoutInflater.from(mContext).inflate(R.layout.table_item, viewGroup, false);
         view.setFocusable(true);
         return new CompetitionAdapterViewHolder(view);
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.table_match_header, viewGroup, false);
-        view.setFocusable(true);
-        return new TextViewHolder(view);
     }
 
     @Override
@@ -59,11 +52,10 @@ public class StandingsTableAdapter extends BaseAdapter<TableEntryEntity> {
     @Override
     public long getItemId(int position) {
         int type = getItemViewType(position);
-        if (type == TYPE_HEADER || type == TYPE_FOOTER) {
-            return NO_ID;
-        }else{
+        if (type == TYPE_DEFAULT) {
             return ((TableEntryEntity)mItems.get(position)).getTeam().getId();
         }
+        return NO_ID;
     }
 
     /**

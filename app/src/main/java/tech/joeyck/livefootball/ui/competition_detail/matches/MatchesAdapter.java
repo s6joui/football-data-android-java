@@ -26,8 +26,7 @@ import tech.joeyck.livefootball.utilities.NetworkUtils;
 
 import static androidx.recyclerview.widget.RecyclerView.NO_ID;
 import static org.threeten.bp.temporal.ChronoUnit.MINUTES;
-import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_FOOTER;
-import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_HEADER;
+import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_DEFAULT;
 
 class MatchesAdapter extends BaseAdapter<MatchEntity> {
 
@@ -102,11 +101,10 @@ class MatchesAdapter extends BaseAdapter<MatchEntity> {
     @Override
     public long getItemId(int position) {
         int type = getItemViewType(position);
-        if (type == TYPE_HEADER || type == TYPE_FOOTER) {
-            return NO_ID;
-        }else{
+        if (type == TYPE_DEFAULT) {
             return ((MatchEntity)mItems.get(position)).getId();
         }
+        return NO_ID;
     }
 
     /**

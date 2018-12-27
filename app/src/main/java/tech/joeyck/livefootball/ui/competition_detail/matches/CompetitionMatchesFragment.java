@@ -63,7 +63,7 @@ public class CompetitionMatchesFragment extends MatchesFragment {
             mMatchesAdapter.swapItems(matchEntities);
             mMatchesAdapter.addHeader(0,getString(R.string.matchday,mViewModel.getCompetition().getCurrentSeason().getCurrentMatchday()));
             LocalDateTime lastUpdated = responseBody.getCompetition().getLastUpdatedLocalDateTime();
-            mMatchesAdapter.addFooter(matchEntities.size(),DateUtils.getLastUpdatedString(getContext(),lastUpdated));
+            mMatchesAdapter.addHeader(matchEntities.size(),DateUtils.getLastUpdatedString(getContext(),lastUpdated),R.layout.table_footer);
             if(matchEntities.size() == 0){
                 showError(R.string.no_recent_matches);
             }
