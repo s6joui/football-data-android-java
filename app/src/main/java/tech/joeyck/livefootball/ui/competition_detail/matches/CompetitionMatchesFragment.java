@@ -30,11 +30,11 @@ public class CompetitionMatchesFragment extends MatchesFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater,container,savedInstanceState,false);
+        View view = super.onCreateView(inflater, container, savedInstanceState, false);
 
         CompetitionViewModel sharedViewModel = ViewModelProviders.of(getActivity()).get(CompetitionViewModel.class);
         sharedViewModel.getCompetition().observe(this, competitionEntity -> {
-            if(competitionEntity!=null) {
+            if (competitionEntity != null && (mViewModel.getCompetition()==null || competitionEntity.getId() != mViewModel.getCompetition().getId())) {
                 hideError();
                 showLoading();
                 setSwipeRefreshColor(getResources().getColor(competitionEntity.getThemeColor()));
@@ -43,7 +43,7 @@ public class CompetitionMatchesFragment extends MatchesFragment {
                     public void run() {
                         mViewModel.setCompetition(competitionEntity);
                     }
-                },350);
+                }, 350);
             }
         });
 
@@ -63,7 +63,7 @@ public class CompetitionMatchesFragment extends MatchesFragment {
             mMatchesAdapter.swapItems(matchEntities);
             mMatchesAdapter.addHeader(0,getString(R.string.matchday,mViewModel.getCompetition().getCurrentSeason().getCurrentMatchday()));
             LocalDateTime lastUpdated = responseBody.getCompetition().getLastUpdatedLocalDateTime();
-            mMatchesAdapter.addHeader(matchEntities.size(),DateUtils.getLastUpdatedString(getContext(),lastUpdated),R.layout.table_footer);
+            mMatchesAdapter.addHeader(matchEntities.size()+1,DateUtils.getLastUpdatedString(getContext(),lastUpdated),R.layout.table_footer);
             if(matchEntities.size() == 0){
                 showError(R.string.no_recent_matches);
             }

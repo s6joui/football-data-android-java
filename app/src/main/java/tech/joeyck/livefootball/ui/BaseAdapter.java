@@ -6,12 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import tech.joeyck.livefootball.R;
-import tech.joeyck.livefootball.data.database.TableEntryEntity;
 
 import static android.view.View.NO_ID;
 import static tech.joeyck.livefootball.ui.BaseAdapter.BaseAdapterItem.TYPE_DEFAULT;
@@ -26,6 +26,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     public BaseAdapter(@NonNull Context context, AdapterOnItemClickHandler<T> clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
+        //setHasStableIds(true);
     }
 
     public abstract RecyclerView.ViewHolder onCreateMainViewHolder(ViewGroup viewGroup, int viewType);
@@ -74,13 +75,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         return 0;
     }
 
-    public void swapItems(List<T> items) {
-        mItems = (List<BaseAdapterItem>) items;
-        notifyDataSetChanged();
-    }
-
-    public void swapRawItems(List<BaseAdapterItem> items) {
-        mItems = items;
+    public void swapItems(List<? extends BaseAdapterItem> items) {
+        mItems = new ArrayList<>();
+        mItems.addAll(items);
         notifyDataSetChanged();
     }
 
@@ -93,7 +90,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         notifyItemRangeInserted(position,1);
     }
 
-    public List<BaseAdapterItem> getItems() {
+    public List<? extends BaseAdapterItem> getItems() {
         return mItems;
     }
 

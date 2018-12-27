@@ -13,7 +13,7 @@ public class StandingsViewModel extends ViewModel {
 
     private MutableLiveData<ApiResponse<StandingsResponse>> mTableItems = new MutableLiveData<>();
 
-    private int mCompetitionId;
+    private int mCompetitionId = -1;
     private LiveFootballRepository mRepository;
 
     StandingsViewModel(LiveFootballRepository repository){
@@ -35,4 +35,7 @@ public class StandingsViewModel extends ViewModel {
         return mTableItems;
     }
 
+    public int getCompetitionId() {
+        return mCompetitionId;
+    }
 }

@@ -41,7 +41,6 @@ public class StandingsFragment extends BaseRefreshListFragment implements BaseAd
         View view = super.onCreateView(inflater,container,savedInstanceState,true,false);
 
         StandingsTableAdapter tableAdapter = new StandingsTableAdapter(getActivity(), this);
-        tableAdapter.setHasStableIds(true);
         setAdapter(tableAdapter);
 
         StandingsViewModelFactory factory = InjectorUtils.provideStandingsViewModelFactory(getActivity().getApplicationContext());
@@ -49,7 +48,7 @@ public class StandingsFragment extends BaseRefreshListFragment implements BaseAd
 
         CompetitionViewModel sharedViewModel  = ViewModelProviders.of(getActivity()).get(CompetitionViewModel.class);
         sharedViewModel.getCompetition().observe(this, competitionEntity -> {
-            if(competitionEntity!=null){
+            if(competitionEntity!=null && (mViewModel.getCompetitionId() < 0 || competitionEntity.getId() != mViewModel.getCompetitionId())) {
                 setSwipeRefreshColor(getResources().getColor(competitionEntity.getThemeColor()));
                 hideError();
                 showLoading();
@@ -80,7 +79,7 @@ public class StandingsFragment extends BaseRefreshListFragment implements BaseAd
     private void bindStandingsToUI(StandingsResponse res) {
         List<BaseAdapter.BaseAdapterItem> tableItems = formatTableData(res.getStages());
         if(tableItems != null && tableItems.size() != 0){
-            ((StandingsTableAdapter)getAdapter()).swapRawItems(tableItems);
+            ((StandingsTableAdapter)getAdapter()).swapItems(tableItems);
             hideLoading();
         }else{
             showError(R.string.not_found);

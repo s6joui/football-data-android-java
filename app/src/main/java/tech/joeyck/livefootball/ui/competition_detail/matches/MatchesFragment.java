@@ -34,7 +34,6 @@ public abstract class MatchesFragment extends BaseRefreshListFragment implements
         mViewModel = ViewModelProviders.of(this,factory).get(MatchesViewModel.class);
 
         mMatchesAdapter = new MatchesAdapter(getActivity(), this);
-        mMatchesAdapter.setHasStableIds(true);
         setAdapter(mMatchesAdapter);
 
         mViewModel.getMatches().observe(this, new ApiResponseObserver<MatchesResponse>(new ApiResponseObserver.ChangeListener<MatchesResponse>() {
