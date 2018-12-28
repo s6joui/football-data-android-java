@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.competition_detail.standings.StandingsFragment">
+    tools:context=".ui.competition_detail.standings.StandingsFragment"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/offline_text"

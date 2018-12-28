@@ -38,10 +38,10 @@ public class TeamDetailActivity extends AppCompatActivity {
         TeamDetailViewModelFactory factory = InjectorUtils.provideTeamDetailViewModelFactory(this.getApplicationContext(),teamId);
         mViewModel = ViewModelProviders.of(this,factory).get(TeamDetailViewModel.class);
 
-        setTitle(teamName);
-        mBinding.toolbar.setTitle(teamName);
         setSupportActionBar(mBinding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(teamName);
+        mBinding.toolbar.setTitle(teamName);
 
         mViewModel.getTeam().observe(this,new ApiResponseObserver<TeamEntity>(new ApiResponseObserver.ChangeListener<TeamEntity>() {
             @Override

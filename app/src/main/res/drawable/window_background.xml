@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"  android:opacity="opaque">
-    <item android:drawable="@color/background"/>
+    <item android:drawable="@color/transparent"/>
     <item android:gravity="top" android:top="24dp">
         <shape>
             <solid android:color="@color/colorPrimary"/>

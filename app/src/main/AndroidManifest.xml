@@ -35,7 +35,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".ui.match_detail.MatchDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".ui.competition_detail.CompetitionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tech.joeyck.livefootball.ui.competition_detail.CompetitionActivity" />
+        </activity>
     </application>
 
 </manifest>

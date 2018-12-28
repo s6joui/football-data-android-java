@@ -2,6 +2,7 @@
     <string name="app_name">Football data</string>
     <string name="title_activity_competition_detail">Competition</string>
     <string name="title_activity_team_detail">Team</string>
+    <string name="title_activity_match_detail">Match</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="yesterday">Yesterday</string>
@@ -25,6 +26,7 @@
     <string name="updated_day_ago">Last updated 1 day ago</string>
     <string name="updated_now">Updated just now</string>
     <string name="updated_days_ago">Last updated %1$d days ago</string>
+    <string name="match_score">%1$s %2$s - %3$s %4$s</string>
     <!--About screen -->
     <string name="aboutLibraries_description_showIcon">true</string>
     <string name="aboutLibraries_description_showVersion">true</string>

@@ -17,6 +17,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tech.joeyck.livefootball.BuildConfig;
 import tech.joeyck.livefootball.data.database.CompetitionResponse;
+import tech.joeyck.livefootball.data.database.MatchEntity;
+import tech.joeyck.livefootball.data.database.MatchResponse;
 import tech.joeyck.livefootball.data.network.ApiResponse;
 import tech.joeyck.livefootball.data.network.LiveDataCallback;
 import tech.joeyck.livefootball.data.network.LiveFootballAPI;
@@ -56,6 +58,10 @@ public class LiveFootballRepository {
 
     public void fetchTeamById(int teamId,LiveDataCallback.OnDataFetched<ApiResponse<TeamEntity>> callback) {
         mApiService.getTeamById(teamId).enqueue(new LiveDataCallback<>(callback));
+    }
+
+    public void fetchMatchById(int matchId,LiveDataCallback.OnDataFetched<ApiResponse<MatchResponse>> callback) {
+        mApiService.getMatchById(matchId).enqueue(new LiveDataCallback<>(callback));
     }
 
     public void fetchMatchesForCompetition(int competitionId, int matchday,LiveDataCallback.OnDataFetched<ApiResponse<MatchesResponse>> callback) {

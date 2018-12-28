@@ -1,11 +1,14 @@
 package tech.joeyck.livefootball.ui.competition_detail.matches;
 
 import androidx.lifecycle.ViewModelProviders;
+
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.MatchEntity;
 import tech.joeyck.livefootball.data.database.MatchesResponse;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModel;
+import tech.joeyck.livefootball.ui.match_detail.MatchDetailActivity;
 import tech.joeyck.livefootball.utilities.DateUtils;
 
 public class CompetitionMatchesFragment extends MatchesFragment {
@@ -74,7 +78,10 @@ public class CompetitionMatchesFragment extends MatchesFragment {
 
     @Override
     public void onItemClick(MatchEntity match) {
-
+        Intent matchDetailIntent = new Intent(getActivity(), MatchDetailActivity.class);
+        matchDetailIntent.putExtra(MatchDetailActivity.MATCH_ID_EXTRA, match.getId());
+        startActivity(matchDetailIntent);
+        if(getActivity() != null)getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 
 }

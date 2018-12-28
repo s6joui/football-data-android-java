@@ -25,6 +25,7 @@ import tech.joeyck.livefootball.data.network.LiveFootballAPI;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModelFactory;
 import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsViewModelFactory;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesViewModelFactory;
+import tech.joeyck.livefootball.ui.match_detail.MatchDetailViewModelFactory;
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailViewModelFactory;
 
 /**
@@ -57,4 +58,8 @@ public class InjectorUtils {
         return new CompetitionViewModelFactory(repository,competition);
     }
 
+    public static MatchDetailViewModelFactory provideMatchDetailViewModelFactory(Context context, int matchId) {
+        LiveFootballRepository repository = provideRepository(context.getApplicationContext());
+        return new MatchDetailViewModelFactory(repository,matchId);
+    }
 }

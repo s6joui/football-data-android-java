@@ -12,4 +12,5 @@
     <color name="light_green">#7accc4</color>
     <color name="green">#2e7d32</color>
     <color name="background">#EEEEEE</color>
+    <color name="transparent">#00000000</color>
 </resources>
