@@ -19,6 +19,7 @@ import tech.joeyck.livefootball.data.network.LiveDataCallAdapterFactory;
 public class NetworkUtils {
 
     private static final String FOOTBALL_API_URL = "https://api.football-data.org/v2/";
+    public static final String REDDIT_API_URL = "https://www.reddit.com/";
     private static final String CREST_API_URL = "https://football-crest-api.herokuapp.com/crest/";
     private static final String COVER_IMAGE_URL = "https://loremflickr.com/320/240/";
 
@@ -43,7 +44,7 @@ public class NetworkUtils {
         return isConnected;
     }
 
-    static Retrofit buildRetrofit(Context context){
+    static Retrofit.Builder buildRetrofit(Context context){
         long cacheSize = (5 * 1024 * 1024);
         Cache myCache = new Cache(context.getCacheDir(), cacheSize);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -61,13 +62,25 @@ public class NetworkUtils {
                 return chain.proceed(requestBuilder.build());
             }
         });
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(FOOTBALL_API_URL)
+
+        final Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build());
+            return retrofitBuilder;
+    }
+
+    static Retrofit buildFootballAPI(Context context){
+        Retrofit.Builder retrofitBuilder = buildRetrofit(context);
+        return retrofitBuilder.baseUrl(FOOTBALL_API_URL)
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
-                .client(httpClient.build())
                 .build();
-        return retrofit;
+    }
+
+    static Retrofit buildRedditAPI(Context context){
+        Retrofit.Builder retrofitBuilder = buildRetrofit(context);
+        return retrofitBuilder.baseUrl(REDDIT_API_URL)
+                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
+                .build();
     }
 
 }

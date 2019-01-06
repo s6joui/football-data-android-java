@@ -1,5 +1,6 @@
 package tech.joeyck.livefootball.ui.competition_detail.matches;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import java.util.List;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.MatchEntity;
 import tech.joeyck.livefootball.data.database.MatchesResponse;
+import tech.joeyck.livefootball.ui.match_detail.MatchDetailActivity;
 
 public class TeamMatchesFragment extends MatchesFragment {
 
@@ -58,7 +60,13 @@ public class TeamMatchesFragment extends MatchesFragment {
 
     @Override
     public void onItemClick(MatchEntity match) {
-
+        Intent matchDetailIntent = new Intent(getActivity(), MatchDetailActivity.class);
+        matchDetailIntent.putExtra(MatchDetailActivity.MATCH_ID_EXTRA, match.getId());
+        matchDetailIntent.putExtra(MatchDetailActivity.MATCH_HOME_TEAM_EXTRA, match.getHomeTeam().get("name"));
+        matchDetailIntent.putExtra(MatchDetailActivity.MATCH_AWAY_TEAM_EXTRA, match.getAwayTeam().get("name"));
+        startActivity(matchDetailIntent);
+        if(getActivity() != null)getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
+
 
 }

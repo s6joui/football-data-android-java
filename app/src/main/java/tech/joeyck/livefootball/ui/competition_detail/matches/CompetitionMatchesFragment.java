@@ -80,6 +80,8 @@ public class CompetitionMatchesFragment extends MatchesFragment {
     public void onItemClick(MatchEntity match) {
         Intent matchDetailIntent = new Intent(getActivity(), MatchDetailActivity.class);
         matchDetailIntent.putExtra(MatchDetailActivity.MATCH_ID_EXTRA, match.getId());
+        matchDetailIntent.putExtra(MatchDetailActivity.MATCH_HOME_TEAM_EXTRA, match.getHomeTeam().get("name"));
+        matchDetailIntent.putExtra(MatchDetailActivity.MATCH_AWAY_TEAM_EXTRA, match.getAwayTeam().get("name"));
         startActivity(matchDetailIntent);
         if(getActivity() != null)getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }

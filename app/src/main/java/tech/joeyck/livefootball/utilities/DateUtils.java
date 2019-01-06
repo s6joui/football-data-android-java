@@ -1,12 +1,16 @@
 package tech.joeyck.livefootball.utilities;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.view.View;
+import android.widget.TextView;
 
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import tech.joeyck.livefootball.R;
+import tech.joeyck.livefootball.data.database.MatchEntity;
 
 import static org.threeten.bp.temporal.ChronoUnit.MINUTES;
 

@@ -106,7 +106,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
      * The interface that receives onItemClick messages.
      */
     public interface AdapterOnItemClickHandler<T> {
-        void onItemClick(T match);
+        void onItemClick(T item);
     }
 
     @Override

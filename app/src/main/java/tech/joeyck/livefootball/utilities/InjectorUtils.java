@@ -22,6 +22,7 @@ import tech.joeyck.livefootball.AppExecutors;
 import tech.joeyck.livefootball.data.LiveFootballRepository;
 import tech.joeyck.livefootball.data.database.CompetitionEntity;
 import tech.joeyck.livefootball.data.network.LiveFootballAPI;
+import tech.joeyck.livefootball.data.network.RedditAPI;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModelFactory;
 import tech.joeyck.livefootball.ui.competition_detail.standings.StandingsViewModelFactory;
 import tech.joeyck.livefootball.ui.competition_detail.matches.MatchesViewModelFactory;
@@ -33,9 +34,10 @@ import tech.joeyck.livefootball.ui.team_detail.TeamDetailViewModelFactory;
  */
 public class InjectorUtils {
 
-    public static LiveFootballRepository provideRepository(Context context) {
-        LiveFootballAPI service = NetworkUtils.buildRetrofit(context).create(LiveFootballAPI.class);
-        return LiveFootballRepository.getInstance(service);
+    private static LiveFootballRepository provideRepository(Context context) {
+        LiveFootballAPI footballAPI = NetworkUtils.buildFootballAPI(context).create(LiveFootballAPI.class);
+        RedditAPI redditAPI = NetworkUtils.buildRedditAPI(context).create(RedditAPI.class);
+        return LiveFootballRepository.getInstance(footballAPI,redditAPI);
     }
 
     public static StandingsViewModelFactory provideStandingsViewModelFactory(Context context) {
@@ -58,8 +60,8 @@ public class InjectorUtils {
         return new CompetitionViewModelFactory(repository,competition);
     }
 
-    public static MatchDetailViewModelFactory provideMatchDetailViewModelFactory(Context context, int matchId) {
+    public static MatchDetailViewModelFactory provideMatchDetailViewModelFactory(Context context, int matchId, String homeTeam, String awayTeam) {
         LiveFootballRepository repository = provideRepository(context.getApplicationContext());
-        return new MatchDetailViewModelFactory(repository,matchId);
+        return new MatchDetailViewModelFactory(repository,matchId,homeTeam,awayTeam);
     }
 }

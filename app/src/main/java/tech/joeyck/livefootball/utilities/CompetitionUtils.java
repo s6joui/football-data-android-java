@@ -2,6 +2,10 @@ package tech.joeyck.livefootball.utilities;
 
 import android.util.SparseIntArray;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import tech.joeyck.livefootball.R;
 
 public class CompetitionUtils {
@@ -54,5 +58,21 @@ public class CompetitionUtils {
             return 0;
         }
         return competitionReorder.get(position);
+    }
+
+    public static final List<String> wordsToRemove = Arrays.asList("fc","cf","rcd","de","fútbol","club","sd","balompié","cd","ud","afc");
+
+    public static String simplifyTeamName(String teamName){
+        if(teamName == null)
+            return "";
+        String[] words = teamName.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (String word : words) {
+            if(!wordsToRemove.contains(word.toLowerCase())){
+                sb.append(word);
+                sb.append(' ');
+            }
+        }
+        return sb.toString();
     }
 }

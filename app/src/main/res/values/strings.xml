@@ -31,5 +31,6 @@
     <string name="aboutLibraries_description_showIcon">true</string>
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Football data provided by the Football-Data.org API</string>
+    <string name="latest_news">Latest</string>
 
 </resources>
