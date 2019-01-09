@@ -53,6 +53,7 @@ public class RedditPostsFragment extends BaseRefreshListFragment implements Base
                 List<RedditPost> posts = res.getData().getChildren();
                 if(posts!=null && posts.size() > 0){
                     tableAdapter.swapItems(posts);
+                    tableAdapter.addHeader(posts.size(),getString(R.string.reddit),R.layout.table_footer);
                     tableAdapter.addHeader(0,getString(R.string.latest_news));
                     hideLoading();
                 }else{

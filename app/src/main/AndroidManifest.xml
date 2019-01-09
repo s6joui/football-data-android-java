@@ -37,6 +37,8 @@
         </activity>
         <activity android:name=".ui.match_detail.MatchDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"
+            android:label="@string/title_activity_match_detail"
             android:parentActivityName=".ui.competition_detail.CompetitionActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

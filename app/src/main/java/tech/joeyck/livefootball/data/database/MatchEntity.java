@@ -25,6 +25,7 @@ public class MatchEntity extends BaseEntity implements BaseAdapterItem {
     private String group;
     private HashMap<String,String> homeTeam;
     private HashMap<String,String> awayTeam;
+    private CompetitionEntity competition;
     private ScoreEntity score;
 
     @Override
@@ -95,6 +96,10 @@ public class MatchEntity extends BaseEntity implements BaseAdapterItem {
 
     public boolean isPaused() {
         return status.equals(STATUS_PAUSED);
+    }
+
+    public CompetitionEntity getCompetition() {
+        return competition;
     }
 
     @Override

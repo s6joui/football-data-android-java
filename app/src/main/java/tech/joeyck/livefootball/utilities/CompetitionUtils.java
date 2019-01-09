@@ -60,7 +60,7 @@ public class CompetitionUtils {
         return competitionReorder.get(position);
     }
 
-    public static final List<String> wordsToRemove = Arrays.asList("fc","cf","rcd","de","fútbol","club","sd","balompié","cd","ud","afc");
+    public static final List<String> wordsToRemove = Arrays.asList("fc","cf","rcd","de","fútbol","club","sd","balompié","cd","ud","afc","rc","ss","ssc","sc","ac","us","acf","cfc","hsc","as","bc","calcio","sv","tsg","fsv","osc","ogc","sm","sco","tsv","bv","bsc","vfl","vfb");
 
     public static String simplifyTeamName(String teamName){
         if(teamName == null)
@@ -73,6 +73,6 @@ public class CompetitionUtils {
                 sb.append(' ');
             }
         }
-        return sb.toString();
+        return sb.toString().trim();
     }
 }

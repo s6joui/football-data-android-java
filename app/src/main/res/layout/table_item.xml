@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:text="1"
         android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,6 +24,7 @@
         android:id="@+id/team_crest"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/team_position"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/default_crest" />
@@ -33,7 +35,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:lines="1"
         android:text="Team Name"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/matches_played"
         app:layout_constraintStart_toEndOf="@+id/team_crest"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,6 +51,7 @@
         android:text="0"
         android:textAlignment="center"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,6 +62,7 @@
         android:layout_marginEnd="8dp"
         android:text="0"
         android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/team_points"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,6 +73,7 @@
         android:layout_marginEnd="8dp"
         android:text="0"
         android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/matches_lost"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -76,6 +84,7 @@
         android:layout_marginEnd="8dp"
         android:text="0"
         android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/matches_drawn"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -86,6 +95,7 @@
         android:layout_marginEnd="8dp"
         android:text="0"
         android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/matches_won"
         app:layout_constraintTop_toTopOf="parent" />
 

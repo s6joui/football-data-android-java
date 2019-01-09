@@ -14,6 +14,7 @@ import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.MatchEntity;
 import tech.joeyck.livefootball.data.database.MatchesResponse;
 import tech.joeyck.livefootball.ui.match_detail.MatchDetailActivity;
+import tech.joeyck.livefootball.utilities.CompetitionUtils;
 
 public class TeamMatchesFragment extends MatchesFragment {
 

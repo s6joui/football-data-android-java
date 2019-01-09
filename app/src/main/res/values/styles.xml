@@ -25,4 +25,8 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="AppTheme.MatchExpandedTitleAppearance" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/transparent</item>
+    </style>
+
 </resources>

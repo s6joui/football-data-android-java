@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Football data</string>
+    <string name="title_activity_competition_detail">Competició</string>
+    <string name="title_activity_team_detail">Equip</string>
+    <string name="title_activity_match_detail">Partit</string>
+    <string name="today">Avui</string>
+    <string name="tomorrow">Demà</string>
+    <string name="yesterday">Ahir</string>
+    <string name="title_activity_competition">Competició</string>
+    <string name="title_about">Informació</string>
+    <string name="title_home">Inici</string>
+    <string name="title_competitions">Competicions</string>
+    <string name="title_matches">Partits</string>
+    <string name="title_standings">Classificació</string>
+    <string name="half_time">Mitja part</string>
+    <string name="full_time">FINAL</string>
+    <string name="live">DIRECTE %1$d\'</string>
+    <string name="not_found">No hem trobat aquesta informació</string>
+    <string name="matchday">Jornada %1$d</string>
+    <string name="recent_matches">Partits recents</string>
+    <string name="no_recent_matches">No hi ha partits recents</string>
+    <string name="no_connection">Ha fallat alguna cosa</string>
+    <string name="offline">Fora de línia</string>
+    <string name="updated_minutes_ago">Última actualització fa %1$d minuts</string>
+    <string name="updated_hours_ago">Última actualització fa %1$d hores</string>
+    <string name="updated_day_ago">Última actualització fa 1 dia</string>
+    <string name="updated_now">Actualitzat ara mateix</string>
+    <string name="updated_days_ago">Última actualització fa %1$d dies</string>
+    <string name="match_score">%1$s %2$s - %3$s %4$s</string>
+    <string name="match_title">%1$s - %2$s</string>
+    <string name="latest_news">Última hora</string>
+    <string name="reddit">Dades de r/soccer</string>
+</resources>
