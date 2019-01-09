@@ -37,8 +37,12 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
+                    android:background="@drawable/rounded_background_20"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
                     app:layout_constraintBottom_toTopOf="@+id/textView3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -126,17 +130,16 @@ xmlns:tools="http://schemas.android.com/tools">
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <FrameLayout
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="@dimen/back_button_background_margin_top"
-                    android:layout_marginStart="@dimen/back_button_background_margin_start"
-                    android:background="@drawable/circle_background"
-                    app:layout_collapseMode="pin"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <FrameLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="@dimen/back_button_background_margin_top"
+                android:layout_marginStart="@dimen/back_button_background_margin_start"
+                android:background="@drawable/circle_background"
+                app:layout_collapseMode="pin" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"

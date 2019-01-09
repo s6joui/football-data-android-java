@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.45"
-        android:background="@drawable/rounded_item_background"
+        android:background="@drawable/rounded_background_4"
         android:elevation="4dp"
         android:paddingTop="8dp"
         app:srcCompat="@drawable/ball_anim" />

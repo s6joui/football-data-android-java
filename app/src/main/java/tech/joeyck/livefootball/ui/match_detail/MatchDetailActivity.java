@@ -99,13 +99,13 @@ public class MatchDetailActivity extends AppCompatActivity {
         }else if(matchEntity.isInPlay()){
             mBinding.timeText.setText(getResources().getString(R.string.live,MINUTES.between(matchTime, now)));
         }else if(matchEntity.isPaused()){
-            mBinding.timeText.setText(R.string.half_time);
+            mBinding.timeText.setText(getString(R.string.half_time).toUpperCase());
         }else if(matchEntity.isFinished()){
             mBinding.timeText.setTypeface(null, Typeface.NORMAL);
-            mBinding.timeText.setTextColor(getResources().getColor(R.color.white));
+            mBinding.timeText.setTextColor(getResources().getColor(R.color.black));
             mBinding.timeText.setText(R.string.full_time);
         }else{
-            mBinding.timeText.setTextColor(getResources().getColor(R.color.white));
+            mBinding.timeText.setTextColor(getResources().getColor(R.color.black));
             mBinding.timeText.setText(DateUtils.getFormattedMatchDate(this,matchEntity.getLocalDateTime()));
         }
 

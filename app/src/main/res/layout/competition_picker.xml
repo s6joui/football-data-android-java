@@ -44,7 +44,7 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         app:srcCompat="@drawable/ball_anim"
-        android:background="@drawable/rounded_item_background"
+        android:background="@drawable/rounded_background_4"
         android:paddingTop="8dp"
         android:elevation="4dp"/>
 
