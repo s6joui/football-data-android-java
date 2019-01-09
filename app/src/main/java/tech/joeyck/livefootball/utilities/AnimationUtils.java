@@ -9,8 +9,15 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.view.View;
 import android.widget.ImageView;
 
+/**
+ * Provides static methods for starting and stopping view animations
+ */
 public class AnimationUtils {
 
+    /**
+     * Starts the animation on an ImageView that has an AnimatedVectorDrawable as src and makes it visible
+     * @param imageView     ImageView with an AnimatedVectorDrawable as src
+     */
     public static void loopAnimation(ImageView imageView){
         imageView.setVisibility(View.VISIBLE);
         Drawable drawable = imageView.getDrawable();
@@ -35,6 +42,10 @@ public class AnimationUtils {
         }
     }
 
+    /**
+     * Stops the animation on an ImageView that has an AnimatedVectorDrawable as src and makes it invisible
+     * @param imageView     ImageView with an AnimatedVectorDrawable as src
+     */
     public static void stopAnimation(ImageView imageView){
         Drawable drawable = imageView.getDrawable();
         if (Build.VERSION.SDK_INT >= 23 && drawable instanceof AnimatedVectorDrawable) {

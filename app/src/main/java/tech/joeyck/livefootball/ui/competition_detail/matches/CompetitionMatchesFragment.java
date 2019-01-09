@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import tech.joeyck.livefootball.data.database.MatchEntity;
 import tech.joeyck.livefootball.data.database.MatchesResponse;
 import tech.joeyck.livefootball.ui.competition_detail.CompetitionViewModel;
 import tech.joeyck.livefootball.ui.match_detail.MatchDetailActivity;
-import tech.joeyck.livefootball.utilities.CompetitionUtils;
 import tech.joeyck.livefootball.utilities.DateUtils;
 
 public class CompetitionMatchesFragment extends MatchesFragment {
@@ -68,7 +66,7 @@ public class CompetitionMatchesFragment extends MatchesFragment {
             mMatchesAdapter.swapItems(matchEntities);
             mMatchesAdapter.addHeader(0,getString(R.string.matchday,mViewModel.getCompetition().getCurrentSeason().getCurrentMatchday()));
             LocalDateTime lastUpdated = responseBody.getCompetition().getLastUpdatedLocalDateTime();
-            mMatchesAdapter.addHeader(matchEntities.size()+1,DateUtils.getLastUpdatedString(getContext(),lastUpdated),R.layout.table_footer);
+            mMatchesAdapter.addHeader(matchEntities.size()+1,DateUtils.getTimeSinceString(getContext(),lastUpdated),R.layout.table_footer);
             if(matchEntities.size() == 0){
                 showError(R.string.no_recent_matches);
             }

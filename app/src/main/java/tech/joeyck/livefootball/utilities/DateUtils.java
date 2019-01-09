@@ -14,8 +14,17 @@ import tech.joeyck.livefootball.data.database.MatchEntity;
 
 import static org.threeten.bp.temporal.ChronoUnit.MINUTES;
 
+/**
+ * Provides static methods for date formatting
+ */
 public class DateUtils {
 
+    /**
+     * Returns user-friendly String indicating match date and time
+     * @param context
+     * @param dateTime  original LocalDateTime
+     * @return user-friendly String indicating match date and time
+     */
     public static String getFormattedMatchDate(Context context, LocalDateTime dateTime){
         LocalDate today = LocalDate.now();
         if(dateTime.getDayOfYear() == today.getDayOfYear()){
@@ -28,7 +37,13 @@ public class DateUtils {
         return dateTime.format(DateTimeFormatter.ofPattern("EEE, d/M h:mm a"));
     }
 
-    public static String getLastUpdatedString(Context context, LocalDateTime lastUpdateTime){
+    /**
+     * Returns a user-friendly String indicating how much time has passed since a given LocalDateTime
+     * @param context
+     * @param lastUpdateTime    original LocalDateTime
+     * @return  user-friendly String indicating how much time has passed
+     */
+    public static String getTimeSinceString(Context context, LocalDateTime lastUpdateTime){
         LocalDateTime now = LocalDateTime.now();
         long minUpdate = MINUTES.between(lastUpdateTime,now);
         if(minUpdate <= 0){

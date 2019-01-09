@@ -30,7 +30,7 @@ import tech.joeyck.livefootball.ui.match_detail.MatchDetailViewModelFactory;
 import tech.joeyck.livefootball.ui.team_detail.TeamDetailViewModelFactory;
 
 /**
- * Provides static methods to inject the various classes needed for Sunshine
+ * Provides static methods to inject the various classes needed
  */
 public class InjectorUtils {
 

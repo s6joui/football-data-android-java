@@ -7,10 +7,17 @@ import android.util.SparseIntArray;
 import tech.joeyck.livefootball.R;
 import tech.joeyck.livefootball.data.database.TeamEntity;
 
+/**
+ * Provides static methods for color manipulation
+ */
 public class ColorUtils {
 
-    private static final String LOG_TAG = ColorUtils.class.getSimpleName();
-
+    /**
+     * Returns a darker color given based on a factor
+     * @param color     the original color
+     * @param factor    the factor to which we make it darker
+     * @return          new int color
+     */
     public static int getDarkerColor(int color, float factor){
         int r = Math.round(Color.red(color) * factor);
         int g = Math.round(Color.green(color) * factor);
